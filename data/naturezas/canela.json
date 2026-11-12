@@ -1,0 +1,29 @@
+{
+  "id": "canela",
+  "nome_popular": "Canela",
+  "nome_cientifico": "Cinnamomum spp. (espécie não especificada na fonte consultada)",
+  "parte_usada": null,
+  "preparacao_estudada": "Canela (preparações variadas nos ensaios).",
+  "compostos": [],
+  "eixos": [
+    {
+      "eixo": "glicemia_jejum",
+      "direcao": "melhora",
+      "evidencia": "humano_meta_analise",
+      "qualidade": "nao_declarada",
+      "fontes": [
+        "f_allen2013"
+      ],
+      "nota": "-24,59 mg/dL; sem efeito significativo em HbA1c; alta heterogeneidade."
+    }
+  ],
+  "alertas_status": "nao_avaliado",
+  "alertas": [],
+  "ressalvas": [
+    "Segurança não avaliada nesta ficha: a página consultada não traz declaração de segurança. Consulte monografias oficiais antes de qualquer estudo.",
+    "Composto ativo não especificado na fonte consultada."
+  ],
+  "fontes": [
+    "f_allen2013"
+  ]
+}

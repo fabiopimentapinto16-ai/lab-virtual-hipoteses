@@ -1,0 +1,30 @@
+{
+  "id": "melao_sao_caetano",
+  "nome_popular": "Melão-de-são-caetano",
+  "nome_cientifico": "Momordica charantia L.",
+  "parte_usada": null,
+  "preparacao_estudada": "Preparações adjuvantes de M. charantia (4 a 16 semanas).",
+  "compostos": [],
+  "eixos": [
+    {
+      "eixo": "controle_glicemico",
+      "direcao": "melhora",
+      "evidencia": "humano_meta_analise",
+      "qualidade": "muito_baixa",
+      "fontes": [
+        "f_momordica2019"
+      ],
+      "nota": "Melhora do controle glicêmico com evidência de qualidade baixa a muito baixa para os desfechos primários."
+    }
+  ],
+  "alertas_status": "parcial",
+  "alertas": [
+    "Nenhum efeito adverso grave relatado, mas dados de segurança esparsos (f_momordica2019)."
+  ],
+  "ressalvas": [
+    "Evidência de qualidade baixa a muito baixa; mecanismo não descrito na fonte consultada."
+  ],
+  "fontes": [
+    "f_momordica2019"
+  ]
+}

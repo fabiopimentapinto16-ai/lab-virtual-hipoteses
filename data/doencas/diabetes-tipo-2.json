@@ -1,0 +1,353 @@
+{
+  "id": "diabetes-tipo-2",
+  "versao_modelo": "0.1.0",
+  "nome": "Diabetes mellitus tipo 2",
+  "resumo_leigo": "Doença em que o corpo passa a responder pior à insulina e, com o tempo, o pâncreas também produz menos insulina. O açúcar no sangue fica mais alto do que deveria.",
+  "resumo_tecnico": "Dois defeitos centrais (resistência à insulina e disfunção da célula beta) somados a aumento da produção hepática de glicose e menor captação periférica; inflamação e estresse oxidativo participam da patogênese (f_overview2019). Este modelo é uma simplificação qualitativa com perfil genérico, sem dados de pessoas.",
+  "perfil": "Perfil GENÉRICO da doença (valores ilustrativos do modelo, não medidos em pessoas).",
+  "orgaos": [
+    {
+      "id": "pancreas",
+      "nome": "Pâncreas",
+      "tecido": "Ilhotas de Langerhans",
+      "celula": "Célula beta",
+      "nos": [
+        "beta",
+        "inf",
+        "oxi"
+      ],
+      "hotspots": [
+        {
+          "id": "ilhotas",
+          "nome": "Ilhotas (células beta)",
+          "nos": [
+            "beta"
+          ]
+        },
+        {
+          "id": "cabeca",
+          "nome": "Cabeça",
+          "nos": [
+            "inf"
+          ]
+        },
+        {
+          "id": "corpo",
+          "nome": "Corpo",
+          "nos": [
+            "oxi"
+          ]
+        },
+        {
+          "id": "cauda",
+          "nome": "Cauda",
+          "nos": [
+            "inf",
+            "oxi"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "figado",
+      "nome": "Fígado",
+      "tecido": "Parênquima hepático",
+      "celula": "Hepatócito",
+      "nos": [
+        "ri",
+        "hgp",
+        "inf",
+        "oxi"
+      ],
+      "hotspots": [
+        {
+          "id": "lobo_direito",
+          "nome": "Lobo direito",
+          "nos": [
+            "hgp",
+            "ri"
+          ]
+        },
+        {
+          "id": "lobo_esquerdo",
+          "nome": "Lobo esquerdo",
+          "nos": [
+            "inf",
+            "oxi"
+          ]
+        }
+      ]
+    }
+  ],
+  "nos": [
+    {
+      "id": "ri",
+      "nome": "Resistência à insulina",
+      "camada": "conhecido",
+      "orgaos": [
+        "figado"
+      ],
+      "direcao_ruim": "alto",
+      "saudavel": 25,
+      "doenca": 75,
+      "fontes": [
+        "f_overview2019"
+      ],
+      "descricao": "Tecidos respondem menos à insulina; um dos dois defeitos centrais descritos na fonte."
+    },
+    {
+      "id": "beta",
+      "nome": "Função da célula beta",
+      "camada": "conhecido",
+      "orgaos": [
+        "pancreas"
+      ],
+      "direcao_ruim": "baixo",
+      "saudavel": 85,
+      "doenca": 45,
+      "fontes": [
+        "f_overview2019"
+      ],
+      "descricao": "Capacidade de secretar insulina; a disfunção da célula beta é o outro defeito central descrito."
+    },
+    {
+      "id": "hgp",
+      "nome": "Produção hepática de glicose",
+      "camada": "conhecido",
+      "orgaos": [
+        "figado"
+      ],
+      "direcao_ruim": "alto",
+      "saudavel": 30,
+      "doenca": 75,
+      "fontes": [
+        "f_overview2019"
+      ],
+      "descricao": "A fonte a descreve como o principal determinante da glicemia de jejum."
+    },
+    {
+      "id": "upt",
+      "nome": "Captação periférica de glicose",
+      "camada": "conhecido",
+      "orgaos": [],
+      "direcao_ruim": "baixo",
+      "saudavel": 80,
+      "doenca": 40,
+      "fontes": [
+        "f_overview2019"
+      ],
+      "descricao": "Captação pelos tecidos periféricos, principalmente músculo (fora do 3D do MVP)."
+    },
+    {
+      "id": "inf",
+      "nome": "Inflamação",
+      "camada": "conhecido",
+      "orgaos": [
+        "pancreas",
+        "figado"
+      ],
+      "direcao_ruim": "alto",
+      "saudavel": 20,
+      "doenca": 65,
+      "fontes": [
+        "f_overview2019"
+      ],
+      "descricao": "Listada entre os processos envolvidos na patogênese."
+    },
+    {
+      "id": "oxi",
+      "nome": "Estresse oxidativo",
+      "camada": "conhecido",
+      "orgaos": [
+        "pancreas",
+        "figado"
+      ],
+      "direcao_ruim": "alto",
+      "saudavel": 20,
+      "doenca": 60,
+      "fontes": [
+        "f_overview2019"
+      ],
+      "descricao": "Listado entre os processos envolvidos na patogênese."
+    }
+  ],
+  "lacunas": [
+    {
+      "id": "razao_ri_beta",
+      "nome": "Razão resistência/função beta (índice composto do modelo)",
+      "camada": "padrao_em_teste",
+      "descricao": "Índice criado só neste modelo para comparar os dois defeitos centrais. É um padrão em teste: não é medida clínica nem proporção 'mágica'."
+    },
+    {
+      "id": "tecido_adiposo",
+      "nome": "Tecido adiposo",
+      "camada": "lacuna",
+      "descricao": "Citado na fonte (adipócitos). Fora do modelo do MVP."
+    },
+    {
+      "id": "trato_gi",
+      "nome": "Trato gastrointestinal",
+      "camada": "lacuna",
+      "descricao": "Citado na fonte. Fora do modelo do MVP."
+    },
+    {
+      "id": "celulas_alfa",
+      "nome": "Células alfa pancreáticas",
+      "camada": "lacuna",
+      "descricao": "Citadas na fonte. Fora do modelo do MVP."
+    },
+    {
+      "id": "rins",
+      "nome": "Rins",
+      "camada": "lacuna",
+      "descricao": "Citados na fonte. Fora do modelo do MVP."
+    },
+    {
+      "id": "cerebro",
+      "nome": "Cérebro",
+      "camada": "lacuna",
+      "descricao": "Citado na fonte. Fora do modelo do MVP."
+    }
+  ],
+  "indicadores": [
+    {
+      "id": "gj",
+      "nome": "Índice de glicemia de jejum (modelo)",
+      "unidade": "índice 0–100, sem unidade clínica",
+      "fontes": [
+        "f_overview2019"
+      ]
+    },
+    {
+      "id": "gp",
+      "nome": "Índice de glicemia pós-prandial (modelo)",
+      "unidade": "índice 0–100, sem unidade clínica",
+      "fontes": [
+        "f_overview2019"
+      ]
+    }
+  ],
+  "equacoes": {
+    "descricao": "Relações lineares qualitativas e auditáveis, calculadas por src/domain/modelo.ts a partir destes coeficientes. Não foram calibradas com dados clínicos: mostram o SENTIDO esperado das mudanças no modelo, nunca valores de glicemia de pessoas.",
+    "ri_ef": {
+      "inf": 0.15,
+      "oxi": 0.1
+    },
+    "hgp_ef": {
+      "ri_ef": 0.2
+    },
+    "gj": {
+      "base": 20,
+      "hgp_ef": 0.45,
+      "beta_inv": 0.25,
+      "ri_ef": 0.15
+    },
+    "gp": {
+      "base": 15,
+      "upt_inv": 0.35,
+      "beta_inv": 0.3,
+      "ri_ef": 0.2
+    },
+    "limite_delta_por_variavel": 25
+  },
+  "eixos": [
+    {
+      "id": "resistencia_insulina",
+      "nome": "Resistência à insulina",
+      "tipo": "mecanismo",
+      "alvo": "ri",
+      "delta": -12
+    },
+    {
+      "id": "secrecao_insulina",
+      "nome": "Secreção de insulina / função beta",
+      "tipo": "mecanismo",
+      "alvo": "beta",
+      "delta": 8
+    },
+    {
+      "id": "producao_hepatica_glicose",
+      "nome": "Produção hepática de glicose",
+      "tipo": "mecanismo",
+      "alvo": "hgp",
+      "delta": -10
+    },
+    {
+      "id": "captacao_periferica_glicose",
+      "nome": "Captação periférica de glicose",
+      "tipo": "mecanismo",
+      "alvo": "upt",
+      "delta": 8
+    },
+    {
+      "id": "inflamacao",
+      "nome": "Inflamação",
+      "tipo": "mecanismo",
+      "alvo": "inf",
+      "delta": -10
+    },
+    {
+      "id": "estresse_oxidativo",
+      "nome": "Estresse oxidativo",
+      "tipo": "mecanismo",
+      "alvo": "oxi",
+      "delta": -10
+    },
+    {
+      "id": "glicemia_jejum",
+      "nome": "Glicemia de jejum (desfecho observado)",
+      "tipo": "desfecho",
+      "alvo": "gj",
+      "delta": -8
+    },
+    {
+      "id": "glicemia_pos_prandial",
+      "nome": "Glicemia pós-prandial (desfecho observado)",
+      "tipo": "desfecho",
+      "alvo": "gp",
+      "delta": -8
+    },
+    {
+      "id": "controle_glicemico",
+      "nome": "Controle glicêmico (desfecho agregado)",
+      "tipo": "desfecho",
+      "alvo": [
+        "gj",
+        "gp"
+      ],
+      "delta": -5
+    }
+  ],
+  "alvos_literatura": [
+    {
+      "texto": "Resistência à insulina, disfunção da célula beta e produção hepática de glicose como alvos de pesquisa descritos na literatura (referência, não aconselhamento).",
+      "fontes": [
+        "f_overview2019"
+      ]
+    }
+  ],
+  "como_ler_o_modelo": "Desfechos observados (glicemia) e mecanismos relatados são tratados de forma diferente: mecanismos mudam nós do modelo; desfechos mudam só os índices derivados, para não afirmar causa onde a fonte relata apenas efeito.",
+  "simulacao": {
+    "fator_confianca": {
+      "forte": 1.0,
+      "medio": 0.6,
+      "fraco": 0.3
+    },
+    "incerteza": {
+      "forte": [
+        0.6,
+        1.2
+      ],
+      "medio": [
+        0.3,
+        1.4
+      ],
+      "fraco": [
+        0.0,
+        1.6
+      ]
+    },
+    "combinacao_mesmo_eixo": "maior efeito + 25% da soma dos demais",
+    "amostras_incerteza": 500
+  }
+}

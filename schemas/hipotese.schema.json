@@ -1,0 +1,23 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Hipotese do Lab Virtual de Hipoteses",
+  "type": "object",
+  "required": ["schema_versao","id","criada_em","app_versao","doenca","itens","matches","simulacao","pergunta_para_lab","alertas","limitacoes","fontes","disclaimer","linha_do_tempo","hash_conteudo"],
+  "properties": {
+    "schema_versao": { "const": "1.0" },
+    "id": { "type": "string", "pattern": "^HYP-[0-9]{4}-[0-9]{3,}$" },
+    "criada_em": { "type": "string", "pattern": "^[0-9]{4}-[0-9]{2}-[0-9]{2}$" },
+    "app_versao": { "type": "string" },
+    "doenca": { "type": "object", "required": ["id","nome","versao_modelo","perfil"] },
+    "itens": { "type": "array", "minItems": 1, "items": { "type": "object", "required": ["ficha_id","nome","nome_cientifico","compostos"] } },
+    "matches": { "type": "array", "items": { "type": "object", "required": ["ficha_id","eixo","eixo_nome","tipo_eixo","nivel","score","motivos","fontes"], "properties": { "nivel": { "enum": ["forte","medio","fraco"] }, "tipo_eixo": { "enum": ["mecanismo","desfecho"] } } } },
+    "simulacao": { "type": "object", "required": ["seed","antes","depois","deltas","incerteza","efeitos_aplicados"] },
+    "pergunta_para_lab": { "type": "string", "minLength": 1 },
+    "alertas": { "type": "array", "items": { "type": "string" } },
+    "limitacoes": { "type": "array", "items": { "type": "string" } },
+    "fontes": { "type": "array", "minItems": 1, "items": { "type": "object", "required": ["id","citacao","url","o_que_a_fonte_diz"] } },
+    "disclaimer": { "type": "string", "minLength": 1 },
+    "linha_do_tempo": { "type": "array", "minItems": 1, "items": { "type": "object", "required": ["estado","data"], "properties": { "estado": { "enum": ["criada","publicada","lab_testou","resultado"] } } } },
+    "hash_conteudo": { "type": "string", "pattern": "^[0-9a-f]{64}$" }
+  }
+}

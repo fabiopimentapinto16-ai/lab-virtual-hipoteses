@@ -1,0 +1,43 @@
+{
+  "id": "feno_grego",
+  "nome_popular": "Feno-grego",
+  "nome_cientifico": "Trigonella foenum-graecum L.",
+  "parte_usada": "Semente",
+  "parte_usada_fonte": "f_shakil2024",
+  "preparacao_estudada": "Semente de feno-grego em diversas doses nos ensaios.",
+  "compostos": [],
+  "eixos": [
+    {
+      "eixo": "glicemia_jejum",
+      "direcao": "melhora",
+      "evidencia": "humano_meta_analise",
+      "qualidade": "nao_declarada",
+      "fontes": [
+        "f_shakil2024"
+      ],
+      "nota": "DM -19,67 (I²=99%)."
+    },
+    {
+      "eixo": "glicemia_pos_prandial",
+      "direcao": "melhora",
+      "evidencia": "humano_meta_analise",
+      "qualidade": "nao_declarada",
+      "fontes": [
+        "f_shakil2024"
+      ],
+      "nota": "DM -26,96; P informado inconsistente com o IC no texto."
+    }
+  ],
+  "alertas_status": "avaliado",
+  "alertas": [
+    "Possível hipoglicemia quando tomado com outros hipoglicemiantes orais, menor absorção intestinal de outros fármacos e menor potássio com laxantes (citado em f_shakil2024)."
+  ],
+  "ressalvas": [
+    "Heterogeneidade muito alta (I²=99% na glicemia de jejum).",
+    "Eventos adversos não foram examinados nos artigos incluídos, segundo os próprios autores.",
+    "Inconsistência estatística (valores de P x IC) notada na leitura da fonte."
+  ],
+  "fontes": [
+    "f_shakil2024"
+  ]
+}

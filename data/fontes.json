@@ -1,0 +1,75 @@
+[
+  {
+    "id": "f_overview2019",
+    "citacao": "Type 2 Diabetes: An Updated Overview. Crit Rev Oncog. 2019;24(3):213-222.",
+    "doi": "10.1615/CritRevOncog.2019030976",
+    "pmid": "32422019",
+    "url": "https://pubmed.ncbi.nlm.nih.gov/32422019/",
+    "tipo": "revisao_narrativa",
+    "lido_em": "2026-11-12",
+    "o_que_a_fonte_diz": "Defeitos centrais: disfunção de célula beta e resistência à insulina; produção hepática de glicose é o principal determinante da glicemia de jejum; captação de glicose pelos tecidos periféricos (principalmente músculo) aumenta no estado alimentado; inflamação, estresse oxidativo, disfunção endotelial e hipóxia participam da patogênese; o 'octeto nefasto' inclui ainda adipócitos, trato gastrointestinal, células alfa, rins e cérebro."
+  },
+  {
+    "id": "f_wang2024",
+    "citacao": "Wang J, Bi C, Xi H, Wei F. Effects of administering berberine alone or in combination on type 2 diabetes mellitus: a systematic review and meta-analysis. Front Pharmacol. 2024;15.",
+    "pmid": "39640489",
+    "url": "https://pubmed.ncbi.nlm.nih.gov/39640489/",
+    "tipo": "meta_analise_ensaios_randomizados",
+    "lido_em": "2026-11-12",
+    "o_que_a_fonte_diz": "50 estudos, 4.150 participantes. Berberina isolada: glicemia de jejum -0,59 mmol/L (p=0,048) e glicemia 2 h pós-prandial -1,57 mmol/L (p<0,01). Combinada a hipoglicemiantes: FPG -0,99 mmol/L, 2hPBG -1,07 mmol/L, HbA1c -0,69%; o resumo também cita melhora de insulina de jejum e HOMA-IR. O resumo não descreve eventos adversos."
+  },
+  {
+    "id": "f_dong2012",
+    "citacao": "Dong H, Wang N, Zhao L, Lu F. Berberine in the Treatment of Type 2 Diabetes Mellitus: A Systemic Review and Meta-Analysis. Evid Based Complement Alternat Med. 2012;2012:591654.",
+    "url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC3478874",
+    "tipo": "meta_analise_ensaios_randomizados",
+    "lido_em": "2026-11-12",
+    "o_que_a_fonte_diz": "14 ensaios randomizados, 1.068 participantes, todos na China. Ações antidiabéticas descritas: aumento da secreção de insulina, melhora da resistência à insulina, melhora da dislipidemia; efeito hipoglicemiante em parte mediado por mecanismo anti-inflamatório. Sem eventos adversos graves relatados; efeitos colaterais principalmente gastrointestinais (constipação, diarreia, náusea, distensão), em geral toleráveis; sem hipoglicemia grave nos ensaios incluídos. Qualidade metodológica geralmente baixa (amostras pequenas); os autores pedem ensaios maiores antes de recomendar uso clínico rotineiro."
+  },
+  {
+    "id": "f_marton2021",
+    "citacao": "Marton LT et al. The Effects of Curcumin on Diabetes Mellitus: A Systematic Review. Front Endocrinol. 2021;12:669448.",
+    "doi": "10.3389/fendo.2021.669448",
+    "url": "https://doi.org/10.3389/fendo.2021.669448",
+    "tipo": "revisao_sistematica_ensaios",
+    "lido_em": "2026-11-12",
+    "o_que_a_fonte_diz": "16 estudos, a maioria ensaios randomizados duplo-cegos controlados por placebo, 1.309 participantes. Os autores afirmam redução de glicemia de jejum, HbA1c e IMC, mas os resultados não foram uniformes (um ensaio sem efeito em HbA1c). Um ensaio com curcuminoides relatou maior capacidade antioxidante total e SOD e menor MDA; alguns ensaios relataram menor hs-CRP e um não. Eventos adversos leves (dor de estômago/epigástrica, aumento da frequência intestinal); dispepsia, náusea, flatulência e diarreia listadas; curcuminoides podem alterar a farmacocinética de alguns fármacos, inclusive antidiabéticos. Dose eficaz ainda desconhecida; os autores pedem ensaios mais rigorosos."
+  },
+  {
+    "id": "f_allen2013",
+    "citacao": "Allen RW, Schwartzman E, Baker WL, Coleman CI, Phung OJ. Cinnamon use in type 2 diabetes: an updated systematic review and meta-analysis. Ann Fam Med. 2013;11(5):452-459.",
+    "pmid": "24019277",
+    "url": "https://pubmed.ncbi.nlm.nih.gov/24019277/",
+    "tipo": "meta_analise_ensaios_randomizados",
+    "lido_em": "2026-11-12",
+    "o_que_a_fonte_diz": "10 ensaios randomizados, 543 pacientes. Glicemia de jejum -24,59 mg/dL (IC95% -40,52 a -8,67); HbA1c sem efeito significativo (-0,16%; IC95% -0,39 a 0,02). Também reduziu colesterol total, LDL e triglicérides e aumentou HDL. Os autores apontam alto grau de heterogeneidade. A página consultada não traz declaração de segurança."
+  },
+  {
+    "id": "f_momordica2019",
+    "citacao": "Momordica charantia L. lowers elevated glycaemia in type 2 diabetes mellitus patients: Systematic review and meta-analysis. J Ethnopharmacol. 2019 (epub 2018).",
+    "doi": "10.1016/j.jep.2018.10.033",
+    "pmid": "30385422",
+    "url": "https://pubmed.ncbi.nlm.nih.gov/30385422/",
+    "tipo": "meta_analise",
+    "lido_em": "2026-11-12",
+    "o_que_a_fonte_diz": "10 estudos em DM2 (n=1.045), 4 a 16 semanas. Preparações adjuvantes de M. charantia melhoraram o controle glicêmico, mas com evidência de qualidade baixa a muito baixa para os desfechos primários. Nenhum efeito adverso grave relatado; dados de segurança esparsos; autores pedem mais pesquisa."
+  },
+  {
+    "id": "f_shakil2024",
+    "citacao": "Shakil S et al. Enhancing glycaemic control and promoting cardiovascular health: the therapeutic potential of Trigonella foenum-graecum in diabetic patients: a systematic review and meta-analysis. Ann Med Surg (Lond). 2024;86(6):3460-3467.",
+    "doi": "10.1097/MS9.0000000000001750",
+    "url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC11152803/",
+    "tipo": "meta_analise_ensaios",
+    "lido_em": "2026-11-12",
+    "o_que_a_fonte_diz": "12 ensaios clínicos, 1.718 participantes. Redução de glicemia de jejum (DM -19,67; I²=99%), HbA1c (DM -0,71; I²=38%) e glicemia pós-prandial (DM -26,96; I²=49%). Ressalva da leitura: os valores de P informados para HbA1c e pós-prandial não combinam com os intervalos de confiança do mesmo texto. Segurança: nenhum ensaio relatou efeitos colaterais, mas os autores dizem que eventos adversos não foram examinados nos artigos; cita-se risco de hipoglicemia com outros hipoglicemiantes orais, menor absorção intestinal de outros fármacos e menor potássio com laxantes; pedem avaliação de efeitos adversos e interações."
+  },
+  {
+    "id": "f_bailey2017",
+    "citacao": "Bailey CJ. Metformin: historical overview. Diabetologia. 2017;60(9):1566-1576.",
+    "doi": "10.1007/s00125-017-4318-z",
+    "url": "https://research.aston.ac.uk/en/publications/metformin-historical-overview/",
+    "tipo": "revisao_historica",
+    "lido_em": "2026-11-12",
+    "o_que_a_fonte_diz": "A história da metformina está ligada à Galega officinalis (arruda-caprina), erva tradicional europeia rica em guanidina; em 1918 mostrou-se que a guanidina reduz a glicemia; derivados da guanidina foram sintetizados nos anos 1920-30 e alguns usados no diabetes, depois abandonados por toxicidade e pela disponibilidade da insulina; a metformina foi redescoberta nos anos 1940 e usada no diabetes por Jean Sterne em 1957. A página consultada não menciona galegina."
+  }
+]

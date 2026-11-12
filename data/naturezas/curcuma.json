@@ -1,0 +1,62 @@
+{
+  "id": "curcuma",
+  "nome_popular": "Cúrcuma / curcumina",
+  "nome_cientifico": "Curcuma longa L.",
+  "parte_usada": null,
+  "preparacao_estudada": "Cúrcuma, curcumina e curcuminoides (incluindo formulações com piperina e nano-curcumina).",
+  "compostos": [
+    {
+      "id": "curcumina",
+      "nome": "Curcumina",
+      "id_publico": {
+        "base": "PubChem",
+        "tipo": "CID",
+        "valor": "969516",
+        "verificado": false
+      }
+    }
+  ],
+  "eixos": [
+    {
+      "eixo": "glicemia_jejum",
+      "direcao": "melhora",
+      "evidencia": "humano_ensaios",
+      "qualidade": "nao_declarada",
+      "fontes": [
+        "f_marton2021"
+      ],
+      "nota": "Resultados não uniformes entre ensaios."
+    },
+    {
+      "eixo": "inflamacao",
+      "direcao": "melhora",
+      "evidencia": "humano_ensaios",
+      "qualidade": "nao_declarada",
+      "fontes": [
+        "f_marton2021"
+      ],
+      "nota": "Alguns ensaios relataram menor hs-CRP; um não encontrou efeito."
+    },
+    {
+      "eixo": "estresse_oxidativo",
+      "direcao": "melhora",
+      "evidencia": "humano_ensaio_unico",
+      "qualidade": "nao_declarada",
+      "fontes": [
+        "f_marton2021"
+      ],
+      "nota": "Um ensaio com curcuminoides: maior TAC e SOD, menor MDA."
+    }
+  ],
+  "alertas_status": "avaliado",
+  "alertas": [
+    "Eventos leves relatados: dor de estômago/epigástrica, aumento da frequência intestinal; dispepsia, náusea, flatulência e diarreia listadas.",
+    "Curcuminoides podem alterar a farmacocinética de alguns fármacos, inclusive antidiabéticos (f_marton2021)."
+  ],
+  "ressalvas": [
+    "Dose eficaz desconhecida segundo os autores; mais ensaios rigorosos necessários."
+  ],
+  "fontes": [
+    "f_marton2021"
+  ]
+}

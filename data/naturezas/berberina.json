@@ -1,0 +1,84 @@
+{
+  "id": "berberina",
+  "nome_popular": "Berberina",
+  "nome_cientifico": "Berberis spp. e outras plantas (origem botânica não detalhada nas fontes desta ficha)",
+  "parte_usada": null,
+  "preparacao_estudada": "Berberina isolada ou combinada a antidiabéticos (ensaios clínicos).",
+  "compostos": [
+    {
+      "id": "berberina",
+      "nome": "Berberina",
+      "id_publico": {
+        "base": "PubChem",
+        "tipo": "CID",
+        "valor": "2353",
+        "verificado": false
+      }
+    }
+  ],
+  "eixos": [
+    {
+      "eixo": "glicemia_jejum",
+      "direcao": "melhora",
+      "evidencia": "humano_meta_analise",
+      "qualidade": "baixa",
+      "fontes": [
+        "f_wang2024"
+      ],
+      "nota": "Berberina isolada: -0,59 mmol/L; qualidade metodológica geralmente baixa em f_dong2012."
+    },
+    {
+      "eixo": "glicemia_pos_prandial",
+      "direcao": "melhora",
+      "evidencia": "humano_meta_analise",
+      "qualidade": "baixa",
+      "fontes": [
+        "f_wang2024"
+      ],
+      "nota": "Berberina isolada: -1,57 mmol/L (2 h)."
+    },
+    {
+      "eixo": "resistencia_insulina",
+      "direcao": "melhora",
+      "evidencia": "humano_meta_analise",
+      "qualidade": "baixa",
+      "fontes": [
+        "f_wang2024"
+      ],
+      "nota": "Melhora de insulina de jejum e HOMA-IR citada no resumo (combinada a fármacos)."
+    },
+    {
+      "eixo": "secrecao_insulina",
+      "direcao": "melhora",
+      "evidencia": "mecanismo_em_revisao",
+      "qualidade": "baixa",
+      "fontes": [
+        "f_dong2012"
+      ],
+      "nota": "Aumento da secreção de insulina descrito pelos autores da revisão."
+    },
+    {
+      "eixo": "inflamacao",
+      "direcao": "melhora",
+      "evidencia": "mecanismo_em_revisao",
+      "qualidade": "baixa",
+      "fontes": [
+        "f_dong2012"
+      ],
+      "nota": "Efeito hipoglicemiante em parte por mecanismo anti-inflamatório, segundo os autores."
+    }
+  ],
+  "alertas_status": "avaliado",
+  "alertas": [
+    "Efeitos gastrointestinais relatados (constipação, diarreia, náusea, distensão) (f_dong2012).",
+    "Combinada a hipoglicemiantes, os estudos mostram efeito adicional na glicemia; interação não foi avaliada nesta ficha."
+  ],
+  "ressalvas": [
+    "Ensaios de qualidade metodológica geralmente baixa, amostras pequenas e muitos conduzidos na China (f_dong2012).",
+    "Resumo de f_wang2024 não descreve eventos adversos."
+  ],
+  "fontes": [
+    "f_wang2024",
+    "f_dong2012"
+  ]
+}

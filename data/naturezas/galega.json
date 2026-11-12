@@ -1,0 +1,42 @@
+{
+  "id": "galega",
+  "nome_popular": "Arruda-caprina (Galega)",
+  "nome_cientifico": "Galega officinalis L.",
+  "parte_usada": null,
+  "preparacao_estudada": "Erva tradicional europeia; interesse histórico (origem da pesquisa que levou à metformina).",
+  "compostos": [
+    {
+      "id": "guanidina",
+      "nome": "Guanidina",
+      "id_publico": {
+        "base": "PubChem",
+        "tipo": "CID",
+        "valor": "3520",
+        "verificado": false
+      }
+    }
+  ],
+  "eixos": [
+    {
+      "eixo": "controle_glicemico",
+      "direcao": "melhora",
+      "evidencia": "historico",
+      "qualidade": "muito_baixa",
+      "fontes": [
+        "f_bailey2017"
+      ],
+      "nota": "Em 1918 mostrou-se que a guanidina reduz a glicemia (dado histórico)."
+    }
+  ],
+  "alertas_status": "avaliado",
+  "alertas": [
+    "Derivados da guanidina usados no diabetes foram abandonados por toxicidade (f_bailey2017)."
+  ],
+  "ressalvas": [
+    "Ficha de interesse histórico: ilustra por que cautela é necessária. Não representa evidência clínica atual.",
+    "A fonte consultada não menciona galegina."
+  ],
+  "fontes": [
+    "f_bailey2017"
+  ]
+}

@@ -1,0 +1,29 @@
+{
+  "name": "lab-virtual-hipoteses",
+  "version": "0.1.0",
+  "description": "Laboratório virtual de hipóteses: hipóteses computacionais educativas para validação experimental em laboratório. Não é diagnóstico nem tratamento.",
+  "license": "MIT",
+  "type": "module",
+  "private": true,
+  "scripts": {
+    "dev": "vite",
+    "build": "tsc --noEmit && vite build",
+    "test": "tsx --test tests/*.test.ts",
+    "e2e": "node e2e/e2e.cjs",
+    "verificar-ids": "node scripts/verificar-ids.mjs",
+    "gerar-exemplo": "tsx scripts/gerar-exemplo.ts"
+  },
+  "dependencies": {
+    "pdf-lib": "^1.17.1",
+    "three": "^0.170.0"
+  },
+  "devDependencies": {
+    "@types/node": "^22.10.0",
+    "@types/three": "^0.170.0",
+    "ajv": "^8.17.1",
+    "playwright": "^1.49.0",
+    "tsx": "^4.19.2",
+    "typescript": "^5.6.3",
+    "vite": "^5.4.11"
+  }
+}

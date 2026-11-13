@@ -17,7 +17,7 @@ const DISC = "Validação somente experimental em laboratório.";
   await p.click("[data-aba=lab]"); await p.check("[data-sel=berberina]"); ok((await p.textContent("#conteudo")).includes("Médio"), "match com confiança exibida");
   await p.click("#sim"); await p.waitForSelector("#res table"); ok((await p.textContent("#res")).includes("HYP-"), "hipótese criada com ID público");
   await p.screenshot({ path: "e2e/saida/lab.png" });
-  await p.click("[data-aba="3d"]"); await p.waitForSelector(".cena canvas");
+  await p.click('[data-aba="3d"]'); await p.waitForSelector(".cena canvas");
   const px = await p.evaluate(() => { const c = document.querySelector(".cena canvas"); return c ? c.width * c.height : 0; });
   ok(px > 0, "canvas 3D criado"); await p.waitForTimeout(800); await p.screenshot({ path: "e2e/saida/3d.png" });
   for (const i of [1, 2, 3, 0]) { await p.click(`[data-cam="${i}"]`); await p.waitForSelector(".cena canvas"); await p.waitForTimeout(300); }

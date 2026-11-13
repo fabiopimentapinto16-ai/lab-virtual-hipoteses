@@ -17,6 +17,11 @@ Organizar uma doença **já conhecida** (MVP: diabetes mellitus tipo 2) em um mo
 - Camadas (órgão → tecido → célula → via), antes/depois, comparar 2 hipóteses, linha do tempo, ficha do composto em 1 toque, modo "só conhecido" × "mostrar lacunas".
 - Exportar PDF, JSON, vídeo (gravado no navegador) e pack ZIP; TTS pt-BR opcional (ver limites).
 
+## Usar sem instalar nada
+
+- **Web**: GitHub Pages (workflow `pages.yml`). Se a página não abrir, ative em Settings → Pages → Source: *GitHub Actions* e rode o workflow de novo.
+- **Android**: APK de teste (debug) na Release `apk-latest`: https://github.com/fabiopimentapinto16-ai/lab-virtual-hipoteses/releases/tag/apk-latest (permitir fontes desconhecidas). Arquivos exportados vão para a pasta Downloads.
+
 ## Como reproduzir
 
 ```bash
@@ -48,7 +53,7 @@ Esquema em [`schemas/hipotese.schema.json`](schemas/hipotese.schema.json); exemp
 - Vídeo: gravado com MediaRecorder; sai MP4 só se o navegador suportar, senão WebM. A narração TTS é voz ao vivo e **não entra no arquivo** (limite dos navegadores). No Android (futuro) dá para gerar áudio com `TextToSpeech`.
 - Estrutura 2D do composto não é embutida (sem rede); a ficha aponta para o PubChem quando há ID.
 - Nenhuma ficha atinge confiança "forte": nenhuma fonte lida declara qualidade moderada/alta.
-- Versão atual é web. Android prioritário no pedido original: empacotar em WebView é o próximo passo (não feito).
+- Android: casca WebView (pasta `android/`) que carrega o mesmo app web offline; APK de depuração gerado pelo CI. Ainda não testado em aparelho real; vídeo e exportação no WebView dependem do aparelho.
 - O 3D, o vídeo e o e2e foram validados pelo CI do GitHub, não em dispositivo real.
 
 ## Documentação
@@ -57,6 +62,7 @@ Esquema em [`schemas/hipotese.schema.json`](schemas/hipotese.schema.json); exemp
 
 ## Changelog
 
+- **0.1.1** — casca Android (WebView), workflows de Pages e APK, IDs PubChem verificados.
 - **0.1.0** — MVP web: T2D, 6 fichas, match auditável, simulação determinística, 3D procedural, PDF/JSON/vídeo/ZIP, CI.
 
 ## Licença

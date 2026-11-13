@@ -24,8 +24,17 @@ const hip = (id: string) => S.hips.find((h) => h.id === id);
 
 $("#aviso-global").textContent = DISCLAIMER_COMPLETO;
 
+/** No app Android (WebView) o download por blob não funciona: usa a ponte nativa para salvar em Downloads. */
+interface PonteAndroid { salvar(nome: string, mime: string, base64: string): string }
 function baixar(dados: BlobPart | Uint8Array, nome: string, tipo: string) {
-  const a = document.createElement("a"); a.href = URL.createObjectURL(new Blob([dados as BlobPart], { type: tipo })); a.download = nome; document.body.appendChild(a); a.click(); a.remove();
+  const blob = new Blob([dados as BlobPart], { type: tipo });
+  const ponte = (window as unknown as { AndroidBridge?: PonteAndroid }).AndroidBridge;
+  if (ponte) {
+    const fr = new FileReader();
+    fr.onload = () => { const r = ponte.salvar(nome, tipo, String(fr.result).split(",")[1] ?? ""); const st = document.querySelector("#st"); if (st) st.textContent = r === "ok" ? `Salvo em Downloads: ${nome}` : r; };
+    fr.readAsDataURL(blob); return;
+  }
+  const a = document.createElement("a"); a.href = URL.createObjectURL(blob); a.download = nome; document.body.appendChild(a); a.click(); a.remove();
   setTimeout(() => URL.revokeObjectURL(a.href), 4000);
 }
 const barraConf = (n: "forte" | "medio" | "fraco") => `<div class="barra" title="${esc(EXPLICACAO_NIVEL[n])}"><i class="conf-${n}" style="width:${n === "forte" ? 100 : n === "medio" ? 62 : 28}%"></i></div>`;

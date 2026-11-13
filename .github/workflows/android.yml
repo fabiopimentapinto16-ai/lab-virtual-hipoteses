@@ -1,0 +1,32 @@
+name: Build APK
+on:
+  push: { branches: [main] }
+  workflow_dispatch:
+permissions: { contents: write }
+jobs:
+  apk:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with: { node-version: 22 }
+      - run: npm install --no-audit --no-fund && npm run build
+      - name: Copiar o app web para os assets do Android
+        run: mkdir -p android/app/src/main/assets && cp -r dist android/app/src/main/assets/www
+      - uses: actions/setup-java@v4
+        with: { distribution: temurin, java-version: "17" }
+      - uses: gradle/actions/setup-gradle@v4
+        with: { gradle-version: "8.7" }
+      - name: Build do APK (debug)
+        working-directory: android
+        run: gradle --no-daemon assembleDebug
+      - uses: actions/upload-artifact@v4
+        with: { name: lab-virtual-apk, path: android/app/build/outputs/apk/debug/*.apk }
+      - name: Publicar APK na Release (link de download direto)
+        env: { GH_TOKEN: "${{ github.token }}" }
+        run: |
+          cp android/app/build/outputs/apk/debug/app-debug.apk LabVirtual-debug.apk
+          gh release delete apk-latest --cleanup-tag --yes || true
+          gh release create apk-latest LabVirtual-debug.apk --prerelease \
+            --title "APK de teste (debug) - ${GITHUB_SHA::7}" \
+            --notes "Build automático do commit ${GITHUB_SHA}. APK de depuração: instale permitindo fontes desconhecidas. Hipótese computacional educativa; não é diagnóstico nem tratamento."

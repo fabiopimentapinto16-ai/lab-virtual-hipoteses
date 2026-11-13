@@ -12,7 +12,7 @@
         "base": "PubChem",
         "tipo": "CID",
         "valor": "969516",
-        "verificado": false
+        "verificado": true
       }
     }
   ],

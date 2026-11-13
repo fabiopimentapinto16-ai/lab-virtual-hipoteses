@@ -21,7 +21,7 @@
             "base": "PubChem",
             "tipo": "CID",
             "valor": "2353",
-            "verificado": false
+            "verificado": true
           }
         }
       ]
@@ -37,7 +37,7 @@
             "base": "PubChem",
             "tipo": "CID",
             "valor": "969516",
-            "verificado": false
+            "verificado": true
           }
         }
       ]
@@ -50,13 +50,13 @@
       "eixo_nome": "Glicemia de jejum (desfecho observado)",
       "tipo_eixo": "desfecho",
       "nivel": "medio",
-      "score": 2.25,
+      "score": 2.38,
       "motivos": [
         "Eixo \"Glicemia de jejum (desfecho observado)\" (desfecho) bate com variável desregulada do modelo.",
         "Evidência declarada: meta-análise de ensaios em humanos (3 pontos).",
         "Qualidade da evidência: baixa (ajuste -0.5).",
-        "Completude da ficha: 80% (fonte citada (+40%); detalhe do achado descrito (+20%); segurança avaliada (+20%)), fator 0.90.",
-        "Pontuação = max(0, 3 - 0.5) x 0.90 = 2.25."
+        "Completude da ficha: 90% (fonte citada (+40%); detalhe do achado descrito (+20%); segurança avaliada (+20%); ID público verificado (+10%)), fator 0.95.",
+        "Pontuação = max(0, 3 - 0.5) x 0.95 = 2.38."
       ],
       "fontes": [
         "f_wang2024"
@@ -68,13 +68,13 @@
       "eixo_nome": "Glicemia pós-prandial (desfecho observado)",
       "tipo_eixo": "desfecho",
       "nivel": "medio",
-      "score": 2.25,
+      "score": 2.38,
       "motivos": [
         "Eixo \"Glicemia pós-prandial (desfecho observado)\" (desfecho) bate com variável desregulada do modelo.",
         "Evidência declarada: meta-análise de ensaios em humanos (3 pontos).",
         "Qualidade da evidência: baixa (ajuste -0.5).",
-        "Completude da ficha: 80% (fonte citada (+40%); detalhe do achado descrito (+20%); segurança avaliada (+20%)), fator 0.90.",
-        "Pontuação = max(0, 3 - 0.5) x 0.90 = 2.25."
+        "Completude da ficha: 90% (fonte citada (+40%); detalhe do achado descrito (+20%); segurança avaliada (+20%); ID público verificado (+10%)), fator 0.95.",
+        "Pontuação = max(0, 3 - 0.5) x 0.95 = 2.38."
       ],
       "fontes": [
         "f_wang2024"
@@ -86,13 +86,13 @@
       "eixo_nome": "Resistência à insulina",
       "tipo_eixo": "mecanismo",
       "nivel": "medio",
-      "score": 2.25,
+      "score": 2.38,
       "motivos": [
         "Eixo \"Resistência à insulina\" (mecanismo) bate com variável desregulada do modelo.",
         "Evidência declarada: meta-análise de ensaios em humanos (3 pontos).",
         "Qualidade da evidência: baixa (ajuste -0.5).",
-        "Completude da ficha: 80% (fonte citada (+40%); detalhe do achado descrito (+20%); segurança avaliada (+20%)), fator 0.90.",
-        "Pontuação = max(0, 3 - 0.5) x 0.90 = 2.25."
+        "Completude da ficha: 90% (fonte citada (+40%); detalhe do achado descrito (+20%); segurança avaliada (+20%); ID público verificado (+10%)), fator 0.95.",
+        "Pontuação = max(0, 3 - 0.5) x 0.95 = 2.38."
       ],
       "fontes": [
         "f_wang2024"
@@ -104,13 +104,13 @@
       "eixo_nome": "Secreção de insulina / função beta",
       "tipo_eixo": "mecanismo",
       "nivel": "fraco",
-      "score": 0.9,
+      "score": 0.95,
       "motivos": [
         "Eixo \"Secreção de insulina / função beta\" (mecanismo) bate com variável desregulada do modelo.",
         "Evidência declarada: mecanismo descrito em revisão (1.5 pontos).",
         "Qualidade da evidência: baixa (ajuste -0.5).",
-        "Completude da ficha: 80% (fonte citada (+40%); detalhe do achado descrito (+20%); segurança avaliada (+20%)), fator 0.90.",
-        "Pontuação = max(0, 1.5 - 0.5) x 0.90 = 0.9."
+        "Completude da ficha: 90% (fonte citada (+40%); detalhe do achado descrito (+20%); segurança avaliada (+20%); ID público verificado (+10%)), fator 0.95.",
+        "Pontuação = max(0, 1.5 - 0.5) x 0.95 = 0.95."
       ],
       "fontes": [
         "f_dong2012"
@@ -122,13 +122,13 @@
       "eixo_nome": "Inflamação",
       "tipo_eixo": "mecanismo",
       "nivel": "fraco",
-      "score": 0.9,
+      "score": 0.95,
       "motivos": [
         "Eixo \"Inflamação\" (mecanismo) bate com variável desregulada do modelo.",
         "Evidência declarada: mecanismo descrito em revisão (1.5 pontos).",
         "Qualidade da evidência: baixa (ajuste -0.5).",
-        "Completude da ficha: 80% (fonte citada (+40%); detalhe do achado descrito (+20%); segurança avaliada (+20%)), fator 0.90.",
-        "Pontuação = max(0, 1.5 - 0.5) x 0.90 = 0.9."
+        "Completude da ficha: 90% (fonte citada (+40%); detalhe do achado descrito (+20%); segurança avaliada (+20%); ID público verificado (+10%)), fator 0.95.",
+        "Pontuação = max(0, 1.5 - 0.5) x 0.95 = 0.95."
       ],
       "fontes": [
         "f_dong2012"
@@ -140,13 +140,13 @@
       "eixo_nome": "Glicemia de jejum (desfecho observado)",
       "tipo_eixo": "desfecho",
       "nivel": "medio",
-      "score": 1.8,
+      "score": 1.9,
       "motivos": [
         "Eixo \"Glicemia de jejum (desfecho observado)\" (desfecho) bate com variável desregulada do modelo.",
         "Evidência declarada: revisão de ensaios em humanos (2.5 pontos).",
         "Qualidade da evidência: não declarada pela fonte (ajuste -0.5).",
-        "Completude da ficha: 80% (fonte citada (+40%); detalhe do achado descrito (+20%); segurança avaliada (+20%)), fator 0.90.",
-        "Pontuação = max(0, 2.5 - 0.5) x 0.90 = 1.8."
+        "Completude da ficha: 90% (fonte citada (+40%); detalhe do achado descrito (+20%); segurança avaliada (+20%); ID público verificado (+10%)), fator 0.95.",
+        "Pontuação = max(0, 2.5 - 0.5) x 0.95 = 1.9."
       ],
       "fontes": [
         "f_marton2021"
@@ -158,13 +158,13 @@
       "eixo_nome": "Inflamação",
       "tipo_eixo": "mecanismo",
       "nivel": "medio",
-      "score": 1.8,
+      "score": 1.9,
       "motivos": [
         "Eixo \"Inflamação\" (mecanismo) bate com variável desregulada do modelo.",
         "Evidência declarada: revisão de ensaios em humanos (2.5 pontos).",
         "Qualidade da evidência: não declarada pela fonte (ajuste -0.5).",
-        "Completude da ficha: 80% (fonte citada (+40%); detalhe do achado descrito (+20%); segurança avaliada (+20%)), fator 0.90.",
-        "Pontuação = max(0, 2.5 - 0.5) x 0.90 = 1.8."
+        "Completude da ficha: 90% (fonte citada (+40%); detalhe do achado descrito (+20%); segurança avaliada (+20%); ID público verificado (+10%)), fator 0.95.",
+        "Pontuação = max(0, 2.5 - 0.5) x 0.95 = 1.9."
       ],
       "fontes": [
         "f_marton2021"
@@ -176,13 +176,13 @@
       "eixo_nome": "Estresse oxidativo",
       "tipo_eixo": "mecanismo",
       "nivel": "fraco",
-      "score": 1.35,
+      "score": 1.42,
       "motivos": [
         "Eixo \"Estresse oxidativo\" (mecanismo) bate com variável desregulada do modelo.",
         "Evidência declarada: ensaio único em humanos (2 pontos).",
         "Qualidade da evidência: não declarada pela fonte (ajuste -0.5).",
-        "Completude da ficha: 80% (fonte citada (+40%); detalhe do achado descrito (+20%); segurança avaliada (+20%)), fator 0.90.",
-        "Pontuação = max(0, 2 - 0.5) x 0.90 = 1.35."
+        "Completude da ficha: 90% (fonte citada (+40%); detalhe do achado descrito (+20%); segurança avaliada (+20%); ID público verificado (+10%)), fator 0.95.",
+        "Pontuação = max(0, 2 - 0.5) x 0.95 = 1.42."
       ],
       "fontes": [
         "f_marton2021"
@@ -355,5 +355,5 @@
       "data": "2026-11-12"
     }
   ],
-  "hash_conteudo": "51e1274d2a3aae8aafc8ea75b749adc0aa0cf12a2c8f0cea3a3d0c5fe36d6232"
+  "hash_conteudo": "f07a685150cdac3ea92b4cb1a09b6a905c5f52c25d2c8fa9afd164fcb4d24082"
 }

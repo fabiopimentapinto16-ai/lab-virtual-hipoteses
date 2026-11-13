@@ -1,5 +1,5 @@
 {
-  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$schema": "http://json-schema.org/draft-07/schema#",
   "title": "Hipotese do Lab Virtual de Hipoteses",
   "type": "object",
   "required": ["schema_versao","id","criada_em","app_versao","doenca","itens","matches","simulacao","pergunta_para_lab","alertas","limitacoes","fontes","disclaimer","linha_do_tempo","hash_conteudo"],

@@ -1,0 +1,721 @@
+{
+  "id": "cancer-hallmarks",
+  "versao_modelo": "0.1.0",
+  "nome": "Câncer (modelo genérico por características do tumor)",
+  "resumo_leigo": "Câncer é um grupo de doenças em que células passam a crescer sem controle, resistem a morrer, formam vasos próprios e podem se espalhar. Este modelo não representa um tipo específico de câncer: mostra as características comuns que a literatura descreve.",
+  "resumo_tecnico": "Modelo qualitativo das oito características adquiridas pelos tumores (seis centrais e duas emergentes) e dos dois processos de base (instabilidade do genoma e inflamação), conforme f_hanahan2011. Não distingue tipos de câncer, estágios, mutações específicas nem tratamento. Perfil genérico, sem dados de pessoas.",
+  "perfil": "Perfil GENÉRICO (valores ilustrativos do modelo, não medidos em pessoas nem em tumores reais).",
+  "orgaos": [
+    {
+      "id": "tumor",
+      "nome": "Tumor (tecido tumoral genérico)",
+      "tecido": "Massa tumoral",
+      "celula": "Célula tumoral",
+      "nos": [
+        "prol",
+        "supr",
+        "morte",
+        "imort",
+        "metab",
+        "gen",
+        "inva"
+      ],
+      "hotspots": [
+        {
+          "id": "nucleo_tumoral",
+          "nome": "Núcleo proliferativo",
+          "nos": [
+            "prol",
+            "supr",
+            "morte",
+            "imort",
+            "metab",
+            "gen"
+          ]
+        },
+        {
+          "id": "borda",
+          "nome": "Borda invasiva",
+          "nos": [
+            "inva"
+          ]
+        }
+      ],
+      "modelo3d": [
+        {
+          "hotspot": "nucleo_tumoral",
+          "forma": "esfera",
+          "raio": 1.25,
+          "pos": [
+            0,
+            0,
+            0
+          ],
+          "esc": [
+            1.1,
+            1,
+            1
+          ]
+        },
+        {
+          "hotspot": "borda",
+          "forma": "tubo",
+          "raio": 0.18,
+          "pontos": [
+            [
+              1.1,
+              0.6,
+              0
+            ],
+            [
+              1.8,
+              0.9,
+              0.2
+            ],
+            [
+              2.4,
+              0.7,
+              0.1
+            ],
+            [
+              2.9,
+              1.1,
+              0
+            ]
+          ]
+        }
+      ],
+      "celula_svg": {
+        "titulo": "Célula tumoral (esquema do modelo)",
+        "elementos": [
+          {
+            "no": "prol",
+            "x": 95,
+            "y": 130,
+            "rx": 30,
+            "ry": 18,
+            "rotulo": "Sinalização proliferativa"
+          },
+          {
+            "no": "supr",
+            "x": 305,
+            "y": 130,
+            "rx": 28,
+            "ry": 18,
+            "rotulo": "Supressores de crescimento evadidos"
+          },
+          {
+            "no": "morte",
+            "x": 95,
+            "y": 225,
+            "rx": 28,
+            "ry": 16,
+            "rotulo": "Resistência à morte celular"
+          },
+          {
+            "no": "imort",
+            "x": 200,
+            "y": 185,
+            "rx": 26,
+            "ry": 16,
+            "rotulo": "Imortalidade replicativa"
+          },
+          {
+            "no": "metab",
+            "x": 310,
+            "y": 225,
+            "rx": 28,
+            "ry": 16,
+            "rotulo": "Metabolismo reprogramado"
+          }
+        ]
+      }
+    },
+    {
+      "id": "microambiente",
+      "nome": "Microambiente tumoral",
+      "tecido": "Vasos, células imunes e estroma",
+      "celula": "Células do microambiente",
+      "nos": [
+        "angio",
+        "imun",
+        "inf"
+      ],
+      "hotspots": [
+        {
+          "id": "vasos",
+          "nome": "Vasos do tumor",
+          "nos": [
+            "angio"
+          ]
+        },
+        {
+          "id": "imune",
+          "nome": "Células imunes",
+          "nos": [
+            "imun"
+          ]
+        },
+        {
+          "id": "inflamacao",
+          "nome": "Inflamação",
+          "nos": [
+            "inf"
+          ]
+        }
+      ],
+      "modelo3d": [
+        {
+          "hotspot": "vasos",
+          "forma": "tubo",
+          "raio": 0.22,
+          "pontos": [
+            [
+              -2.4,
+              -0.8,
+              0
+            ],
+            [
+              -1.2,
+              -0.2,
+              0.2
+            ],
+            [
+              0,
+              -0.5,
+              0
+            ],
+            [
+              1.2,
+              0.1,
+              0.2
+            ]
+          ]
+        },
+        {
+          "hotspot": "imune",
+          "forma": "esfera",
+          "raio": 0.55,
+          "pos": [
+            -0.4,
+            0.9,
+            0.2
+          ],
+          "esc": [
+            1,
+            1,
+            1
+          ]
+        },
+        {
+          "hotspot": "inflamacao",
+          "forma": "esfera",
+          "raio": 0.7,
+          "pos": [
+            1.4,
+            0.8,
+            -0.2
+          ],
+          "esc": [
+            1.2,
+            0.8,
+            1
+          ]
+        }
+      ],
+      "celula_svg": {
+        "titulo": "Microambiente (esquema do modelo)",
+        "elementos": [
+          {
+            "no": "angio",
+            "x": 95,
+            "y": 130,
+            "rx": 30,
+            "ry": 18,
+            "rotulo": "Angiogênese"
+          },
+          {
+            "no": "imun",
+            "x": 305,
+            "y": 130,
+            "rx": 28,
+            "ry": 18,
+            "rotulo": "Evasão da vigilância imune"
+          },
+          {
+            "no": "inf",
+            "x": 200,
+            "y": 200,
+            "rx": 28,
+            "ry": 16,
+            "rotulo": "Inflamação"
+          }
+        ]
+      }
+    }
+  ],
+  "nos": [
+    {
+      "id": "prol",
+      "nome": "Sinalização proliferativa sustentada",
+      "camada": "conhecido",
+      "orgaos": [
+        "tumor"
+      ],
+      "direcao_ruim": "alto",
+      "saudavel": 12,
+      "doenca": 75,
+      "fontes": [
+        "f_hanahan2011"
+      ],
+      "descricao": "Característica central: células tumorais sustentam sinais de proliferação (f_hanahan2011)."
+    },
+    {
+      "id": "supr",
+      "nome": "Evasão de supressores de crescimento",
+      "camada": "conhecido",
+      "orgaos": [
+        "tumor"
+      ],
+      "direcao_ruim": "alto",
+      "saudavel": 10,
+      "doenca": 70,
+      "fontes": [
+        "f_hanahan2011"
+      ],
+      "descricao": "Característica central: escapam dos freios de crescimento (f_hanahan2011)."
+    },
+    {
+      "id": "morte",
+      "nome": "Resistência à morte celular",
+      "camada": "conhecido",
+      "orgaos": [
+        "tumor"
+      ],
+      "direcao_ruim": "alto",
+      "saudavel": 10,
+      "doenca": 70,
+      "fontes": [
+        "f_hanahan2011"
+      ],
+      "descricao": "Característica central: resistem à morte celular (f_hanahan2011)."
+    },
+    {
+      "id": "imort",
+      "nome": "Imortalidade replicativa",
+      "camada": "conhecido",
+      "orgaos": [
+        "tumor"
+      ],
+      "direcao_ruim": "alto",
+      "saudavel": 8,
+      "doenca": 65,
+      "fontes": [
+        "f_hanahan2011"
+      ],
+      "descricao": "Característica central: capacidade de se dividir sem limite (f_hanahan2011)."
+    },
+    {
+      "id": "angio",
+      "nome": "Indução de angiogênese",
+      "camada": "conhecido",
+      "orgaos": [
+        "microambiente"
+      ],
+      "direcao_ruim": "alto",
+      "saudavel": 10,
+      "doenca": 65,
+      "fontes": [
+        "f_hanahan2011"
+      ],
+      "descricao": "Característica central: induzem formação de vasos (f_hanahan2011)."
+    },
+    {
+      "id": "inva",
+      "nome": "Invasão e metástase",
+      "camada": "conhecido",
+      "orgaos": [
+        "tumor"
+      ],
+      "direcao_ruim": "alto",
+      "saudavel": 5,
+      "doenca": 60,
+      "fontes": [
+        "f_hanahan2011"
+      ],
+      "descricao": "Característica central: ativação de invasão e metástase (f_hanahan2011)."
+    },
+    {
+      "id": "metab",
+      "nome": "Reprogramação do metabolismo energético",
+      "camada": "conhecido",
+      "orgaos": [
+        "tumor"
+      ],
+      "direcao_ruim": "alto",
+      "saudavel": 12,
+      "doenca": 65,
+      "fontes": [
+        "f_hanahan2011"
+      ],
+      "descricao": "Característica emergente (f_hanahan2011)."
+    },
+    {
+      "id": "imun",
+      "nome": "Evasão da destruição imune",
+      "camada": "conhecido",
+      "orgaos": [
+        "microambiente"
+      ],
+      "direcao_ruim": "alto",
+      "saudavel": 10,
+      "doenca": 60,
+      "fontes": [
+        "f_hanahan2011"
+      ],
+      "descricao": "Característica emergente (f_hanahan2011)."
+    },
+    {
+      "id": "gen",
+      "nome": "Instabilidade do genoma",
+      "camada": "conhecido",
+      "orgaos": [
+        "tumor"
+      ],
+      "direcao_ruim": "alto",
+      "saudavel": 8,
+      "doenca": 70,
+      "fontes": [
+        "f_hanahan2011"
+      ],
+      "descricao": "Processo de base que gera diversidade genética e acelera a aquisição das características (f_hanahan2011)."
+    },
+    {
+      "id": "inf",
+      "nome": "Inflamação",
+      "camada": "conhecido",
+      "orgaos": [
+        "microambiente"
+      ],
+      "direcao_ruim": "alto",
+      "saudavel": 15,
+      "doenca": 60,
+      "fontes": [
+        "f_hanahan2011"
+      ],
+      "descricao": "Processo de base que favorece várias características (f_hanahan2011)."
+    }
+  ],
+  "lacunas": [
+    {
+      "id": "tipos",
+      "nome": "Tipos específicos de câncer",
+      "camada": "lacuna",
+      "descricao": "O modelo é genérico: não distingue mama, pulmão, cólon etc. Fora do MVP."
+    },
+    {
+      "id": "mutacoes",
+      "nome": "Mutações e vias específicas (por exemplo PI3K/AKT, p53)",
+      "camada": "lacuna",
+      "descricao": "Fora do MVP até haver fonte lida para cada via."
+    },
+    {
+      "id": "estagios",
+      "nome": "Estágios e metástase em órgãos específicos",
+      "camada": "lacuna",
+      "descricao": "Fora do MVP."
+    },
+    {
+      "id": "tratamentos",
+      "nome": "Tratamentos estabelecidos",
+      "camada": "lacuna",
+      "descricao": "Tratamento do câncer é decisão médica; o modelo não o representa."
+    }
+  ],
+  "indicadores": [
+    {
+      "id": "prog",
+      "nome": "Índice de progressão tumoral (modelo)",
+      "unidade": "índice 0–100, sem unidade clínica",
+      "fontes": [
+        "f_hanahan2011"
+      ]
+    }
+  ],
+  "derivados": [
+    {
+      "id": "prol_ef",
+      "nome": "Proliferação efetiva (nó + instabilidade do genoma + inflamação)",
+      "camada": "padrao_em_teste",
+      "descricao": "Pesos do modelo, sem fonte numérica.",
+      "termos": [
+        {
+          "de": "prol",
+          "peso": 1,
+          "modo": "valor"
+        },
+        {
+          "de": "gen",
+          "peso": 0.15,
+          "modo": "desvio_ref"
+        },
+        {
+          "de": "inf",
+          "peso": 0.1,
+          "modo": "desvio_ref"
+        }
+      ]
+    },
+    {
+      "id": "cresc",
+      "nome": "Índice de crescimento tumoral (modelo)",
+      "camada": "conhecido",
+      "termos": [
+        {
+          "de": "prol_ef",
+          "peso": 0.25,
+          "modo": "valor"
+        },
+        {
+          "de": "supr",
+          "peso": 0.2,
+          "modo": "valor"
+        },
+        {
+          "de": "morte",
+          "peso": 0.2,
+          "modo": "valor"
+        },
+        {
+          "de": "imort",
+          "peso": 0.15,
+          "modo": "valor"
+        },
+        {
+          "de": "metab",
+          "peso": 0.2,
+          "modo": "valor"
+        }
+      ],
+      "limitar": true,
+      "exibir": true,
+      "incerteza": true,
+      "fontes": [
+        "f_hanahan2011"
+      ]
+    },
+    {
+      "id": "dissem",
+      "nome": "Índice de disseminação (modelo)",
+      "camada": "conhecido",
+      "termos": [
+        {
+          "de": "inva",
+          "peso": 0.4,
+          "modo": "valor"
+        },
+        {
+          "de": "angio",
+          "peso": 0.3,
+          "modo": "valor"
+        },
+        {
+          "de": "imun",
+          "peso": 0.3,
+          "modo": "valor"
+        }
+      ],
+      "limitar": true,
+      "exibir": true,
+      "incerteza": true,
+      "fontes": [
+        "f_hanahan2011"
+      ]
+    },
+    {
+      "id": "prog",
+      "nome": "Índice de progressão tumoral (modelo)",
+      "camada": "conhecido",
+      "termos": [
+        {
+          "de": "cresc",
+          "peso": 0.6,
+          "modo": "valor"
+        },
+        {
+          "de": "dissem",
+          "peso": 0.4,
+          "modo": "valor"
+        }
+      ],
+      "limitar": true,
+      "exibir": true,
+      "incerteza": true,
+      "fontes": [
+        "f_hanahan2011"
+      ]
+    },
+    {
+      "id": "razao_dissem_cresc",
+      "nome": "Razão disseminação/crescimento (padrão em teste)",
+      "camada": "padrao_em_teste",
+      "razao": {
+        "num": "dissem",
+        "den": "cresc",
+        "mult": 100
+      },
+      "exibir": true,
+      "incerteza": true
+    }
+  ],
+  "ligacoes_via": [
+    [
+      "gen",
+      "prol"
+    ],
+    [
+      "inf",
+      "prol"
+    ],
+    [
+      "prol",
+      "supr"
+    ],
+    [
+      "supr",
+      "morte"
+    ],
+    [
+      "morte",
+      "imort"
+    ],
+    [
+      "angio",
+      "inva"
+    ],
+    [
+      "imun",
+      "inva"
+    ],
+    [
+      "metab",
+      "prol"
+    ]
+  ],
+  "equacoes": {
+    "descricao": "Relações lineares qualitativas, calculadas por src/domain/modelo.ts a partir de `derivados`. Quais características compõem cada índice segue f_hanahan2011; os pesos são escolhas do modelo e não foram calibrados com dados de tumores: mostram só o SENTIDO esperado das mudanças.",
+    "limite_delta_por_variavel": 25
+  },
+  "eixos": [
+    {
+      "id": "sinalizacao_proliferativa",
+      "nome": "Sinalização proliferativa",
+      "tipo": "mecanismo",
+      "alvo": "prol",
+      "delta": -12
+    },
+    {
+      "id": "supressores_crescimento",
+      "nome": "Evasão de supressores de crescimento",
+      "tipo": "mecanismo",
+      "alvo": "supr",
+      "delta": -10
+    },
+    {
+      "id": "resistencia_morte",
+      "nome": "Resistência à morte celular",
+      "tipo": "mecanismo",
+      "alvo": "morte",
+      "delta": -12
+    },
+    {
+      "id": "imortalidade_replicativa",
+      "nome": "Imortalidade replicativa",
+      "tipo": "mecanismo",
+      "alvo": "imort",
+      "delta": -8
+    },
+    {
+      "id": "angiogenese",
+      "nome": "Angiogênese",
+      "tipo": "mecanismo",
+      "alvo": "angio",
+      "delta": -10
+    },
+    {
+      "id": "invasao_metastase",
+      "nome": "Invasão e metástase",
+      "tipo": "mecanismo",
+      "alvo": "inva",
+      "delta": -10
+    },
+    {
+      "id": "metabolismo_energetico",
+      "nome": "Metabolismo energético",
+      "tipo": "mecanismo",
+      "alvo": "metab",
+      "delta": -10
+    },
+    {
+      "id": "evasao_imune",
+      "nome": "Evasão imune",
+      "tipo": "mecanismo",
+      "alvo": "imun",
+      "delta": -10
+    },
+    {
+      "id": "instabilidade_genoma",
+      "nome": "Instabilidade do genoma",
+      "tipo": "mecanismo",
+      "alvo": "gen",
+      "delta": -8
+    },
+    {
+      "id": "inflamacao",
+      "nome": "Inflamação",
+      "tipo": "mecanismo",
+      "alvo": "inf",
+      "delta": -10
+    },
+    {
+      "id": "progressao_tumoral",
+      "nome": "Progressão tumoral (desfecho observado)",
+      "tipo": "desfecho",
+      "alvo": "prog",
+      "delta": -8
+    }
+  ],
+  "alvos_literatura": [
+    {
+      "texto": "As oito características e os dois processos de base são descritos na literatura como estrutura para entender a complexidade do câncer e orientar pesquisa (referência, não aconselhamento).",
+      "fontes": [
+        "f_hanahan2011"
+      ]
+    }
+  ],
+  "como_ler_o_modelo": "Atenção: o câncer real depende do tipo, do estágio e da pessoa, e seu tratamento é decisão médica. Este modelo só organiza características gerais para formular perguntas de laboratório (em células ou animais). Desfechos observados e mecanismos relatados são tratados de forma diferente: mecanismos mudam nós do modelo; desfechos mudam só os índices derivados.",
+  "simulacao": {
+    "fator_confianca": {
+      "forte": 1.0,
+      "medio": 0.6,
+      "fraco": 0.3
+    },
+    "incerteza": {
+      "forte": [
+        0.6,
+        1.2
+      ],
+      "medio": [
+        0.3,
+        1.4
+      ],
+      "fraco": [
+        0.0,
+        1.6
+      ]
+    },
+    "combinacao_mesmo_eixo": "maior efeito + 25% da soma dos demais",
+    "amostras_incerteza": 500
+  },
+  "aviso": "Câncer é acompanhado por equipes médicas. Este modelo não indica tratamento e não deve influenciar nenhuma decisão sobre tratamento; serve apenas para formular perguntas de laboratório."
+}

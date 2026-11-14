@@ -91,5 +91,15 @@
     "tipo": "meta_analise",
     "lido_em": "2026-11-13",
     "o_que_a_fonte_diz": "Revisou 25 estudos e fez meta-análise de 11 ensaios randomizados controlados por placebo com preparações só de alho. Encontrou redução modesta da pressão sistólica no conjunto e redução maior em participantes com hipertensão; a meta-regressão relacionou a pressão basal ao tamanho da redução. Conclusão dos autores: preparações de alho superaram o placebo em pessoas com hipertensão. Lido apenas o resumo via Europe PMC; números e qualidade metodológica não foram lidos."
+  },
+  {
+    "id": "f_hanahan2011",
+    "citacao": "Hanahan D, Weinberg RA. Hallmarks of cancer: the next generation. Cell. 2011;144(5):646-674.",
+    "doi": "10.1016/j.cell.2011.02.013",
+    "pmid": "21376230",
+    "url": "https://pubmed.ncbi.nlm.nih.gov/21376230/",
+    "tipo": "revisao",
+    "lido_em": "2026-11-14",
+    "o_que_a_fonte_diz": "Seis características centrais adquiridas pelos tumores humanos: sinalização proliferativa sustentada, evasão de supressores de crescimento, resistência à morte celular, imortalidade replicativa, indução de angiogênese e ativação de invasão e metástase. Duas emergentes: reprogramação do metabolismo energético e evasão da destruição imune. Instabilidade do genoma e inflamação aparecem como processos de base que favorecem as demais; o tumor também recruta células normais que formam o microambiente tumoral. Lido apenas o resumo via Europe PMC."
   }
 ]

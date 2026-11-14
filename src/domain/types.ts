@@ -90,6 +90,8 @@ export interface Doenca {
   resumo_leigo: string;
   resumo_tecnico: string;
   perfil: string;
+  /** Aviso extra exibido na doença, no PDF e na lista de limitações (opcional). */
+  aviso?: string;
   orgaos: OrgaoModelo[];
   nos: NoModelo[];
   lacunas: Lacuna[];

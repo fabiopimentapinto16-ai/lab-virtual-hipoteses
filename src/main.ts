@@ -93,7 +93,7 @@ function doencas() {
   const fonteLinks = (ids: string[]) => ids.map((i) => `<span class="tag">${esc(i)}</span>`).join(" ");
   const org = d.orgaos.find((o) => o.id === S.orgaoCel) ?? d.orgaos[0];
   const exib = variaveisExibidas(d);
-  $("#conteudo").innerHTML = `<div class="card"><p class="eyebrow">Doença no modelo · v${esc(d.versao_modelo)}</p><h2>${esc(d.nome)}</h2><p>${esc(d.resumo_leigo)}</p><p class="muted">${esc(d.resumo_tecnico)}</p><p class="muted">${esc(d.perfil)}</p></div>
+  $("#conteudo").innerHTML = `<div class="card"><p class="eyebrow">Doença no modelo · v${esc(d.versao_modelo)}</p><h2>${esc(d.nome)}</h2><p>${esc(d.resumo_leigo)}</p><p class="muted">${esc(d.resumo_tecnico)}</p><p class="muted">${esc(d.perfil)}</p>${d.aviso ? `<p class="aviso">${esc(d.aviso)}</p>` : ""}</div>
   <div class="grid"><div class="card"><h3>Estado no modelo</h3>
   <label>Saudável ⟷ doença (perfil genérico): <b id="g-val">${S.grau}</b>%<input id="grau" type="range" min="0" max="100" value="${S.grau}"></label>
   <label>Célula do órgão: <select id="orgcel">${d.orgaos.map((o) => `<option value="${o.id}" ${o.id === org.id ? "selected" : ""}>${esc(o.nome)} — ${esc(o.celula)}</option>`).join("")}</select></label>
@@ -159,7 +159,7 @@ function lab() {
   const disp = fichasDaDoenca(d, FICHAS);
   const sel = disp.filter((f) => S.sel.has(f.id));
   const ms = fazerMatches(d, sel);
-  $("#conteudo").innerHTML = `<div class="grid"><div class="card"><p class="eyebrow">${esc(d.nome)}</p><h2>1. Escolha itens da biblioteca</h2>${disp.length ? disp.map((f) => `<div class="linha"><label><input type="checkbox" data-sel="${f.id}" ${S.sel.has(f.id) ? "checked" : ""}> ${esc(f.nome_popular)} <i class="muted">${esc(f.nome_cientifico)}</i></label> <button class="btn" data-ficha="${f.id}">Ficha</button></div>`).join("") : `<p class="muted">Ainda não há ficha com evidência registrada para esta doença.</p>`}
+  $("#conteudo").innerHTML = `<div class="grid"><div class="card"><p class="eyebrow">${esc(d.nome)}</p>${d.aviso ? `<p class="aviso">${esc(d.aviso)}</p>` : ""}<h2>1. Escolha itens da biblioteca</h2>${disp.length ? disp.map((f) => `<div class="linha"><label><input type="checkbox" data-sel="${f.id}" ${S.sel.has(f.id) ? "checked" : ""}> ${esc(f.nome_popular)} <i class="muted">${esc(f.nome_cientifico)}</i></label> <button class="btn" data-ficha="${f.id}">Ficha</button></div>`).join("") : `<p class="muted">Ainda não há ficha com evidência registrada para esta doença.</p>`}
   <p><label>Seed da simulação: <input type="number" id="seed" value="${S.seed}" style="width:7em"></label> <span class="muted">(mesma seed = mesmo resultado)</span></p></div>
   <div class="card"><h2>2. Match e confiança</h2>${ms.length ? ms.map((m) => `<div class="card"><b>${esc(ficha(m.ficha_id).nome_popular)} → ${esc(m.eixo_nome)}</b> <span class="tag">${ROTULO_NIVEL[m.nivel]}</span>${barraConf(m.nivel)}<p class="muted">${esc(EXPLICACAO_NIVEL[m.nivel])}</p><details><summary>Por que este nível?</summary><ul>${m.motivos.map((x) => `<li>${esc(x)}</li>`).join("")}</ul><p class="muted">Fontes: ${m.fontes.join(", ")}</p></details></div>`).join("") : `<p class="muted">Selecione ao menos um item para ver os matches.</p>`}</div></div>
   <div class="card"><h2>3. Simular</h2><button class="btn pri" id="sim" ${sel.length ? "" : "disabled"}>Rodar simulação e criar hipótese</button> <span id="msg" class="muted">${esc(S.mensagem)}</span><p class="aviso">${esc(DISC)}</p><div id="res"></div></div>`;

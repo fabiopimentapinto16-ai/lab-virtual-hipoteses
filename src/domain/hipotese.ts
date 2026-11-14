@@ -54,6 +54,7 @@ export function criarHipotese(e: EntradaHipotese): Hipotese {
   for (const f of e.fichas) { f.fontes.forEach((s) => idsFontes.add(s)); f.eixos.filter((x) => x.doenca === e.doenca.id).forEach((x) => x.fontes.forEach((s) => idsFontes.add(s))); }
   const alertas: string[] = [];
   const limitacoes = [...LIMITACOES_PADRAO];
+  if (e.doenca.aviso) limitacoes.unshift(e.doenca.aviso);
   for (const f of e.fichas) {
     for (const a of f.alertas) alertas.push(`${f.nome_popular}: ${a}`);
     if (f.alertas_status === "nao_avaliado") alertas.push(`${f.nome_popular}: segurança não avaliada nesta ficha.`);

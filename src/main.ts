@@ -1,6 +1,6 @@
 import { DOENCAS, FICHAS, FONTES } from "./domain/dados.ts";
 import type { Doenca, Ficha, Hipotese, Valores } from "./domain/types.ts";
-import { derivar, estadoNos, nomeVariavel, variaveisExibidas } from "./domain/modelo.ts";
+import { derivar, estadoNos, nomeVariavel, variaveisExibidas, simularNominal, curvaResposta } from "./domain/modelo.ts";
 import { fazerMatches, fichasDaDoenca, ROTULO_NIVEL, EXPLICACAO_NIVEL, ROTULO_EVIDENCIA, ROTULO_QUALIDADE } from "./domain/match.ts";
 import { criarHipotese, proximoId, registrarEvento, compararHipoteses, APP_VERSAO } from "./domain/hipotese.ts";
 import { DISCLAIMER_COMPLETO, AVISO_MODELO, O_QUE_E, O_QUE_NAO_E } from "./domain/textos.ts";
@@ -26,7 +26,7 @@ const ABAS: [string, string][] = [["inicio", "Início"], ["doencas", "Doenças"]
 const icone = (k: string) => `<svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="${ICONES[k]}"/></svg>`;
 
 let d: Doenca = DOENCAS[0];
-const S = { aba: "inicio", sel: new Set<string>(), seed: 42, hips: carregar(), selA: "", selB: "", orgao: d.orgaos[0].id, orgaoCel: d.orgaos[0].id, camada: 0 as Camada3D, lacunas: true, t: 1, grau: 100, mensagem: "" };
+const S = { aba: "inicio", sel: new Set<string>(), seed: 42, hips: carregar(), selA: "", selB: "", orgao: d.orgaos[0].id, orgaoCel: d.orgaos[0].id, camada: 0 as Camada3D, lacunas: true, t: 1, grau: 100, mensagem: "", intens: {} as Record<string, number> };
 let viewers: Organ3D[] = [];
 const $ = <T extends HTMLElement = HTMLElement>(s: string) => document.querySelector(s) as T;
 const esc = (s: unknown) => String(s).replace(/[&<>"']/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]!));
@@ -155,19 +155,45 @@ function resultadoTabela(h: Hipotese) {
     return `<tr><td>${esc(v.nome)}</td><td>${a}</td><td>${b}</td><td>${h.simulacao.deltas[v.id]}</td><td>${u ? `${u.p10} / ${u.p50} / ${u.p90}` : "—"}</td><td><div class="trilho">${u ? `<i class="banda" style="left:${cl(a + u.p10)}%;width:${Math.abs(cl(a + u.p90) - cl(a + u.p10))}%"></i>` : ""}<i class="ref" style="left:${cl(r.s[v.id])}%"></i><i class="ref" style="left:${cl(r.z[v.id])}%"></i><i class="marca antes" style="left:${cl(a)}%"></i><i class="marca depois" style="left:${cl(b)}%"></i></div></td></tr>`; }).join("")}</table></div><p class="muted">Traços finos: referência saudável e doença do modelo. Vermelho: antes. Verde-água: depois. Faixa: p10–p90 da incerteza.</p>`;
 }
 
+
+/** Curva de resposta do modelo: índice x intensidade comum dos itens (0–200% do efeito de referência). */
+function curvaSVG(pts: { percent: number; valor: number }[], nome: string): string {
+  const W = 360, H = 170, m = 34;
+  const vs = pts.map((p) => p.valor); const lo = Math.min(...vs), hi = Math.max(...vs); const span = Math.max(1, hi - lo);
+  const x = (p: number) => m + (p / 200) * (W - m - 10); const y = (v: number) => 12 + (1 - (v - lo) / span) * (H - 12 - 28);
+  const linha = pts.map((p) => `${x(p.percent).toFixed(1)},${y(p.valor).toFixed(1)}`).join(" ");
+  return `<svg viewBox="0 0 ${W} ${H}" class="curva" role="img" aria-label="Curva de resposta do modelo: ${esc(nome)} conforme a intensidade relativa"><line x1="${m}" y1="${H - 28}" x2="${W - 10}" y2="${H - 28}" stroke="currentColor" opacity=".4"/><line x1="${x(100)}" y1="8" x2="${x(100)}" y2="${H - 28}" stroke="currentColor" opacity=".3" stroke-dasharray="3 3"/><polyline points="${linha}" fill="none" stroke="var(--acc)" stroke-width="2.5"/>${pts.map((p) => `<circle cx="${x(p.percent)}" cy="${y(p.valor)}" r="3" fill="var(--acc)"/>`).join("")}<text x="${m}" y="${H - 10}" font-size="10" fill="currentColor">0%</text><text x="${x(100) - 12}" y="${H - 10}" font-size="10" fill="currentColor">100% (ref.)</text><text x="${W - 36}" y="${H - 10}" font-size="10" fill="currentColor">200%</text><text x="2" y="${y(hi) + 4}" font-size="10" fill="currentColor">${hi}</text><text x="2" y="${y(lo) + 4}" font-size="10" fill="currentColor">${lo}</text></svg>`;
+}
+
 function lab() {
   const disp = fichasDaDoenca(d, FICHAS);
   const sel = disp.filter((f) => S.sel.has(f.id));
   const ms = fazerMatches(d, sel);
   $("#conteudo").innerHTML = `<div class="grid"><div class="card"><p class="eyebrow">${esc(d.nome)}</p>${d.aviso ? `<p class="aviso">${esc(d.aviso)}</p>` : ""}<h2>1. Escolha itens da biblioteca</h2>${disp.length ? disp.map((f) => `<div class="linha"><label><input type="checkbox" data-sel="${f.id}" ${S.sel.has(f.id) ? "checked" : ""}> ${esc(f.nome_popular)} <i class="muted">${esc(f.nome_cientifico)}</i></label> <button class="btn" data-ficha="${f.id}">Ficha</button></div>`).join("") : `<p class="muted">Ainda não há ficha com evidência registrada para esta doença.</p>`}
+  ${sel.length ? `<h3>Intensidade relativa no modelo</h3><p class="muted">0% = sem o item; 100% = efeito de referência da ficha; acima de 100% o ganho é decrescente. É um parâmetro do modelo, <b>não é dose</b> e não se traduz para pessoas.</p>${sel.map((f) => `<label class="int">${esc(f.nome_popular)}: <b id="iv-${f.id}">${S.intens[f.id] ?? 100}</b>%<input type="range" min="0" max="200" step="5" value="${S.intens[f.id] ?? 100}" data-int="${f.id}"></label>`).join("")}` : ""}
   <p><label>Seed da simulação: <input type="number" id="seed" value="${S.seed}" style="width:7em"></label> <span class="muted">(mesma seed = mesmo resultado)</span></p></div>
   <div class="card"><h2>2. Match e confiança</h2>${ms.length ? ms.map((m) => `<div class="card"><b>${esc(ficha(m.ficha_id).nome_popular)} → ${esc(m.eixo_nome)}</b> <span class="tag">${ROTULO_NIVEL[m.nivel]}</span>${barraConf(m.nivel)}<p class="muted">${esc(EXPLICACAO_NIVEL[m.nivel])}</p><details><summary>Por que este nível?</summary><ul>${m.motivos.map((x) => `<li>${esc(x)}</li>`).join("")}</ul><p class="muted">Fontes: ${m.fontes.join(", ")}</p></details></div>`).join("") : `<p class="muted">Selecione ao menos um item para ver os matches.</p>`}</div></div>
+  <div class="card" id="prev"></div>
   <div class="card"><h2>3. Simular</h2><button class="btn pri" id="sim" ${sel.length ? "" : "disabled"}>Rodar simulação e criar hipótese</button> <span id="msg" class="muted">${esc(S.mensagem)}</span><p class="aviso">${esc(DISC)}</p><div id="res"></div></div>`;
   document.querySelectorAll<HTMLInputElement>("[data-sel]").forEach((c) => (c.onchange = () => { c.checked ? S.sel.add(c.dataset.sel!) : S.sel.delete(c.dataset.sel!); lab(); }));
   $<HTMLInputElement>("#seed").onchange = (e) => { S.seed = Math.trunc(Number((e.target as HTMLInputElement).value)) || 0; };
   ligarFichas();
+  const previa = () => {
+    if (!sel.length || !ms.length) { $("#prev").innerHTML = `<h2>Prévia no modelo</h2><p class="muted">Selecione itens com match para ver a prévia e a curva de resposta.</p>`; return; }
+    const r = simularNominal(d, ms, S.intens);
+    const ind = d.derivados.find((x) => x.exibir && x.incerteza && !x.razao && x.id !== "dissem" && x.id !== "cresc") ?? d.derivados.find((x) => x.exibir && x.incerteza && !x.razao)!;
+    const exib = d.derivados.filter((x) => x.exibir && !x.razao);
+    const celulaDe = (eixo: string) => { const e = d.eixos.find((x) => x.id === eixo); if (!e || e.tipo !== "mecanismo") return null; const no = d.nos.find((n) => n.id === e.alvo); const o = d.orgaos.find((q) => no?.orgaos.includes(q.id)); return no && o ? { no, o } : null; };
+    $("#prev").innerHTML = `<h2>Prévia no modelo (atualiza ao mover as intensidades)</h2>
+      <div class="kpis">${exib.map((v) => { const dl = Math.round((r.depois[v.id] - r.antes[v.id]) * 100) / 100; return `<div class="kpi"><span>${esc(v.nome)}</span><b>${r.depois[v.id]}</b><em>antes ${r.antes[v.id]}</em><i class="chip ${dl === 0 ? "neutro" : dl < 0 ? "bom" : "ruim"}">${dl > 0 ? "+" : ""}${dl}</i></div>`; }).join("")}</div>
+      <h3>Curva de resposta: ${esc(ind.nome)}</h3>${curvaSVG(curvaResposta(d, ms, ind.id, S.intens), ind.nome)}
+      <p class="muted">Eixo horizontal: intensidade comum dos itens selecionados (0 a 200% do efeito de referência). Eixo vertical: índice do modelo. Não há unidade de dose.</p>
+      <h3>Item × célula da doença</h3><div class="tw"><table><tr><th>Item</th><th>Efeito relatado na ficha</th><th>Alvo no modelo</th><th>Célula/órgão</th><th>Antes → depois</th><th>Confiança</th></tr>${ms.map((m) => { const c = celulaDe(m.eixo); const e = d.eixos.find((x) => x.id === m.eixo)!; const alvo = Array.isArray(e.alvo) ? e.alvo[0] : e.alvo; return `<tr><td>${esc(ficha(m.ficha_id).nome_popular)}</td><td>${esc(m.eixo_nome)}</td><td>${esc(nomeVariavel(d, alvo))}</td><td>${c ? `${esc(c.o.celula)} (${esc(c.o.nome)})` : "índice derivado (sem célula única)"}</td><td>${r.antes[alvo]} → ${r.depois[alvo]}</td><td>${ROTULO_NIVEL[m.nivel]}</td></tr>`; }).join("")}</table></div>`;
+  };
+  document.querySelectorAll<HTMLInputElement>("[data-int]").forEach((r) => (r.oninput = () => { S.intens[r.dataset.int!] = Number(r.value); $(`#iv-${r.dataset.int}`).textContent = r.value; previa(); }));
+  previa();
   $("#sim").onclick = () => {
-    const h = criarHipotese({ doenca: d, fichas: sel, fontes: FONTES, seed: S.seed, id: proximoId(new Date().getFullYear(), S.hips.map((x) => x.id)), data: hoje() });
+    const h = criarHipotese({ doenca: d, fichas: sel, fontes: FONTES, seed: S.seed, intensidades: S.intens, id: proximoId(new Date().getFullYear(), S.hips.map((x) => x.id)), data: hoje() });
     S.hips = [...S.hips, h]; salvar(S.hips); S.selA = h.id; S.mensagem = `Criada ${h.id}.`;
     $("#msg").textContent = S.mensagem;
     $("#res").innerHTML = `<h3>${h.id}</h3>${kpis(h)}${resultadoTabela(h)}<p class="muted">${esc(h.pergunta_para_lab)}</p><p class="muted">${esc(AVISO_MODELO)}</p><p><button class="btn" data-ir="3d">Ver em 3D</button> <button class="btn" data-ir="exportar">Exportar</button></p>`;

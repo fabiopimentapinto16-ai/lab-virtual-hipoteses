@@ -189,6 +189,10 @@
       ]
     }
   ],
+  "intensidades": {
+    "berberina": 100,
+    "curcuma": 100
+  },
   "variaveis": [
     {
       "id": "ri",
@@ -346,7 +350,8 @@
     "Berberina: Efeitos gastrointestinais relatados (constipação, diarreia, náusea, distensão) (f_dong2012).",
     "Berberina: Combinada a hipoglicemiantes, os estudos mostram efeito adicional na glicemia; interação não foi avaliada nesta ficha.",
     "Cúrcuma / curcumina: Eventos leves relatados: dor de estômago/epigástrica, aumento da frequência intestinal; dispepsia, náusea, flatulência e diarreia listadas.",
-    "Cúrcuma / curcumina: Curcuminoides podem alterar a farmacocinética de alguns fármacos, inclusive antidiabéticos (f_marton2021)."
+    "Cúrcuma / curcumina: Curcuminoides podem alterar a farmacocinética de alguns fármacos, inclusive antidiabéticos (f_marton2021).",
+    "Cúrcuma / curcumina: Em câncer, os ensaios clínicos com curcumina são poucos, pequenos e curtos; a segurança em geral não está estabelecida (f_boroughani2024, f_waure2023)."
   ],
   "limitacoes": [
     "Modelo qualitativo e simplificado, com perfil genérico da doença; os coeficientes não foram calibrados com dados clínicos.",
@@ -355,7 +360,9 @@
     "Resultados de simulação em índices do modelo não se transferem para pessoas.",
     "Berberina: Ensaios de qualidade metodológica geralmente baixa, amostras pequenas e muitos conduzidos na China (f_dong2012).",
     "Berberina: Resumo de f_wang2024 não descreve eventos adversos.",
-    "Cúrcuma / curcumina: Dose eficaz desconhecida segundo os autores; mais ensaios rigorosos necessários."
+    "Cúrcuma / curcumina: Dose eficaz desconhecida segundo os autores; mais ensaios rigorosos necessários.",
+    "Cúrcuma / curcumina: Câncer: a evidência clínica disponível não é forte o bastante para apoiar o uso terapêutico da curcumina (f_waure2023). Sobrevida não melhorou na maioria dos ensaios.",
+    "Cúrcuma / curcumina: Câncer: os efeitos usados no modelo são de células e animais, com curcumina em nanoformulação (f_boroughani2024); não indicam efeito em pessoas."
   ],
   "fontes": [
     {
@@ -393,6 +400,24 @@
       "tipo": "revisao_sistematica_ensaios",
       "lido_em": "2026-11-12",
       "o_que_a_fonte_diz": "16 estudos, a maioria ensaios randomizados duplo-cegos controlados por placebo, 1.309 participantes. Os autores afirmam redução de glicemia de jejum, HbA1c e IMC, mas os resultados não foram uniformes (um ensaio sem efeito em HbA1c). Um ensaio com curcuminoides relatou maior capacidade antioxidante total e SOD e menor MDA; alguns ensaios relataram menor hs-CRP e um não. Eventos adversos leves (dor de estômago/epigástrica, aumento da frequência intestinal); dispepsia, náusea, flatulência e diarreia listadas; curcuminoides podem alterar a farmacocinética de alguns fármacos, inclusive antidiabéticos. Dose eficaz ainda desconhecida; os autores pedem ensaios mais rigorosos."
+    },
+    {
+      "id": "f_boroughani2024",
+      "citacao": "Boroughani M, Moaveni AK, Hatami P, et al. Nanocurcumin in cancer treatment: a comprehensive systematic review. Discov Oncol. 2024;15:515.",
+      "doi": "10.1007/s12672-024-01272-x",
+      "url": "https://link.springer.com/article/10.1007/s12672-024-01272-x",
+      "tipo": "revisao_sistematica",
+      "lido_em": "2026-11-14",
+      "o_que_a_fonte_diz": "61 estudos sobre curcumina em nanoformulação no câncer: 47 in vitro (linhagens de mama, cólon, pulmão, próstata, fígado, colo do útero), 12 em animais e 2 ensaios clínicos de fase II pequenos e curtos (próstata com radioterapia; bexiga com quimioterapia). In vitro: captação celular, efeito antiproliferativo e apoptose. Em animais: inibição do crescimento e do volume do tumor. Os autores afirmam que a maioria dos estudos é pré-clínica, que formulações, tipos de câncer e doses variam muito e que são necessários ensaios randomizados maiores para estabelecer eficácia clínica. Pontos de atenção na própria revisão: a conclusão cita perfil de segurança favorável, mais forte do que o corpo do texto sustenta; resultados e discussão divergem sobre o ensaio de próstata; algumas citações apontam referências sem relação. Lidos os primeiros 100 mil de 138 mil caracteres da página."
+    },
+    {
+      "id": "f_waure2023",
+      "citacao": "de Waure C, Bertola C, Baccarini G, Chiavarini M, Mancuso C. Exploring the Contribution of Curcumin to Cancer Therapy: A Systematic Review of Randomized Controlled Trials. Pharmaceutics. 2023;15(4):1275.",
+      "doi": "10.3390/pharmaceutics15041275",
+      "url": "https://www.mdpi.com/1999-4923/15/4/1275",
+      "tipo": "revisao_sistematica",
+      "lido_em": "2026-11-14",
+      "o_que_a_fonte_diz": "7 ensaios randomizados (2016 a 2022), cerca de 600 participantes no total (soma feita na leitura), em próstata, colorretal, mama, mieloma múltiplo e leucoplasia oral. Resposta tumoral mista; sobrevida global e livre de progressão não melhoraram na maioria dos estudos (exceção: um ensaio pequeno com risco de viés alto, com razão de risco de sobrevida global de 0,339 como desfecho secundário). Risco de viés baixo em 4 estudos, alto em 1 e com ressalvas em 2. Doses de 1,44 g/dia por 6 meses a 8 g/dia por 6 semanas, com várias formulações. Conclusão dos autores: a evidência clínica disponível não é forte o bastante para apoiar o uso terapêutico da curcumina no câncer. Limitações: amostras pequenas, abandonos, ensaios interrompidos, formulações e doses heterogêneas, 11 textos completos não obtidos. Lidos os primeiros 100 mil de 122 mil caracteres."
     }
   ],
   "disclaimer": "Hipótese computacional educativa. Não é diagnóstico, não é tratamento, não é medicamento aprovado. Não use para automedicação. Validação somente experimental em laboratório.",
@@ -402,5 +427,5 @@
       "data": "2026-11-12"
     }
   ],
-  "hash_conteudo": "e4cab4bdb9b0dc901489d5a8a7293392b2951e9cc60f2234326b8ce29dbf17a6"
+  "hash_conteudo": "4655c4c9141a5277cb35d961832ca0be69dc906cc17eb3045ba405568ad332fc"
 }

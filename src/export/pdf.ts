@@ -55,6 +55,7 @@ export async function gerarPDF(h: Hipotese): Promise<Uint8Array> {
   titulo("2. Plantas/compostos e IDs publicos");
   for (const i of h.itens) {
     texto(`${i.nome} (${i.nome_cientifico})`, 10, b);
+    texto(`Intensidade relativa no modelo: ${h.intensidades[i.ficha_id] ?? 100}% do efeito de referencia da ficha (parametro do modelo; nao e dose).`, 8.5, f, rgb(0.35, 0.35, 0.35), 6);
     if (i.compostos.length === 0) texto("Sem compostos listados na ficha.", 9, f, undefined, 6);
     for (const c of i.compostos) texto(`- ${c.nome}${c.id_publico ? ` - ${c.id_publico.base} ${c.id_publico.tipo} ${c.id_publico.valor}${c.id_publico.verificado ? " (verificado)" : " (nao verificado)"}` : " - sem ID publico"}`, 9, f, undefined, 6);
   }

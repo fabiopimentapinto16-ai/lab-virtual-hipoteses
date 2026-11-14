@@ -41,12 +41,16 @@ export interface EntradaHipotese {
   seed: number;
   id: string;
   data: string; // AAAA-MM-DD
+  /** % do efeito de referência por ficha (padrão 100). Parâmetro do modelo, não dose. */
+  intensidades?: Record<string, number>;
 }
 
 export function criarHipotese(e: EntradaHipotese): Hipotese {
   if (e.fichas.length === 0) throw new Error("Selecione pelo menos um item da biblioteca Natureza.");
   const matches = fazerMatches(e.doenca, e.fichas);
-  const simulacao = simular(e.doenca, matches, e.seed);
+  const intensidades: Record<string, number> = {};
+  for (const f of e.fichas) intensidades[f.id] = Math.max(0, Math.min(200, e.intensidades?.[f.id] ?? 100));
+  const simulacao = simular(e.doenca, matches, e.seed, intensidades);
   const idsFontes = new Set<string>();
   for (const n of e.doenca.nos) n.fontes.forEach((f) => idsFontes.add(f));
   for (const i of e.doenca.indicadores) i.fontes.forEach((f) => idsFontes.add(f));
@@ -71,6 +75,7 @@ export function criarHipotese(e: EntradaHipotese): Hipotese {
       compostos: f.compostos.map((c) => ({ nome: c.nome, id_publico: c.id_publico ?? null })),
     })),
     matches,
+    intensidades,
     variaveis: variaveisExibidas(e.doenca),
     simulacao,
     pergunta_para_lab: perguntaParaLab(e.doenca, matches, e.fichas),

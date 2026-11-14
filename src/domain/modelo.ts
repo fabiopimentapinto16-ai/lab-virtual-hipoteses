@@ -75,12 +75,20 @@ export function aplicarEfeitos(d: Doenca, nosAntes: Valores, efeitos: Map<string
 
 interface Termo { eixo: string; base: number; nivel: NivelConfianca; item: string }
 
-function termos(d: Doenca, matches: Match[]): Termo[] {
+/** Intensidade relativa de cada item no modelo, em % do efeito de referência da ficha (100 = referência, 0 = sem o item). NÃO é dose: é um parâmetro do modelo. */
+export type Intensidades = Record<string, number>;
+/** Acima de 100% o ganho é decrescente (saturação): cada ponto extra vale 25% de um ponto até 100%. */
+export function fatorIntensidade(percent: number): number {
+  const i = Math.max(0, percent) / 100;
+  return i <= 1 ? i : 1 + 0.25 * (i - 1);
+}
+
+function termos(d: Doenca, matches: Match[], intens: Intensidades = {}): Termo[] {
   const lista: Termo[] = [];
   const ordenados = [...matches].sort((a, b) => (a.ficha_id + a.eixo).localeCompare(b.ficha_id + b.eixo));
   for (const m of ordenados) {
     const e = d.eixos.find((x) => x.id === m.eixo);
-    if (e) lista.push({ eixo: m.eixo, base: e.delta, nivel: m.nivel, item: m.ficha_id });
+    if (e) lista.push({ eixo: m.eixo, base: e.delta * fatorIntensidade(intens[m.ficha_id] ?? 100), nivel: m.nivel, item: m.ficha_id });
   }
   return lista;
 }
@@ -109,11 +117,27 @@ function percentil(sorted: number[], p: number): number {
 }
 
 /** Simulação leve e determinística. A seed só controla a faixa de incerteza (amostras do efeito conforme a confiança). */
-export function simular(d: Doenca, matches: Match[], seed: number): ResultadoSimulacao {
+/** Simulação nominal sem faixa de incerteza (rápida): usada na prévia ao vivo e na curva de resposta. */
+export function simularNominal(d: Doenca, matches: Match[], intens: Intensidades = {}): { antes: Valores; depois: Valores } {
+  const antesNos = estadoNos(d, "doenca");
+  return { antes: derivar(d, antesNos), depois: aplicarEfeitos(d, antesNos, efeitosDe(termos(d, matches, intens), () => 1, d.simulacao.fator_confianca)) };
+}
+
+/** Curva de resposta no modelo: valor de um índice conforme a intensidade comum (todos os itens juntos) sobe de 0 a 200%. */
+export function curvaResposta(d: Doenca, matches: Match[], indicador: string, intens: Intensidades = {}, pontos = [0, 25, 50, 75, 100, 125, 150, 175, 200]): { percent: number; valor: number }[] {
+  const itens = [...new Set(matches.map((m) => m.ficha_id))];
+  return pontos.map((p) => {
+    const mult: Intensidades = {};
+    for (const i of itens) mult[i] = ((intens[i] ?? 100) * p) / 100;
+    return { percent: p, valor: simularNominal(d, matches, mult).depois[indicador] };
+  });
+}
+
+export function simular(d: Doenca, matches: Match[], seed: number, intens: Intensidades = {}): ResultadoSimulacao {
   const cfg = d.simulacao;
   const antesNos = estadoNos(d, "doenca");
   const antes = derivar(d, antesNos);
-  const t = termos(d, matches);
+  const t = termos(d, matches, intens);
   const nominal = efeitosDe(t, () => 1, cfg.fator_confianca);
   const depois = aplicarEfeitos(d, antesNos, nominal);
   const deltas: Valores = {};

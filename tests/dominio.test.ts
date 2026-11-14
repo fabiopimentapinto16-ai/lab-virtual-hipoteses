@@ -99,3 +99,23 @@ test("hipertensão: níveis esperados e evidência por doença", () => {
   assert.deepEqual([...new Set(mc.map((m) => m.ficha_id))], ["curcuma"]);
   assert.ok(mc.every((m) => m.nivel === "fraco"));
 });
+
+import { fatorIntensidade, simularNominal, curvaResposta } from "../src/domain/modelo.ts";
+test("intensidade relativa: 0 = sem efeito, 100 = referência, saturação acima", () => {
+  const ms = fazerMatches(d, [f("berberina")]);
+  assert.equal(fatorIntensidade(0), 0); assert.equal(fatorIntensidade(100), 1); assert.equal(fatorIntensidade(200), 1.25);
+  const ant = simularNominal(d, ms, { berberina: 0 }); assert.deepEqual(ant.antes, ant.depois);
+  const ref = simularNominal(d, ms, {}), c100 = simularNominal(d, ms, { berberina: 100 });
+  assert.deepEqual(ref.depois, c100.depois);
+  const gj = (p: number) => simularNominal(d, ms, { berberina: p }).depois.gj;
+  assert.ok(gj(50) > gj(100) && gj(100) > gj(200)); // mais intensidade, índice menor
+  assert.ok(gj(0) - gj(200) < 2 * (gj(0) - gj(100))); // retorno decrescente acima de 100%
+  const cv = curvaResposta(d, ms, "gj"); assert.equal(cv.length, 9); for (let i = 1; i < cv.length; i++) assert.ok(cv[i].valor <= cv[i - 1].valor);
+});
+test("intensidades entram na hipótese e no hash", () => {
+  const mk = (p: number) => criarHipotese({ doenca: d, fichas: [f("berberina")], fontes: FONTES, seed: 1, id: "HYP-2026-001", data: "2026-11-12", intensidades: { berberina: p } });
+  const a = mk(100), b = mk(50);
+  assert.equal(a.intensidades.berberina, 100); assert.equal(b.intensidades.berberina, 50);
+  assert.notEqual(a.hash_conteudo, b.hash_conteudo); assert.ok(b.simulacao.deltas.gj > a.simulacao.deltas.gj);
+  assert.deepEqual(validarHipotese(b), []);
+});

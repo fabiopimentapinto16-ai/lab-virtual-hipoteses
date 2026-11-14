@@ -15,6 +15,8 @@ const DISC = "Validação somente experimental em laboratório.";
   await p.click("[data-aba=doencas]"); await p.fill("#grau", "0"); const sau = await p.textContent("#tab-ind"); await p.fill("#grau", "100"); const doe = await p.textContent("#tab-ind");
   ok(sau !== doe, "indicadores mudam ao aplicar o estado de doença");
   await p.click("[data-aba=lab]"); await p.check("[data-sel=berberina]"); ok((await p.textContent("#conteudo")).includes("Médio"), "match com confiança exibida");
+  ok((await p.textContent("#prev")).includes("Curva de resposta"), "prévia com curva de resposta");
+  const antesPrev = await p.textContent("#prev"); await p.fill('[data-int="berberina"]', "50"); ok((await p.textContent("#prev")) !== antesPrev, "prévia muda ao mover a intensidade");
   await p.click("#sim"); await p.waitForSelector("#res table"); ok((await p.textContent("#res")).includes("HYP-"), "hipótese criada com ID público");
   await p.screenshot({ path: "e2e/saida/lab.png" });
   await p.click('[data-aba="3d"]'); await p.waitForSelector(".cena canvas");

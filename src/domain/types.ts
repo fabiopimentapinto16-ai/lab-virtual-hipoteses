@@ -174,6 +174,8 @@ export interface Hipotese {
   doenca: { id: string; nome: string; versao_modelo: string; perfil: string };
   itens: { ficha_id: string; nome: string; nome_cientifico: string; compostos: { nome: string; id_publico: IdPublico | null }[] }[];
   matches: Match[];
+  /** % do efeito de referência de cada item no modelo (100 = referência). Parâmetro do modelo, não é dose. */
+  intensidades: Record<string, number>;
   variaveis: { id: string; nome: string; tipo: "no" | "derivado" }[];
   simulacao: ResultadoSimulacao;
   pergunta_para_lab: string;

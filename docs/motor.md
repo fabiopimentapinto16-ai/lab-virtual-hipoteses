@@ -23,3 +23,6 @@ Cada match grava os `motivos` com as contas.
 `estado_antes → modulação → estado_depois`. Cada match contribui `delta_do_eixo × fator_confiança` (forte 1,0; médio 0,6; fraco 0,3). Mesmo eixo vindo de vários itens: maior efeito + 25 % da soma dos demais. Variação por variável limitada a ±25. Eixos de mecanismo mudam nós; eixos de desfecho mudam só os índices derivados.
 Incerteza: 500 amostras com PRNG `mulberry32` (seed fixa) multiplicando cada efeito por uma faixa que depende da confiança; reporta p10/p50/p90. O resultado nominal não depende da seed.
 `hash_conteudo` = SHA-256 do JSON canônico (chaves ordenadas), sem `linha_do_tempo` e sem o próprio hash.
+
+## Intensidade relativa (parâmetro do modelo)
+Cada item pode ser simulado de 0 a 200 % do efeito de referência da ficha. Até 100 % o efeito é proporcional; acima, cada ponto extra vale 25 % (saturação). Não há unidade de massa nem de concentração: o número **não é dose** e não se traduz para pessoas. A curva de resposta mostra como o índice muda quando todos os itens escalam juntos.

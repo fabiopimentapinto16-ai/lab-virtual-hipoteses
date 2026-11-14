@@ -13,6 +13,7 @@ Organizar uma doença **já conhecida** (MVP: diabetes mellitus tipo 2) em um mo
 - 8 abas: Início, Doenças, Natureza, Lab, 3D, Hipóteses, Exportar, Fontes (pt-BR).
 - 2 doenças (diabetes tipo 2 e hipertensão essencial), cada uma um arquivo JSON em `data/doencas/` com nós de via, índices derivados, órgãos 3D low-poly procedurais com hotspots, célula 2D e lacunas. Doença nova = arquivo novo, sem mexer no código.
 - 7 fichas (berberina, cúrcuma, canela, melão-de-são-caetano, feno-grego, galega, alho), cada uma com fontes. A evidência é declarada por doença (`eixos[].doenca`): o que vale para uma doença não é transferido para outra.
+- Intensidade relativa por item (0–200% do efeito de referência da ficha, **parâmetro do modelo, não dose**), prévia ao vivo, curva de resposta e tabela item × célula da doença.
 - Match auditável por eixo com confiança forte/médio/fraco e explicação; simulação determinística com seed; faixa de incerteza (p10/p50/p90).
 - Camadas (órgão → tecido → célula → via), antes/depois, comparar 2 hipóteses, linha do tempo, ficha do composto em 1 toque, modo "só conhecido" × "mostrar lacunas".
 - Exportar PDF, JSON, vídeo (gravado no navegador) e pack ZIP; TTS pt-BR opcional (ver limites).

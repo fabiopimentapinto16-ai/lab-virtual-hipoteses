@@ -10,6 +10,7 @@
     "doenca",
     "itens",
     "matches",
+    "intensidades",
     "variaveis",
     "simulacao",
     "pergunta_para_lab",
@@ -175,6 +176,14 @@
             ]
           }
         }
+      }
+    },
+    "intensidades": {
+      "type": "object",
+      "additionalProperties": {
+        "type": "number",
+        "minimum": 0,
+        "maximum": 200
       }
     }
   }

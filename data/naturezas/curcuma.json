@@ -49,17 +49,44 @@
         "f_marton2021"
       ],
       "nota": "Um ensaio com curcuminoides: maior TAC e SOD, menor MDA."
+    },
+    {
+      "doenca": "cancer-hallmarks",
+      "eixo": "sinalizacao_proliferativa",
+      "direcao": "melhora",
+      "evidencia": "in_vitro",
+      "qualidade": "nao_declarada",
+      "fontes": [
+        "f_boroughani2024"
+      ],
+      "nota": "Efeito antiproliferativo em linhagens celulares (47 estudos in vitro) e inibição do crescimento tumoral em animais (12 estudos), com curcumina em nanoformulação; qualidade individual dos estudos não lida."
+    },
+    {
+      "doenca": "cancer-hallmarks",
+      "eixo": "resistencia_morte",
+      "direcao": "melhora",
+      "evidencia": "in_vitro",
+      "qualidade": "nao_declarada",
+      "fontes": [
+        "f_boroughani2024"
+      ],
+      "nota": "Indução de apoptose em linhagens celulares, com curcumina em nanoformulação; qualidade individual dos estudos não lida."
     }
   ],
   "alertas_status": "avaliado",
   "alertas": [
     "Eventos leves relatados: dor de estômago/epigástrica, aumento da frequência intestinal; dispepsia, náusea, flatulência e diarreia listadas.",
-    "Curcuminoides podem alterar a farmacocinética de alguns fármacos, inclusive antidiabéticos (f_marton2021)."
+    "Curcuminoides podem alterar a farmacocinética de alguns fármacos, inclusive antidiabéticos (f_marton2021).",
+    "Em câncer, os ensaios clínicos com curcumina são poucos, pequenos e curtos; a segurança em geral não está estabelecida (f_boroughani2024, f_waure2023)."
   ],
   "ressalvas": [
-    "Dose eficaz desconhecida segundo os autores; mais ensaios rigorosos necessários."
+    "Dose eficaz desconhecida segundo os autores; mais ensaios rigorosos necessários.",
+    "Câncer: a evidência clínica disponível não é forte o bastante para apoiar o uso terapêutico da curcumina (f_waure2023). Sobrevida não melhorou na maioria dos ensaios.",
+    "Câncer: os efeitos usados no modelo são de células e animais, com curcumina em nanoformulação (f_boroughani2024); não indicam efeito em pessoas."
   ],
   "fontes": [
-    "f_marton2021"
+    "f_marton2021",
+    "f_boroughani2024",
+    "f_waure2023"
   ]
 }

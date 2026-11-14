@@ -30,7 +30,8 @@ test("confiança esperada", () => {
   assert.equal(nivel("berberina", "inflamacao"), "fraco");
   assert.equal(nivel("curcuma", "glicemia_jejum"), "medio");
   assert.equal(nivel("curcuma", "estresse_oxidativo"), "fraco");
-  assert.equal(nivel("canela", "glicemia_jejum"), "fraco");
+  // canela passou de "fraco" para "medio" quando a ficha ganhou avaliação parcial de segurança (cumarina, f_jafari2025): o teto de "sem avaliação" deixou de valer.
+  assert.equal(nivel("canela", "glicemia_jejum"), "medio");
   assert.equal(nivel("feno_grego", "glicemia_jejum"), "medio");
   for (const x of FICHAS) for (const m of fazerMatches(d, [x])) assert.notEqual(m.nivel, "forte");
 });
@@ -85,4 +86,16 @@ test("toda doença tem modelo coerente e estados saudável/doença distintos", (
     const s = derivar(x, estadoNos(x, "saudavel")), z = derivar(x, estadoNos(x, "doenca"));
     for (const dv of x.derivados.filter((v) => v.exibir && !v.razao)) assert.ok(z[dv.id] > s[dv.id], `${x.id}/${dv.id}`);
   }
+});
+
+test("hipertensão: níveis esperados e evidência por doença", () => {
+  const nh = (id: string, eixo: string) => fazerMatches(DOENCAS[1], [f(id)]).find((m) => m.eixo === eixo)?.nivel;
+  assert.equal(nh("canela", "pressao_arterial"), "fraco"); // qualidade muito baixa limita a fraco
+  assert.equal(nh("alho", "pressao_arterial"), "fraco"); // segurança não avaliada limita a fraco
+  assert.equal(nh("hibisco", "pressao_arterial"), "medio");
+  assert.equal(nh("hibisco", "ativacao_raas"), "fraco");
+  assert.equal(fazerMatches(DOENCAS[1], [f("berberina")]).length, 0); // evidência de diabetes não transfere
+  const mc = fazerMatches(DOENCAS[2], FICHAS); // câncer: só curcumina, só pré-clínico
+  assert.deepEqual([...new Set(mc.map((m) => m.ficha_id))], ["curcuma"]);
+  assert.ok(mc.every((m) => m.nivel === "fraco"));
 });

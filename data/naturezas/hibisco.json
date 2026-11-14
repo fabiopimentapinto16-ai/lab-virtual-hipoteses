@@ -1,0 +1,78 @@
+{
+  "id": "hibisco",
+  "nome_popular": "Hibisco (vinagreira)",
+  "nome_cientifico": "Hibiscus sabdariffa L.",
+  "parte_usada": null,
+  "preparacao_estudada": "Preparações de hibisco (chás e extratos) em ensaios randomizados, resumidas em meta-análise.",
+  "compostos": [
+    {
+      "id": "delfinidina_sambubiosideo",
+      "nome": "Delfinidina 3-sambubiosídeo",
+      "id_publico": null
+    },
+    {
+      "id": "cianidina_sambubiosideo",
+      "nome": "Cianidina 3-sambubiosídeo",
+      "id_publico": null
+    }
+  ],
+  "eixos": [
+    {
+      "doenca": "hipertensao",
+      "eixo": "pressao_arterial",
+      "direcao": "melhora",
+      "evidencia": "humano_meta_analise",
+      "qualidade": "nao_declarada",
+      "fontes": [
+        "f_ellis2021"
+      ],
+      "nota": "12 ensaios (819 participantes): sistólica cerca de -7,1 mmHg (IC95% -13,0 a -1,2), diastólica não significativa; heterogeneidade muito alta; risco de viés moderado; sem GRADE. Os sinais no PDF são ilegíveis e o texto tem inconsistências internas."
+    },
+    {
+      "doenca": "hipertensao",
+      "eixo": "ativacao_raas",
+      "direcao": "melhora",
+      "evidencia": "mecanismo_em_revisao",
+      "qualidade": "nao_declarada",
+      "fontes": [
+        "f_ellis2021"
+      ],
+      "nota": "Inibição competitiva da ECA e bloqueio do sistema renina-angiotensina propostos na revisão, a partir de estudos em animais ou in vitro."
+    },
+    {
+      "doenca": "hipertensao",
+      "eixo": "funcao_endotelial",
+      "direcao": "melhora",
+      "evidencia": "mecanismo_em_revisao",
+      "qualidade": "nao_declarada",
+      "fontes": [
+        "f_ellis2021"
+      ],
+      "nota": "Aumento de eNOS proposto na revisão, a partir de estudos em animais ou in vitro."
+    },
+    {
+      "doenca": "hipertensao",
+      "eixo": "inflamacao",
+      "direcao": "melhora",
+      "evidencia": "mecanismo_em_revisao",
+      "qualidade": "nao_declarada",
+      "fontes": [
+        "f_ellis2021"
+      ],
+      "nota": "Efeito anti-inflamatório proposto na revisão, a partir de estudos em animais ou in vitro."
+    }
+  ],
+  "alertas_status": "parcial",
+  "alertas": [
+    "Interação com inibidores da ECA precisa ser estabelecida; a revisão cita hibisco como inibidor da ECA (f_ellis2021).",
+    "Sintomas gastrointestinais leves relatados em um ensaio na primeira semana (f_ellis2021)."
+  ],
+  "ressalvas": [
+    "Efeito relatado em estudos; não indica que o hibisco reduza a pressão de pessoas.",
+    "Mecanismos vêm de estudos em animais ou in vitro e entram no modelo como evidência de mecanismo em revisão.",
+    "Produtos de hibisco foram caracterizados de forma inconsistente nos estudos."
+  ],
+  "fontes": [
+    "f_ellis2021"
+  ]
+}

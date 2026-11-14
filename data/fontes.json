@@ -101,5 +101,42 @@
     "tipo": "revisao",
     "lido_em": "2026-11-14",
     "o_que_a_fonte_diz": "Seis características centrais adquiridas pelos tumores humanos: sinalização proliferativa sustentada, evasão de supressores de crescimento, resistência à morte celular, imortalidade replicativa, indução de angiogênese e ativação de invasão e metástase. Duas emergentes: reprogramação do metabolismo energético e evasão da destruição imune. Instabilidade do genoma e inflamação aparecem como processos de base que favorecem as demais; o tumor também recruta células normais que formam o microambiente tumoral. Lido apenas o resumo via Europe PMC."
+  },
+  {
+    "id": "f_jafari2025",
+    "citacao": "Jafari A, Mardani H, Faghfouri AH, AhmadianMoghaddam M, Musazadeh V, Alaghi A, et al. The effect of cinnamon supplementation on cardiovascular risk factors in adults: a GRADE assessed systematic review, dose-response and meta-analysis of randomized controlled trials. J Health Popul Nutr. 2025;44:233.",
+    "doi": "10.1186/s41043-025-00967-3",
+    "pmid": "40611215",
+    "url": "https://link.springer.com/article/10.1186/s41043-025-00967-3",
+    "tipo": "meta_analise",
+    "lido_em": "2026-11-14",
+    "o_que_a_fonte_diz": "49 ensaios randomizados, 3.038 participantes. Pressão diastólica: SMD -1,04 (IC95% -1,54 a -0,55; I2 = 88,6%). Pressão sistólica: SMD -0,85 (IC95% -1,54 a -0,16; I2 = 94,3%); excluir um estudo tornou a sistólica não significativa (SMD -0,61; IC95% -1,27 a 0,04). Qualidade da evidência classificada como 'muito baixa' em todos os desfechos (GRADE); risco de viés alto em 43 estudos, moderado em 5 e baixo em 1. Os autores pedem cautela por causa da alta heterogeneidade. Canela cassia tem cumarina alta (1 mg/g), com potencial toxicidade; canela do Ceilão tem bem menos (menos de 0,01 mg/g). Compostos citados: cinamaldeído, ácido cinâmico, cinamato e polifenóis. Lido o texto da página da revista (primeiros 100 mil caracteres)."
+  },
+  {
+    "id": "f_ellis2021",
+    "citacao": "Ellis LR, Zulfiqar S, Holmes M, Marshall L, Dye L, Boesch C. A systematic review and meta-analysis of the effects of Hibiscus sabdariffa on blood pressure and cardiometabolic markers. Nutr Rev. 2021 (nuab104).",
+    "doi": "10.1093/nutrit/nuab104",
+    "url": "https://eprints.whiterose.ac.uk/181700/7/nuab104.pdf",
+    "tipo": "meta_analise",
+    "lido_em": "2026-11-14",
+    "o_que_a_fonte_diz": "17 ensaios randomizados; 12 com dados de pressão (819 participantes). Pressão sistólica: cerca de -7,10 mmHg (IC95% -13,00 a -1,20; I2 = 95%; P = 0,02). Diastólica: cerca de -3,26 mmHg (IC95% -7,05 a 0,52; I2 = 94%; P = 0,09, não significativa). Os sinais menos estão ilegíveis no PDF e foram inferidos do contexto; o texto tem inconsistências internas apontadas na leitura (resumo x resultados x discussão). Heterogeneidade muito alta; risco de viés geral moderado (ocultação de alocação em 6 de 17 estudos, cegamento em 9 de 17); sem classificação GRADE. Reduções maiores em quem tinha pressão basal mais alta. Compostos: antocianinas (delfinidina 3-sambubiosídeo, cianidina 3-sambubiosídeo), polifenóis, carotenoides, ácido ascórbico, taninos. Mecanismos propostos, em sua maioria de estudos em animais ou in vitro: vasodilatação por menor entrada de cálcio, efeito diurético, inibição competitiva da ECA, bloqueio do sistema renina-angiotensina, aumento de eNOS, efeito anti-inflamatório. Segurança: sintomas gastrointestinais leves em um ensaio; interação com inibidores da ECA precisa ser estabelecida; sem outros eventos adversos relatados até 10 g/dia nos estudos incluídos. Autores pedem mais estudos de dose-resposta e duração."
+  },
+  {
+    "id": "f_boroughani2024",
+    "citacao": "Boroughani M, Moaveni AK, Hatami P, et al. Nanocurcumin in cancer treatment: a comprehensive systematic review. Discov Oncol. 2024;15:515.",
+    "doi": "10.1007/s12672-024-01272-x",
+    "url": "https://link.springer.com/article/10.1007/s12672-024-01272-x",
+    "tipo": "revisao_sistematica",
+    "lido_em": "2026-11-14",
+    "o_que_a_fonte_diz": "61 estudos sobre curcumina em nanoformulação no câncer: 47 in vitro (linhagens de mama, cólon, pulmão, próstata, fígado, colo do útero), 12 em animais e 2 ensaios clínicos de fase II pequenos e curtos (próstata com radioterapia; bexiga com quimioterapia). In vitro: captação celular, efeito antiproliferativo e apoptose. Em animais: inibição do crescimento e do volume do tumor. Os autores afirmam que a maioria dos estudos é pré-clínica, que formulações, tipos de câncer e doses variam muito e que são necessários ensaios randomizados maiores para estabelecer eficácia clínica. Pontos de atenção na própria revisão: a conclusão cita perfil de segurança favorável, mais forte do que o corpo do texto sustenta; resultados e discussão divergem sobre o ensaio de próstata; algumas citações apontam referências sem relação. Lidos os primeiros 100 mil de 138 mil caracteres da página."
+  },
+  {
+    "id": "f_waure2023",
+    "citacao": "de Waure C, Bertola C, Baccarini G, Chiavarini M, Mancuso C. Exploring the Contribution of Curcumin to Cancer Therapy: A Systematic Review of Randomized Controlled Trials. Pharmaceutics. 2023;15(4):1275.",
+    "doi": "10.3390/pharmaceutics15041275",
+    "url": "https://www.mdpi.com/1999-4923/15/4/1275",
+    "tipo": "revisao_sistematica",
+    "lido_em": "2026-11-14",
+    "o_que_a_fonte_diz": "7 ensaios randomizados (2016 a 2022), cerca de 600 participantes no total (soma feita na leitura), em próstata, colorretal, mama, mieloma múltiplo e leucoplasia oral. Resposta tumoral mista; sobrevida global e livre de progressão não melhoraram na maioria dos estudos (exceção: um ensaio pequeno com risco de viés alto, com razão de risco de sobrevida global de 0,339 como desfecho secundário). Risco de viés baixo em 4 estudos, alto em 1 e com ressalvas em 2. Doses de 1,44 g/dia por 6 meses a 8 g/dia por 6 semanas, com várias formulações. Conclusão dos autores: a evidência clínica disponível não é forte o bastante para apoiar o uso terapêutico da curcumina no câncer. Limitações: amostras pequenas, abandonos, ensaios interrompidos, formulações e doses heterogêneas, 11 textos completos não obtidos. Lidos os primeiros 100 mil de 122 mil caracteres."
   }
 ]

@@ -30,7 +30,8 @@ const icone = (k: string) => `<svg viewBox="0 0 24 24" width="20" height="20" fi
 
 let d: Doenca = DOENCAS[0];
 const S = { aba: "inicio", sel: new Set<string>(), seed: 42, hips: carregar(), selA: "", selB: "", orgao: d.orgaos[0].id, orgaoCel: d.orgaos[0].id, camada: 0 as Camada3D, lacunas: true, t: 1, grau: 100, mensagem: "", intens: {} as Record<string, number>, atlas: "pancreas", atlasGrau: 100, atlasOp: 100 };
-let viewers: { dispose(): void }[] = [];
+let viewers: Organ3D[] = [];
+let extras: { dispose(): void }[] = [];
 const $ = <T extends HTMLElement = HTMLElement>(s: string) => document.querySelector(s) as T;
 const esc = (s: unknown) => String(s).replace(/[&<>"']/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]!));
 const hoje = () => new Date().toISOString().slice(0, 10);
@@ -75,7 +76,7 @@ function cabecalho() {
 }
 
 function render() {
-  viewers.forEach((v) => v.dispose()); viewers = [];
+  viewers.forEach((v) => v.dispose()); viewers = []; extras.forEach((v) => v.dispose()); extras = [];
   cabecalho();
   ({ inicio, doencas, natureza, lab, "3d": tres, atlas: atlasAba, hipoteses, exportar, fontes } as Record<string, () => void>)[S.aba]();
 }
@@ -229,7 +230,7 @@ function atlasAba() {
     $<HTMLInputElement>("#atl-g").oninput = (e) => { S.atlasGrau = Number((e.target as HTMLInputElement).value); $("#atl-gv").textContent = String(S.atlasGrau); aplicar(); };
     if (org.modelo_real?.nota) nota(`<span class="muted">${esc(org.modelo_real.nota)}</span>`);
   } else {
-    const v = new AtlasViewer(host); viewers.push(v);
+    const v = new AtlasViewer(host); extras.push(v);
     v.onEstado = (e, m) => { $("#atl-est").textContent = e === "carregando" ? "Carregando modelo…" : e === "erro" ? `Não foi possível carregar o modelo (${m}).` : m ?? ""; };
     v.onEstrutura = (n) => nota(n ? `<b>${esc(n)}</b>` : `<b>Clique em uma estrutura.</b> <span class="muted" id="atl-est"></span>`);
     void v.mostrar(o);

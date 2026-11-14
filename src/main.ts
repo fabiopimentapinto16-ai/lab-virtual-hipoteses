@@ -47,6 +47,7 @@ function melhora(dd: Doenca, id: string, delta: number): boolean {
   return n ? (n.direcao_ruim === "alto" ? delta < 0 : delta > 0) : delta < 0;
 }
 const DISC = DISCLAIMER_COMPLETO;
+$("#aviso-global").textContent = DISC;
 
 function baixar(dados: BlobPart | Uint8Array, nome: string, tipo: string) {
   const blob = new Blob([dados as BlobPart], { type: tipo });

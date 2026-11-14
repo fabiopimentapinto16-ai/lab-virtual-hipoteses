@@ -35,6 +35,7 @@ export async function gravarVideo(h: Hipotese, d: Doenca, opts: { narrar: boolea
   const mime = tipoMime();
   if (!mime) throw new Error("Este navegador não grava vídeo (MediaRecorder indisponível).");
   const W = 1280, H = 720;
+  await Organ3D.preparar(d);
   const host = document.createElement("div"); host.style.cssText = `position:fixed;left:-99999px;top:0;width:${W}px;height:${H}px`; document.body.appendChild(host);
   const org = new Organ3D(host, d, W, H, true);
   const out = document.createElement("canvas"); out.width = W; out.height = H; const g = out.getContext("2d")!;

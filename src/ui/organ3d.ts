@@ -1,5 +1,6 @@
 import * as THREE from "three";
 import { OrbitControls } from "three/examples/jsm/controls/OrbitControls.js";
+import { GLTFLoader, type GLTF } from "three/examples/jsm/loaders/GLTFLoader.js";
 import type { Doenca, OrgaoModelo, Valores } from "../domain/types.ts";
 
 export type Camada3D = 0 | 1 | 2 | 3; // órgão, tecido, célula, via molecular
@@ -20,7 +21,14 @@ function rotulo(texto: string): THREE.Sprite {
 
 export interface InfoHotspot { id: string; nome: string; nos: string[] }
 
-/** Cena 3D procedural low-poly (sem arquivos de modelo externos): pâncreas e fígado. */
+const CACHE_GLB = new Map<string, Promise<GLTF>>();
+export function carregarGLB(arquivo: string): Promise<GLTF> {
+  let p = CACHE_GLB.get(arquivo);
+  if (!p) { p = new GLTFLoader().loadAsync(new URL(`modelos/${arquivo}.glb`, document.baseURI).href); p.catch(() => CACHE_GLB.delete(arquivo)); CACHE_GLB.set(arquivo, p); }
+  return p;
+}
+
+/** Cena 3D: órgãos reais (GLB do HuBMAP CCF, CC BY 4.0) quando o órgão tem `modelo_real`; formas procedurais como plano B. */
 export class Organ3D {
   readonly canvas: HTMLCanvasElement;
   private renderer: THREE.WebGLRenderer;
@@ -32,7 +40,10 @@ export class Organ3D {
   private extraGroup = new THREE.Group();
   private ghostGroup = new THREE.Group();
   private fluxo = new THREE.Group();
-  private hot = new Map<string, THREE.Mesh>();
+  private hot = new Map<string, THREE.Object3D>();
+  private centros = new Map<string, THREE.Vector3>();
+  private carga = 0;
+  realCarregado = false;
   private orgaoId: string;
   private camada: Camada3D = 0;
   private lacunas = true;
@@ -103,13 +114,15 @@ export class Organ3D {
   private limpar(g: THREE.Group) {
     for (const c of [...g.children]) { g.remove(c); c.traverse((o) => { const m = o as THREE.Mesh; m.geometry?.dispose?.(); const mt = m.material as THREE.Material | THREE.Material[] | undefined; if (Array.isArray(mt)) mt.forEach((x) => x.dispose()); else mt?.dispose?.(); }); }
   }
+  /** Pré-carrega os modelos reais da doença (usado antes de gravar vídeo). Falhas são ignoradas. */
+  static async preparar(d: Doenca) { await Promise.all(d.orgaos.filter((o) => o.modelo_real).map((o) => carregarGLB(o.modelo_real!.arquivo).catch(() => null))); }
   private hotMesh(id: string, geo: THREE.BufferGeometry, pos: [number, number, number], esc: [number, number, number] = [1, 1, 1]): THREE.Mesh {
     const m = new THREE.Mesh(geo, new THREE.MeshStandardMaterial({ color: BOM, roughness: 0.55, flatShading: true }));
     m.position.set(...pos); m.scale.set(...esc); m.userData.hot = id; this.hot.set(id, m); return m;
   }
 
   private construir() {
-    this.limpar(this.organGroup); this.limpar(this.extraGroup); this.limpar(this.ghostGroup); this.hot.clear();
+    this.carga++; this.realCarregado = false; this.limpar(this.organGroup); this.limpar(this.extraGroup); this.limpar(this.ghostGroup); this.hot.clear(); this.centros.clear();
     const o = this.doenca.orgaos.find((x) => x.id === this.orgaoId) ?? this.doenca.orgaos[0];
     const cam = this.camada;
     if (cam === 0 || cam === 1) {
@@ -134,6 +147,53 @@ export class Organ3D {
 
   /** Monta o órgão a partir de `orgao.modelo3d` (formas primitivas; nenhum arquivo de modelo externo). */
   private partes(o: OrgaoModelo) {
+    this.procedural(o);
+    if (o.modelo_real) void this.real(o);
+  }
+  private async real(o: OrgaoModelo) {
+    const t = this.carga, mr = o.modelo_real!;
+    let gltf: GLTF;
+    try { gltf = await carregarGLB(mr.arquivo); } catch { return; } // plano B: órgão procedural continua na cena
+    if (t !== this.carga) return;
+    const raiz = gltf.scene.clone(true);
+    const grupos = new Map<string, THREE.Group>();
+    const verts: Record<string, THREE.Vector3[]> = {};
+    const base = new THREE.Group();
+    raiz.updateMatrixWorld(true);
+    raiz.traverse((c) => {
+      const m = c as THREE.Mesh; if (!m.isMesh) return;
+      const nome = m.name.toLowerCase();
+      const hs = Object.keys(mr.mapa).find((h) => mr.mapa[h].some((x) => nome.includes(x.toLowerCase())));
+      if (!hs) return;
+      const novo = new THREE.Mesh(m.geometry, new THREE.MeshStandardMaterial({ color: BOM, roughness: 0.6, metalness: 0.05, side: THREE.DoubleSide }));
+      novo.applyMatrix4(m.matrixWorld); novo.name = m.name; novo.userData.hot = hs;
+      if (mr.translucidas?.some((x) => nome.includes(x.toLowerCase()))) { const mt = novo.material as THREE.MeshStandardMaterial; mt.transparent = true; mt.opacity = 0.5; mt.depthWrite = false; }
+      let g = grupos.get(hs); if (!g) { g = new THREE.Group(); g.userData.hot = hs; grupos.set(hs, g); base.add(g); }
+      g.add(novo);
+      if (mr.nuvem && mr.nuvem.de.some((x) => nome.includes(x.toLowerCase()))) {
+        const pos = m.geometry.getAttribute("position"); const lista = (verts[mr.nuvem.hotspot] ??= []);
+        const passo = Math.max(1, Math.floor(pos.count / 400));
+        for (let i = 0; i < pos.count; i += passo) lista.push(new THREE.Vector3().fromBufferAttribute(pos, i).applyMatrix4(m.matrixWorld));
+      }
+    });
+    if (!grupos.size) return;
+    const caixa = new THREE.Box3().setFromObject(base); const c = caixa.getCenter(new THREE.Vector3()); const tam = caixa.getSize(new THREE.Vector3());
+    const esc = 4.4 / Math.max(tam.x, tam.y, tam.z, 1e-6);
+    base.position.set(-c.x * esc, -c.y * esc, -c.z * esc); base.scale.setScalar(esc);
+    if (mr.nuvem && verts[mr.nuvem.hotspot]?.length) {
+      const pts = verts[mr.nuvem.hotspot]; const g = new THREE.Group(); g.userData.hot = mr.nuvem.hotspot;
+      let s = 11; const rnd = () => { s = (s * 16807) % 2147483647; return s / 2147483647; };
+      for (let i = 0; i < mr.nuvem.n; i++) { const q = pts[Math.floor(rnd() * pts.length)]; const m = new THREE.Mesh(new THREE.IcosahedronGeometry(Math.max(tam.x, tam.y, tam.z) * 0.01, 0), new THREE.MeshStandardMaterial({ color: BOM, flatShading: true })); m.position.copy(q); m.userData.hot = mr.nuvem.hotspot; g.add(m); }
+      base.add(g); grupos.set(mr.nuvem.hotspot, g);
+    }
+    this.limpar(this.organGroup); this.hot.clear(); this.centros.clear();
+    this.organGroup.add(base); base.updateMatrixWorld(true);
+    for (const [id, g] of grupos) { this.hot.set(id, g); const b = new THREE.Box3().setFromObject(g); this.centros.set(id, b.getCenter(new THREE.Vector3())); }
+    this.realCarregado = true;
+    if (this.camada === 1) this.organGroup.traverse((x) => { const m = x as THREE.Mesh; if (m.isMesh) { const mt = m.material as THREE.MeshStandardMaterial; mt.transparent = true; mt.opacity = 0.28; } });
+    this.colorir();
+  }
+  private procedural(o: OrgaoModelo) {
     const curvas = new Map<string, THREE.CatmullRomCurve3>();
     for (const p of o.modelo3d) {
       if (p.forma === "esfera") {
@@ -203,22 +263,21 @@ export class Organ3D {
       const cor = BOM.clone().lerp(RUIM, r);
       const interv = nosIds.some((n) => this.mudou(n));
       const aplicar = (mt: THREE.MeshStandardMaterial) => { mt.color.copy(cor); mt.emissive.copy(interv ? INTERV : new THREE.Color(id === this.selecionado ? 0x444444 : 0x000000)); mt.emissiveIntensity = interv ? 0.35 : 1; };
-      aplicar(m.material as THREE.MeshStandardMaterial);
-      if (m.type === "Group") m.children.forEach((c) => aplicar((c as THREE.Mesh).material as THREE.MeshStandardMaterial));
+      m.traverse((c) => { const x = c as THREE.Mesh; if (x.isMesh) aplicar(x.material as THREE.MeshStandardMaterial); });
     }
-    this.organGroup.children.forEach((g) => { if (g.type === "Group") g.children.forEach((c) => { const m = c as THREE.Mesh; if (m.userData.hot) { const mt = m.material as THREE.MeshStandardMaterial; const o = this.doenca.orgaos.find((x) => x.id === this.orgaoId)!; const nos = o.hotspots.find((h) => h.id === m.userData.hot)?.nos ?? []; const r = nos.reduce((s, n) => s + this.ruim(n), 0) / Math.max(1, nos.length); mt.color.copy(BOM.clone().lerp(RUIM, r)); if (nos.some((n) => this.mudou(n))) { mt.emissive.copy(INTERV); mt.emissiveIntensity = 0.35; } else mt.emissive.set(0x000000); } }); });
+    this.organGroup.children.forEach((g) => { if (g.type === "Group" && !this.realCarregado) g.children.forEach((c) => { const m = c as THREE.Mesh; if (m.isMesh && m.userData.hot) { const mt = m.material as THREE.MeshStandardMaterial; const o = this.doenca.orgaos.find((x) => x.id === this.orgaoId)!; const nos = o.hotspots.find((h) => h.id === m.userData.hot)?.nos ?? []; const r = nos.reduce((s, n) => s + this.ruim(n), 0) / Math.max(1, nos.length); mt.color.copy(BOM.clone().lerp(RUIM, r)); if (nos.some((n) => this.mudou(n))) { mt.emissive.copy(INTERV); mt.emissiveIntensity = 0.35; } else mt.emissive.set(0x000000); } }); });
   }
 
   private animar(t: number) {
     this.organGroup.rotation.y = this.camada >= 2 ? Math.sin(t * 0.3) * 0.15 : 0;
     // pulso proporcional ao desequilíbrio
-    for (const [id, m] of this.hot) { const o = this.doenca.orgaos.find((x) => x.id === this.orgaoId)!; const nos = this.camada >= 2 ? [id] : (o.hotspots.find((h) => h.id === id)?.nos ?? []); const r = nos.length ? nos.reduce((s, n) => s + this.ruim(n), 0) / nos.length : 0; if (m.type === "Mesh") m.scale.setScalar(1 + Math.sin(t * 3 + m.position.x) * 0.025 * r); }
+    for (const [id, m] of this.hot) { const o = this.doenca.orgaos.find((x) => x.id === this.orgaoId)!; const nos = this.camada >= 2 ? [id] : (o.hotspots.find((h) => h.id === id)?.nos ?? []); const r = nos.length ? nos.reduce((s, n) => s + this.ruim(n), 0) / nos.length : 0; if ((m as THREE.Mesh).isMesh) m.scale.setScalar(1 + Math.sin(t * 3 + m.position.x) * 0.025 * r); }
     // fluxo composto -> alvo
     if (this.fluxoT >= 0) {
       this.fluxoT += 0.012; this.limpar(this.fluxo);
       const alvos = [...this.hot.entries()].filter(([id]) => { const o = this.doenca.orgaos.find((x) => x.id === this.orgaoId)!; const nos = this.camada >= 2 ? [id] : (o.hotspots.find((h) => h.id === id)?.nos ?? []); return nos.some((n) => this.mudou(n)); });
-      for (const [, m] of alvos) for (let k = 0; k < 5; k++) {
-        const u = (this.fluxoT * 1.2 + k / 5) % 1; const ini = new THREE.Vector3(-4, 2.6, 1); const fim = m.position.clone();
+      for (const [id, m] of alvos) for (let k = 0; k < 5; k++) {
+        const u = (this.fluxoT * 1.2 + k / 5) % 1; const ini = new THREE.Vector3(-4, 2.6, 1); const fim = (this.centros.get(id) ?? m.position).clone();
         const p = ini.lerp(fim, u); const s = new THREE.Mesh(new THREE.SphereGeometry(0.09, 6, 5), new THREE.MeshBasicMaterial({ color: INTERV })); s.position.copy(p); this.fluxo.add(s);
       }
       if (this.fluxoT > 3) { this.fluxoT = -1; this.limpar(this.fluxo); }

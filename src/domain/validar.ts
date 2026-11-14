@@ -64,6 +64,13 @@ export function validarDoenca(d: Doenca, fontes: Fonte[]): string[] {
   }
   for (const o of d.orgaos) {
     const hs = new Set(o.hotspots.map((h) => h.id));
+    if (o.modelo_real) {
+      const mr = o.modelo_real;
+      if (!/^[A-Za-z0-9_]+$/.test(mr.arquivo)) e.push(`órgão ${o.id}: nome de arquivo 3D inválido`);
+      for (const h of Object.keys(mr.mapa)) { if (!hs.has(h)) e.push(`órgão ${o.id}: modelo_real mapeia hotspot desconhecido ${h}`); if (!mr.mapa[h].length) e.push(`órgão ${o.id}: mapa vazio para ${h}`); }
+      if (mr.nuvem && !hs.has(mr.nuvem.hotspot)) e.push(`órgão ${o.id}: nuvem com hotspot desconhecido`);
+      for (const h of o.hotspots) if (!(h.id in mr.mapa) && mr.nuvem?.hotspot !== h.id) e.push(`órgão ${o.id}: hotspot ${h.id} sem região no modelo real`);
+    }
     for (const p of o.modelo3d) if (!hs.has(p.hotspot)) e.push(`órgão ${o.id}: parte 3D com hotspot desconhecido ${p.hotspot}`);
     for (const h of o.hotspots) if (!o.modelo3d.some((p) => p.hotspot === h.id)) e.push(`órgão ${o.id}: hotspot ${h.id} sem parte 3D`);
     for (const h of o.hotspots) for (const n of h.nos) if (!d.nos.some((x) => x.id === n)) e.push(`órgão ${o.id}: hotspot ${h.id} com nó desconhecido ${n}`);

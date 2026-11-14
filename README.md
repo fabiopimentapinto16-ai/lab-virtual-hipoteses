@@ -72,3 +72,7 @@ Esquema em [`schemas/hipotese.schema.json`](schemas/hipotese.schema.json); exemp
 ## Licença
 
 MIT — veja [LICENSE](LICENSE).
+
+## Atlas de órgãos reais
+
+Aba **Atlas**: 31 modelos 3D de anatomia real (HuBMAP CCF 3D Reference Object Library v1.2, CC BY 4.0). Pâncreas, fígado e rim esquerdo têm o grau de comprometimento da doença do modelo colorindo as regiões reais. Créditos e mapeamento em `docs/assets-3d.md`.

@@ -7,6 +7,8 @@ import { DISCLAIMER_COMPLETO, AVISO_MODELO, O_QUE_E, O_QUE_NAO_E } from "./domai
 import { carregar, salvar } from "./store.ts";
 import { celulaSVG } from "./ui/celula.ts";
 import { Organ3D, NOMES_CAMADA, type Camada3D } from "./ui/organ3d.ts";
+import { AtlasViewer } from "./ui/atlas.ts";
+import { ATLAS, CREDITO_ATLAS } from "./domain/atlas.ts";
 import { gerarPDF } from "./export/pdf.ts";
 import { gerarJSON } from "./export/json.ts";
 import { criarZip } from "./export/zip.ts";
@@ -18,16 +20,17 @@ const ICONES: Record<string, string> = {
   natureza: "M5 19c0-8 5-14 15-14 0 10-6 15-14 15M5 19c2-5 5-8 9-10",
   lab: "M9 3h6M10 3v6L5 19a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1l-5-10V3M8 14h8",
   "3d": "M12 3l8 4v10l-8 4-8-4V7zM12 12l8-5M12 12v9M12 12L4 7",
+  atlas: "M12 21s-7-4.5-7-10a4 4 0 0 1 7-2.5A4 4 0 0 1 19 11c0 5.500-7 10-7 10z",
   hipoteses: "M8 4h8v3H8zM6 6H5v15h14V6h-1M9 12h6M9 16h6",
   exportar: "M12 4v11M7 11l5 5 5-5M5 20h14",
   fontes: "M5 4h10a3 3 0 0 1 3 3v13H8a3 3 0 0 1-3-3zM8 20V7",
 };
-const ABAS: [string, string][] = [["inicio", "Início"], ["doencas", "Doenças"], ["natureza", "Natureza"], ["lab", "Lab"], ["3d", "3D"], ["hipoteses", "Hipóteses"], ["exportar", "Exportar"], ["fontes", "Fontes"]];
+const ABAS: [string, string][] = [["inicio", "Início"], ["doencas", "Doenças"], ["natureza", "Natureza"], ["lab", "Lab"], ["3d", "3D"], ["atlas", "Atlas"], ["hipoteses", "Hipóteses"], ["exportar", "Exportar"], ["fontes", "Fontes"]];
 const icone = (k: string) => `<svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="${ICONES[k]}"/></svg>`;
 
 let d: Doenca = DOENCAS[0];
-const S = { aba: "inicio", sel: new Set<string>(), seed: 42, hips: carregar(), selA: "", selB: "", orgao: d.orgaos[0].id, orgaoCel: d.orgaos[0].id, camada: 0 as Camada3D, lacunas: true, t: 1, grau: 100, mensagem: "", intens: {} as Record<string, number> };
-let viewers: Organ3D[] = [];
+const S = { aba: "inicio", sel: new Set<string>(), seed: 42, hips: carregar(), selA: "", selB: "", orgao: d.orgaos[0].id, orgaoCel: d.orgaos[0].id, camada: 0 as Camada3D, lacunas: true, t: 1, grau: 100, mensagem: "", intens: {} as Record<string, number>, atlas: "pancreas", atlasGrau: 100, atlasOp: 100 };
+let viewers: { dispose(): void }[] = [];
 const $ = <T extends HTMLElement = HTMLElement>(s: string) => document.querySelector(s) as T;
 const esc = (s: unknown) => String(s).replace(/[&<>"']/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]!));
 const hoje = () => new Date().toISOString().slice(0, 10);
@@ -74,7 +77,7 @@ function cabecalho() {
 function render() {
   viewers.forEach((v) => v.dispose()); viewers = [];
   cabecalho();
-  ({ inicio, doencas, natureza, lab, "3d": tres, hipoteses, exportar, fontes } as Record<string, () => void>)[S.aba]();
+  ({ inicio, doencas, natureza, lab, "3d": tres, atlas: atlasAba, hipoteses, exportar, fontes } as Record<string, () => void>)[S.aba]();
 }
 
 function inicio() {
@@ -200,6 +203,39 @@ function lab() {
     $("#res").innerHTML = `<h3>${h.id}</h3>${kpis(h)}${resultadoTabela(h)}<p class="muted">${esc(h.pergunta_para_lab)}</p><p class="muted">${esc(AVISO_MODELO)}</p><p><button class="btn" data-ir="3d">Ver em 3D</button> <button class="btn" data-ir="exportar">Exportar</button></p>`;
     document.querySelectorAll<HTMLElement>("[data-ir]").forEach((b) => (b.onclick = () => { S.aba = b.dataset.ir!; render(); }));
   };
+}
+
+function atlasAba() {
+  const o = ATLAS.find((x) => x.id === S.atlas) ?? ATLAS[0];
+  const dv = o.vinculo ? DOENCAS.find((x) => x.id === o.vinculo!.doenca) : undefined;
+  const C = CREDITO_ATLAS;
+  $("#conteudo").innerHTML = `<div class="card linha"><label>Órgão <select id="atl-org">${ATLAS.map((x) => `<option value="${x.id}" ${x.id === o.id ? "selected" : ""}>${esc(x.nome)}${x.vinculo ? " ●" : ""}</option>`).join("")}</select></label>
+  <span class="muted">● = tem modelo de doença: o grau de comprometimento colore as regiões.</span></div>
+  ${dv ? `<div class="card"><label>Comprometimento por <b>${esc(dv.nome)}</b> (modelo): <b id="atl-gv">${S.atlasGrau}</b>%<input id="atl-g" type="range" min="0" max="100" value="${S.atlasGrau}"></label>
+  <p class="muted">0% = estado saudável do modelo; 100% = perfil de doença do modelo. Verde = região próxima do saudável; vermelho = desregulada. É um modelo simplificado, não uma imagem de paciente nem diagnóstico.</p></div>` : `<div class="card"><label>Transparência <input id="atl-op" type="range" min="15" max="100" value="${S.atlasOp}"></label></div>`}
+  <div class="cena" id="atl-cena"><div class="sobre">${esc(DISC)}</div></div>
+  <div class="card" id="atl-info"><b>Clique em uma estrutura.</b> <span class="muted" id="atl-est"></span></div>
+  ${o.nota ? `<p class="muted">${esc(o.nota)}</p>` : ""}
+  <div class="card"><h3>Créditos dos modelos 3D</h3><p>${esc(C.titulo)} ${C.versao} — ${esc(C.autores)} (${C.ano}), licença <b>${C.licenca}</b>. <a href="${C.url}" target="_blank" rel="noopener">${C.url}</a></p><p class="muted">${esc(C.alteracoes)} Os nomes das estruturas vêm dos arquivos originais (em inglês).</p></div>`;
+  const host = $("#atl-cena");
+  const nota = (h: string) => { $("#atl-info").innerHTML = h; };
+  if (dv && o.vinculo) {
+    const org = dv.orgaos.find((x) => x.id === o.vinculo!.orgao)!;
+    const v = new Organ3D(host, dv); v.setOrgao(org.id); v.setCamada(0); v.setLacunas(false); viewers.push(v);
+    const s0 = estadoNos(dv, "saudavel"), s1 = estadoNos(dv, "doenca");
+    const aplicar = () => { const f = S.atlasGrau / 100; const nos: Valores = {}; for (const n of dv.nos) nos[n.id] = s0[n.id] + (s1[n.id] - s0[n.id]) * f; const cur = derivar(dv, nos); v.setValores(cur, cur, 1); return nos; };
+    aplicar();
+    v.onHotspot = (hs) => { const nos = aplicar(); const dd = derivar(dv, nos); nota(hs ? `<b>${esc(hs.nome)}</b>: ${hs.nos.map((n) => `${esc(dv.nos.find((x) => x.id === n)!.nome)} ${Math.round(dd[n])}/100`).join("; ")}` : `<b>Clique em uma estrutura.</b>`); };
+    $<HTMLInputElement>("#atl-g").oninput = (e) => { S.atlasGrau = Number((e.target as HTMLInputElement).value); $("#atl-gv").textContent = String(S.atlasGrau); aplicar(); };
+    if (org.modelo_real?.nota) nota(`<span class="muted">${esc(org.modelo_real.nota)}</span>`);
+  } else {
+    const v = new AtlasViewer(host); viewers.push(v);
+    v.onEstado = (e, m) => { $("#atl-est").textContent = e === "carregando" ? "Carregando modelo…" : e === "erro" ? `Não foi possível carregar o modelo (${m}).` : m ?? ""; };
+    v.onEstrutura = (n) => nota(n ? `<b>${esc(n)}</b>` : `<b>Clique em uma estrutura.</b> <span class="muted" id="atl-est"></span>`);
+    void v.mostrar(o);
+    const op = document.getElementById("atl-op") as HTMLInputElement | null; if (op) op.oninput = () => { S.atlasOp = Number(op.value); v.setOpacidade(S.atlasOp / 100); };
+  }
+  $<HTMLSelectElement>("#atl-org").onchange = (e) => { S.atlas = (e.target as HTMLSelectElement).value; render(); };
 }
 
 function tres() {

@@ -138,7 +138,32 @@
           "n": 12,
           "raio": 0.11
         }
-      ]
+      ],
+      "modelo_real": {
+        "arquivo": "VH_M_Pancreas",
+        "mapa": {
+          "cabeca": [
+            "head_of",
+            "uncinate"
+          ],
+          "corpo": [
+            "body_of",
+            "neck_of"
+          ],
+          "cauda": [
+            "tail_of"
+          ]
+        },
+        "nuvem": {
+          "hotspot": "ilhotas",
+          "de": [
+            "body_of",
+            "tail_of"
+          ],
+          "n": 450
+        },
+        "nota": "Ilhotas: pontos ilustrativos sobre corpo e cauda; a posição das ilhotas não vem do modelo anatômico."
+      }
     },
     {
       "id": "figado",
@@ -245,7 +270,21 @@
             0.75
           ]
         }
-      ]
+      ],
+      "modelo_real": {
+        "arquivo": "VH_M_Liver",
+        "mapa": {
+          "lobo_direito": [
+            "right_",
+            "caudate"
+          ],
+          "lobo_esquerdo": [
+            "left_",
+            "quadrate"
+          ]
+        },
+        "nota": "Segmentos agrupados em lobo direito e esquerdo; lobo caudado agrupado ao direito (simplificação)."
+      }
     }
   ],
   "nos": [

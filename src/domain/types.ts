@@ -47,9 +47,19 @@ export interface ParteModelo3D {
   n?: number;
 }
 export interface ElementoCelula { no: string; x: number; y: number; rx: number; ry: number; rotulo: string }
+/** Modelo anatômico real (GLB em public/modelos). Cada hotspot recebe os meshes cujo nome contém algum dos trechos; o resto fica oculto. */
+export interface ModeloReal {
+  arquivo: string;
+  mapa: Record<string, string[]>;
+  translucidas?: string[];
+  /** hotspot sem mesh próprio: nuvem de pontos sobre os vértices dos meshes indicados. */
+  nuvem?: { hotspot: string; de: string[]; n: number };
+  nota?: string;
+}
 export interface OrgaoModelo {
   id: string; nome: string; tecido: string; celula: string; nos: string[]; hotspots: Hotspot[];
   modelo3d: ParteModelo3D[];
+  modelo_real?: ModeloReal;
   celula_svg: { titulo: string; elementos: ElementoCelula[] };
 }
 

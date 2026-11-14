@@ -275,6 +275,26 @@
             "rotulo": "Sinais inflamatórios"
           }
         ]
+      },
+      "modelo_real": {
+        "arquivo": "VH_M_Kidney_L",
+        "mapa": {
+          "cortex": [
+            "outer_cortex",
+            "renal_column"
+          ],
+          "medula": [
+            "pyramid",
+            "papilla"
+          ],
+          "justaglomerular": [
+            "hilum"
+          ]
+        },
+        "translucidas": [
+          "outer_cortex"
+        ],
+        "nota": "Aparelho justaglomerular é microscópico; o hilo é só um marcador visual aproximado."
       }
     }
   ],

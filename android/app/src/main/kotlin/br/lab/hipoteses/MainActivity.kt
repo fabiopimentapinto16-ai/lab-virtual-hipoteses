@@ -70,6 +70,7 @@ class MainActivity : Activity() {
             "json" -> "application/json"
             "svg" -> "image/svg+xml"
             "png" -> "image/png"
+            "glb" -> "model/gltf-binary"
             "wasm" -> "application/wasm"
             else -> "application/octet-stream"
         }

@@ -42,6 +42,11 @@ export function eixoRelevante(d: Doenca, exId: string): boolean {
   });
 }
 
+/** Fichas que têm pelo menos um eixo com evidência registrada para esta doença. */
+export function fichasDaDoenca(d: Doenca, fichas: Ficha[]): Ficha[] {
+  return fichas.filter((f) => f.eixos.some((e) => e.doenca === d.id));
+}
+
 export function pontuar(d: Doenca, f: Ficha, ex: EixoFicha): Match {
   const def = d.eixos.find((x) => x.id === ex.eixo)!;
   const pontos = PONTOS_EVIDENCIA[ex.evidencia];
@@ -65,7 +70,7 @@ export function pontuar(d: Doenca, f: Ficha, ex: EixoFicha): Match {
 
 export function fazerMatches(d: Doenca, fichas: Ficha[]): Match[] {
   const out: Match[] = [];
-  for (const f of fichas) for (const ex of f.eixos) if (eixoRelevante(d, ex.eixo)) out.push(pontuar(d, f, ex));
+  for (const f of fichas) for (const ex of f.eixos) if (ex.doenca === d.id && eixoRelevante(d, ex.eixo)) out.push(pontuar(d, f, ex));
   return out;
 }
 

@@ -21,8 +21,6 @@ function quebrar(t: string, f: PDFFont, tam: number, larg: number): string[] {
   return linhas;
 }
 
-const NOMES: Record<string, string> = { ri: "Resistencia a insulina", beta: "Funcao da celula beta", hgp: "Producao hepatica de glicose", upt: "Captacao periferica de glicose", inf: "Inflamacao", oxi: "Estresse oxidativo", gj: "Indice glicemia de jejum", gp: "Indice glicemia pos-prandial", razao_ri_beta: "Razao RI/beta (padrao em teste)" };
-
 export async function gerarPDF(h: Hipotese): Promise<Uint8Array> {
   const doc = await PDFDocument.create();
   const f = await doc.embedFont(StandardFonts.Helvetica);
@@ -51,7 +49,7 @@ export async function gerarPDF(h: Hipotese): Promise<Uint8Array> {
   texto(h.doenca.perfil, 9);
 
   titulo("1. Variaveis desreguladas no modelo (antes)");
-  for (const k of ["ri", "beta", "hgp", "upt", "inf", "oxi", "gj", "gp", "razao_ri_beta"]) texto(`- ${NOMES[k]}: ${h.simulacao.antes[k]}`, 10, f, undefined, 6);
+  for (const v of h.variaveis) texto(`- ${v.nome}: ${h.simulacao.antes[v.id]}`, 10, f, undefined, 6);
   texto("Valores em indice do modelo (0-100), ilustrativos; nao sao medidas em pessoas.", 8, f, rgb(0.35, 0.35, 0.35));
 
   titulo("2. Plantas/compostos e IDs publicos");
@@ -69,10 +67,11 @@ export async function gerarPDF(h: Hipotese): Promise<Uint8Array> {
   }
 
   titulo("4. Resultado da simulacao no modelo (depois e deltas)");
-  for (const k of ["ri", "beta", "hgp", "upt", "inf", "oxi", "gj", "gp", "razao_ri_beta"]) {
+  for (const v of h.variaveis) {
+    const k = v.id;
     const d = h.simulacao.deltas[k];
     const u = h.simulacao.incerteza[k];
-    texto(`- ${NOMES[k]}: ${h.simulacao.antes[k]} -> ${h.simulacao.depois[k]} (delta ${d > 0 ? "+" : ""}${d})${u ? `  faixa p10/p50/p90: ${u.p10} / ${u.p50} / ${u.p90}` : ""}`, 9, f, undefined, 6);
+    texto(`- ${v.nome}: ${h.simulacao.antes[k]} -> ${h.simulacao.depois[k]} (delta ${d > 0 ? "+" : ""}${d})${u ? `  faixa p10/p50/p90: ${u.p10} / ${u.p50} / ${u.p90}` : ""}`, 9, f, undefined, 6);
   }
   texto("Simulacao deterministica com regras lineares simples. A faixa mostra apenas a incerteza assumida pela confianca do match.", 8, f, rgb(0.35, 0.35, 0.35));
 

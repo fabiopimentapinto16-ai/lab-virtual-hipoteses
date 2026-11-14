@@ -7,6 +7,7 @@ import { criarHipotese, proximoId, registrarEvento, hashDoConteudo } from "../sr
 import { derivar, estadoNos } from "../src/domain/modelo.ts";
 import { sha256Hex } from "../src/domain/sha256.ts";
 import { DISCLAIMER_COMPLETO, violacoes } from "../src/domain/textos.ts";
+import { readFileSync as lerArq } from "node:fs";
 
 const d = DOENCAS[0];
 const f = (id: string) => FICHAS.find((x) => x.id === id)!;
@@ -14,7 +15,7 @@ const nivel = (id: string, eixo: string) => fazerMatches(d, [f(id)]).find((m) =>
 
 test("fontes válidas", () => { for (const s of FONTES) assert.deepEqual(validarFonte(s), []); });
 test("doença válida", () => assert.deepEqual(validarDoenca(d, FONTES), []));
-test("fichas válidas e com fonte", () => { assert.ok(FICHAS.length >= 5); for (const x of FICHAS) assert.deepEqual(validarFicha(x, FONTES, d), []); });
+test("fichas válidas e com fonte", () => { assert.ok(FICHAS.length >= 5); for (const x of FICHAS) assert.deepEqual(validarFicha(x, FONTES, DOENCAS), []); });
 test("dados sem linguagem proibida", () => { for (const t of textosDe([d, FICHAS])) assert.deepEqual(violacoes(t), [], t); });
 test("sha256 vetores conhecidos", () => {
   assert.equal(sha256Hex(""), "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855");
@@ -70,4 +71,18 @@ import { readFileSync, readdirSync } from "node:fs";
 test("textos da interface sem linguagem proibida", () => {
   const arqs = ["index.html", "src/main.ts", ...readdirSync("src/ui").filter((x) => x.endsWith(".ts")).map((x) => "src/ui/" + x), "src/export/pdf.ts"];
   for (const a of arqs) readFileSync(a, "utf8").split("\n").forEach((l, i) => assert.deepEqual(violacoes(l), [], `${a}:${i + 1}: ${l.trim()}`));
+});
+
+test("regressão: diabetes dá os mesmos números do motor anterior", () => {
+  const base = JSON.parse(lerArq("tests/fixtures/t2d_baseline.json", "utf8"));
+  const h = criarHipotese({ doenca: d, fichas: base.itens.map((i: string) => f(i)), fontes: FONTES, seed: base.seed, id: "HYP-2026-001", data: "2026-11-12" });
+  assert.deepEqual(h.simulacao, base.simulacao);
+  assert.deepEqual(h.matches.map((m) => [m.ficha_id, m.eixo, m.nivel, m.score]), base.niveis);
+});
+test("toda doença tem modelo coerente e estados saudável/doença distintos", () => {
+  for (const x of DOENCAS) {
+    assert.deepEqual(validarDoenca(x, FONTES), [], x.id);
+    const s = derivar(x, estadoNos(x, "saudavel")), z = derivar(x, estadoNos(x, "doenca"));
+    for (const dv of x.derivados.filter((v) => v.exibir && !v.razao)) assert.ok(z[dv.id] > s[dv.id], `${x.id}/${dv.id}`);
+  }
 });

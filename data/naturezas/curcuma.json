@@ -18,6 +18,7 @@
   ],
   "eixos": [
     {
+      "doenca": "diabetes-tipo-2",
       "eixo": "glicemia_jejum",
       "direcao": "melhora",
       "evidencia": "humano_ensaios",
@@ -28,6 +29,7 @@
       "nota": "Resultados não uniformes entre ensaios."
     },
     {
+      "doenca": "diabetes-tipo-2",
       "eixo": "inflamacao",
       "direcao": "melhora",
       "evidencia": "humano_ensaios",
@@ -38,6 +40,7 @@
       "nota": "Alguns ensaios relataram menor hs-CRP; um não encontrou efeito."
     },
     {
+      "doenca": "diabetes-tipo-2",
       "eixo": "estresse_oxidativo",
       "direcao": "melhora",
       "evidencia": "humano_ensaio_unico",

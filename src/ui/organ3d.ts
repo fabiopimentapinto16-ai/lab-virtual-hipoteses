@@ -1,6 +1,6 @@
 import * as THREE from "three";
 import { OrbitControls } from "three/examples/jsm/controls/OrbitControls.js";
-import type { Doenca, Valores } from "../domain/types.ts";
+import type { Doenca, OrgaoModelo, Valores } from "../domain/types.ts";
 
 export type Camada3D = 0 | 1 | 2 | 3; // órgão, tecido, célula, via molecular
 export const NOMES_CAMADA = ["Órgão", "Tecido (conceitual)", "Célula", "Via molecular"];
@@ -33,7 +33,7 @@ export class Organ3D {
   private ghostGroup = new THREE.Group();
   private fluxo = new THREE.Group();
   private hot = new Map<string, THREE.Mesh>();
-  private orgaoId = "pancreas";
+  private orgaoId: string;
   private camada: Camada3D = 0;
   private lacunas = true;
   private antes: Valores = {};
@@ -45,6 +45,7 @@ export class Organ3D {
   onHotspot: (h: InfoHotspot | null) => void = () => {};
 
   constructor(private el: HTMLElement, private doenca: Doenca, largura?: number, altura?: number, preservar = false) {
+    this.orgaoId = doenca.orgaos[0].id;
     this.renderer = new THREE.WebGLRenderer({ antialias: true, preserveDrawingBuffer: preservar });
     this.renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
     this.canvas = this.renderer.domElement;
@@ -112,7 +113,7 @@ export class Organ3D {
     const o = this.doenca.orgaos.find((x) => x.id === this.orgaoId) ?? this.doenca.orgaos[0];
     const cam = this.camada;
     if (cam === 0 || cam === 1) {
-      if (this.orgaoId === "pancreas") this.pancreas(); else this.figado();
+      this.partes(o);
       if (cam === 1) {
         this.organGroup.traverse((c) => { const m = c as THREE.Mesh; if (m.isMesh) { const mt = m.material as THREE.MeshStandardMaterial; mt.transparent = true; mt.opacity = 0.28; } });
         const pts: number[] = []; let s = 7;
@@ -131,19 +132,33 @@ export class Organ3D {
     this.colorir();
   }
 
-  private pancreas() {
-    const curva = new THREE.CatmullRomCurve3([new THREE.Vector3(-1.9, -0.3, 0), new THREE.Vector3(-0.8, -0.1, 0.1), new THREE.Vector3(0.5, 0.2, 0), new THREE.Vector3(1.8, 0.55, -0.1)]);
-    this.organGroup.add(this.hotMesh("cabeca", new THREE.SphereGeometry(0.62, 10, 8), [-1.9, -0.35, 0], [1, 1.2, 1]));
-    const corpo = this.hotMesh("corpo", new THREE.TubeGeometry(curva, 12, 0.34, 8, false), [0, 0, 0]); this.organGroup.add(corpo);
-    this.organGroup.add(this.hotMesh("cauda", new THREE.ConeGeometry(0.3, 0.9, 8), [2.15, 0.65, -0.1], [1, 1, 1]));
-    this.hot.get("cauda")!.rotation.z = -Math.PI / 2.6;
-    const il = new THREE.Group(); il.userData.hot = "ilhotas";
-    for (let i = 0; i < 12; i++) { const p = curva.getPoint(i / 11); const s = new THREE.Mesh(new THREE.IcosahedronGeometry(0.11, 0), new THREE.MeshStandardMaterial({ color: BOM, flatShading: true })); s.position.set(p.x, p.y + 0.36, p.z + 0.08); s.userData.hot = "ilhotas"; il.add(s); }
-    this.organGroup.add(il);
-  }
-  private figado() {
-    this.organGroup.add(this.hotMesh("lobo_direito", new THREE.SphereGeometry(1, 12, 9), [-0.9, 0, 0], [1.7, 0.95, 0.95]));
-    this.organGroup.add(this.hotMesh("lobo_esquerdo", new THREE.SphereGeometry(1, 12, 9), [1.35, 0.15, 0], [1.05, 0.7, 0.75]));
+  /** Monta o órgão a partir de `orgao.modelo3d` (formas primitivas; nenhum arquivo de modelo externo). */
+  private partes(o: OrgaoModelo) {
+    const curvas = new Map<string, THREE.CatmullRomCurve3>();
+    for (const p of o.modelo3d) {
+      if (p.forma === "esfera") {
+        this.organGroup.add(this.hotMesh(p.hotspot, new THREE.SphereGeometry(p.raio ?? 1, 12, 9), p.pos ?? [0, 0, 0], p.esc ?? [1, 1, 1]));
+      } else if (p.forma === "tubo") {
+        const c = new THREE.CatmullRomCurve3((p.pontos ?? []).map((q) => new THREE.Vector3(q[0], q[1], q[2])));
+        curvas.set(p.hotspot, c);
+        this.organGroup.add(this.hotMesh(p.hotspot, new THREE.TubeGeometry(c, 12, p.raio ?? 0.3, 8, false), [0, 0, 0]));
+      } else if (p.forma === "cone") {
+        const m = this.hotMesh(p.hotspot, new THREE.ConeGeometry(p.raio ?? 0.3, p.altura ?? 1, 8), p.pos ?? [0, 0, 0]);
+        m.rotation.z = p.rot_z ?? 0;
+        this.organGroup.add(m);
+      } else {
+        const c = curvas.get(p.ao_longo_de ?? "");
+        if (!c) continue;
+        const n = p.n ?? 10;
+        const g = new THREE.Group(); g.userData.hot = p.hotspot;
+        for (let i = 0; i < n; i++) {
+          const q = c.getPoint(n > 1 ? i / (n - 1) : 0);
+          const s = new THREE.Mesh(new THREE.IcosahedronGeometry(p.raio ?? 0.1, 0), new THREE.MeshStandardMaterial({ color: BOM, flatShading: true }));
+          s.position.set(q.x, q.y + 0.36, q.z + 0.08); s.userData.hot = p.hotspot; g.add(s);
+        }
+        this.organGroup.add(g);
+      }
+    }
   }
   private fantasmas() {
     const lac = this.doenca.lacunas.filter((l) => l.camada === "lacuna");
@@ -170,8 +185,7 @@ export class Organ3D {
   private via3d(nos: string[]) {
     const pos: Record<string, [number, number, number]> = {};
     nos.forEach((id, i) => { const a = (i / nos.length) * Math.PI * 2; pos[id] = [Math.cos(a) * 2.2, Math.sin(a) * 1.5, 0]; });
-    const ligacoes: [string, string][] = [["inf", "ri"], ["oxi", "ri"], ["ri", "hgp"], ["oxi", "beta"], ["inf", "beta"], ["ri", "upt"]];
-    for (const [a, b] of ligacoes) if (pos[a] && pos[b]) {
+    for (const [a, b] of this.doenca.ligacoes_via) if (pos[a] && pos[b]) {
       const g = new THREE.BufferGeometry().setFromPoints([new THREE.Vector3(...pos[a]), new THREE.Vector3(...pos[b])]);
       this.extraGroup.add(new THREE.Line(g, new THREE.LineBasicMaterial({ color: 0x7aa7b5 })));
     }

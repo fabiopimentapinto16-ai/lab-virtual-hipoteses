@@ -8,6 +8,7 @@
   "compostos": [],
   "eixos": [
     {
+      "doenca": "diabetes-tipo-2",
       "eixo": "glicemia_jejum",
       "direcao": "melhora",
       "evidencia": "humano_meta_analise",
@@ -18,6 +19,7 @@
       "nota": "DM -19,67 (I²=99%)."
     },
     {
+      "doenca": "diabetes-tipo-2",
       "eixo": "glicemia_pos_prandial",
       "direcao": "melhora",
       "evidencia": "humano_meta_analise",

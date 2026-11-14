@@ -18,6 +18,7 @@
   ],
   "eixos": [
     {
+      "doenca": "diabetes-tipo-2",
       "eixo": "controle_glicemico",
       "direcao": "melhora",
       "evidencia": "historico",

@@ -1,0 +1,662 @@
+{
+  "id": "hipertensao",
+  "versao_modelo": "0.1.0",
+  "nome": "Hipertensão essencial",
+  "resumo_leigo": "Doença em que a pressão do sangue nas artérias fica alta por muito tempo, porque os vasos relaxam menos e o corpo retém mais sal e água.",
+  "resumo_tecnico": "Modelo qualitativo baseado em uma revisão narrativa (f_ma2022): hipertensão essencial como resultado de menor vasodilatação (rigidez arterial, disfunção da via NO-GMPc, hiperatividade simpática, ativação do sistema renina-angiotensina-aldosterona) e maior volume intravascular (retenção renal de sódio e água). Perfil genérico, sem dados de pessoas.",
+  "perfil": "Perfil GENÉRICO da doença (valores ilustrativos do modelo, não medidos em pessoas).",
+  "orgaos": [
+    {
+      "id": "arteria",
+      "nome": "Artéria",
+      "tecido": "Parede arterial (endotélio e músculo liso)",
+      "celula": "Célula endotelial e muscular lisa",
+      "nos": [
+        "end",
+        "rig",
+        "sna",
+        "inf",
+        "oxi"
+      ],
+      "hotspots": [
+        {
+          "id": "endotelio",
+          "nome": "Endotélio",
+          "nos": [
+            "end"
+          ]
+        },
+        {
+          "id": "musculo_liso",
+          "nome": "Músculo liso",
+          "nos": [
+            "rig",
+            "sna"
+          ]
+        },
+        {
+          "id": "parede",
+          "nome": "Parede (inflamação)",
+          "nos": [
+            "inf",
+            "oxi"
+          ]
+        }
+      ],
+      "modelo3d": [
+        {
+          "hotspot": "endotelio",
+          "forma": "tubo",
+          "raio": 0.42,
+          "pontos": [
+            [
+              -2.4,
+              -0.3,
+              0
+            ],
+            [
+              -1.6,
+              0.2,
+              0.1
+            ],
+            [
+              -0.8,
+              0.3,
+              0
+            ]
+          ]
+        },
+        {
+          "hotspot": "musculo_liso",
+          "forma": "tubo",
+          "raio": 0.42,
+          "pontos": [
+            [
+              -0.8,
+              0.3,
+              0
+            ],
+            [
+              0,
+              0.05,
+              -0.1
+            ],
+            [
+              0.9,
+              -0.2,
+              0
+            ]
+          ]
+        },
+        {
+          "hotspot": "parede",
+          "forma": "tubo",
+          "raio": 0.42,
+          "pontos": [
+            [
+              0.9,
+              -0.2,
+              0
+            ],
+            [
+              1.6,
+              -0.1,
+              0.1
+            ],
+            [
+              2.4,
+              0.3,
+              0
+            ]
+          ]
+        }
+      ],
+      "celula_svg": {
+        "titulo": "Célula endotelial e muscular lisa (esquema do modelo)",
+        "elementos": [
+          {
+            "no": "end",
+            "x": 95,
+            "y": 130,
+            "rx": 30,
+            "ry": 18,
+            "rotulo": "Via do óxido nítrico · função endotelial"
+          },
+          {
+            "no": "sna",
+            "x": 305,
+            "y": 130,
+            "rx": 28,
+            "ry": 18,
+            "rotulo": "Receptor adrenérgico · tônus simpático"
+          },
+          {
+            "no": "rig",
+            "x": 200,
+            "y": 180,
+            "rx": 28,
+            "ry": 16,
+            "rotulo": "Contração e rigidez da parede"
+          },
+          {
+            "no": "oxi",
+            "x": 90,
+            "y": 225,
+            "rx": 26,
+            "ry": 16,
+            "rotulo": "Mitocôndria · estresse oxidativo"
+          },
+          {
+            "no": "inf",
+            "x": 310,
+            "y": 225,
+            "rx": 26,
+            "ry": 16,
+            "rotulo": "Sinais inflamatórios"
+          }
+        ]
+      }
+    },
+    {
+      "id": "rim",
+      "nome": "Rim",
+      "tecido": "Néfron (túbulo e aparelho justaglomerular)",
+      "celula": "Célula tubular renal",
+      "nos": [
+        "na",
+        "ras",
+        "inf",
+        "oxi"
+      ],
+      "hotspots": [
+        {
+          "id": "cortex",
+          "nome": "Córtex (túbulos)",
+          "nos": [
+            "na"
+          ]
+        },
+        {
+          "id": "justaglomerular",
+          "nome": "Aparelho justaglomerular",
+          "nos": [
+            "ras"
+          ]
+        },
+        {
+          "id": "medula",
+          "nome": "Medula",
+          "nos": [
+            "inf",
+            "oxi"
+          ]
+        }
+      ],
+      "modelo3d": [
+        {
+          "hotspot": "cortex",
+          "forma": "esfera",
+          "raio": 1,
+          "pos": [
+            0,
+            0,
+            0
+          ],
+          "esc": [
+            1.5,
+            1.9,
+            0.9
+          ]
+        },
+        {
+          "hotspot": "justaglomerular",
+          "forma": "esfera",
+          "raio": 0.35,
+          "pos": [
+            0.95,
+            -0.1,
+            0.35
+          ],
+          "esc": [
+            1,
+            1,
+            1
+          ]
+        },
+        {
+          "hotspot": "medula",
+          "forma": "esfera",
+          "raio": 0.5,
+          "pos": [
+            -0.35,
+            0.15,
+            0.55
+          ],
+          "esc": [
+            1,
+            1.3,
+            0.6
+          ]
+        }
+      ],
+      "celula_svg": {
+        "titulo": "Célula tubular renal (esquema do modelo)",
+        "elementos": [
+          {
+            "no": "na",
+            "x": 95,
+            "y": 130,
+            "rx": 30,
+            "ry": 18,
+            "rotulo": "Canais e transportadores de sódio"
+          },
+          {
+            "no": "ras",
+            "x": 305,
+            "y": 130,
+            "rx": 28,
+            "ry": 18,
+            "rotulo": "Receptor de angiotensina · sistema renina"
+          },
+          {
+            "no": "oxi",
+            "x": 90,
+            "y": 225,
+            "rx": 26,
+            "ry": 16,
+            "rotulo": "Mitocôndria · estresse oxidativo"
+          },
+          {
+            "no": "inf",
+            "x": 310,
+            "y": 225,
+            "rx": 26,
+            "ry": 16,
+            "rotulo": "Sinais inflamatórios"
+          }
+        ]
+      }
+    }
+  ],
+  "nos": [
+    {
+      "id": "ras",
+      "nome": "Ativação do sistema renina-angiotensina-aldosterona",
+      "camada": "conhecido",
+      "orgaos": [
+        "rim"
+      ],
+      "direcao_ruim": "alto",
+      "saudavel": 25,
+      "doenca": 70,
+      "fontes": [
+        "f_ma2022"
+      ],
+      "descricao": "Angiotensina II causa vasoconstrição e retenção de sódio e água; o sistema atua na circulação e em tecidos (f_ma2022)."
+    },
+    {
+      "id": "sna",
+      "nome": "Atividade simpática",
+      "camada": "conhecido",
+      "orgaos": [
+        "arteria"
+      ],
+      "direcao_ruim": "alto",
+      "saudavel": 25,
+      "doenca": 65,
+      "fontes": [
+        "f_ma2022"
+      ],
+      "descricao": "Hiperatividade simpática aumenta o tônus vascular e o débito cardíaco (f_ma2022)."
+    },
+    {
+      "id": "end",
+      "nome": "Função endotelial (via óxido nítrico-GMPc)",
+      "camada": "conhecido",
+      "orgaos": [
+        "arteria"
+      ],
+      "direcao_ruim": "baixo",
+      "saudavel": 80,
+      "doenca": 45,
+      "fontes": [
+        "f_ma2022"
+      ],
+      "descricao": "A via NO-GMPc começa no endotélio e regula a contração do músculo liso vascular (f_ma2022)."
+    },
+    {
+      "id": "na",
+      "nome": "Retenção renal de sódio e água",
+      "camada": "conhecido",
+      "orgaos": [
+        "rim"
+      ],
+      "direcao_ruim": "alto",
+      "saudavel": 25,
+      "doenca": 65,
+      "fontes": [
+        "f_ma2022"
+      ],
+      "descricao": "Retenção de sódio e água aumenta o volume intravascular (f_ma2022)."
+    },
+    {
+      "id": "rig",
+      "nome": "Rigidez arterial",
+      "camada": "conhecido",
+      "orgaos": [
+        "arteria"
+      ],
+      "direcao_ruim": "alto",
+      "saudavel": 20,
+      "doenca": 60,
+      "fontes": [
+        "f_ma2022"
+      ],
+      "descricao": "Rigidez funcional (contração do músculo liso) e estrutural (elastina, colágeno) reduz a vasodilatação (f_ma2022)."
+    },
+    {
+      "id": "inf",
+      "nome": "Inflamação",
+      "camada": "conhecido",
+      "orgaos": [
+        "arteria",
+        "rim"
+      ],
+      "direcao_ruim": "alto",
+      "saudavel": 20,
+      "doenca": 60,
+      "fontes": [
+        "f_ma2022"
+      ],
+      "descricao": "Citada na teoria do mosaico; a fonte não a detalha (f_ma2022)."
+    },
+    {
+      "id": "oxi",
+      "nome": "Estresse oxidativo",
+      "camada": "conhecido",
+      "orgaos": [
+        "arteria",
+        "rim"
+      ],
+      "direcao_ruim": "alto",
+      "saudavel": 20,
+      "doenca": 60,
+      "fontes": [
+        "f_ma2022"
+      ],
+      "descricao": "Citado na teoria do mosaico; a fonte não o detalha (f_ma2022)."
+    }
+  ],
+  "lacunas": [
+    {
+      "id": "genetica",
+      "nome": "Genética (mais de 1.000 regiões associadas)",
+      "camada": "lacuna",
+      "descricao": "Citada na fonte; muitas variantes de efeito pequeno. Fora do modelo do MVP."
+    },
+    {
+      "id": "microbiota",
+      "nome": "Microbiota intestinal",
+      "camada": "lacuna",
+      "descricao": "Proposta na fonte como contribuinte da sensibilidade ao sal. Fora do modelo do MVP."
+    },
+    {
+      "id": "cerebro",
+      "nome": "Sistema renina-angiotensina cerebral",
+      "camada": "lacuna",
+      "descricao": "Citado na fonte. Fora do modelo do MVP."
+    },
+    {
+      "id": "coracao",
+      "nome": "Coração (remodelamento)",
+      "camada": "lacuna",
+      "descricao": "Dano de órgão-alvo citado na fonte. Fora do modelo do MVP."
+    }
+  ],
+  "indicadores": [
+    {
+      "id": "pa",
+      "nome": "Índice de pressão arterial (modelo)",
+      "unidade": "índice 0–100, sem unidade clínica",
+      "fontes": [
+        "f_ma2022"
+      ]
+    }
+  ],
+  "derivados": [
+    {
+      "id": "ras_ef",
+      "nome": "Ativação efetiva do sistema renina (nó + inflamação + estresse oxidativo)",
+      "camada": "padrao_em_teste",
+      "descricao": "Pesos do modelo, sem fonte numérica.",
+      "termos": [
+        {
+          "de": "ras",
+          "peso": 1,
+          "modo": "valor"
+        },
+        {
+          "de": "inf",
+          "peso": 0.15,
+          "modo": "desvio_ref"
+        },
+        {
+          "de": "oxi",
+          "peso": 0.1,
+          "modo": "desvio_ref"
+        }
+      ]
+    },
+    {
+      "id": "rv",
+      "nome": "Índice de resistência vascular (modelo)",
+      "camada": "conhecido",
+      "termos": [
+        {
+          "de": "end",
+          "peso": 0.3,
+          "modo": "inverso"
+        },
+        {
+          "de": "sna",
+          "peso": 0.25,
+          "modo": "valor"
+        },
+        {
+          "de": "ras_ef",
+          "peso": 0.2,
+          "modo": "valor"
+        },
+        {
+          "de": "rig",
+          "peso": 0.25,
+          "modo": "valor"
+        }
+      ],
+      "limitar": true,
+      "exibir": true,
+      "incerteza": true,
+      "fontes": [
+        "f_ma2022"
+      ]
+    },
+    {
+      "id": "vol",
+      "nome": "Índice de volume intravascular (modelo)",
+      "camada": "conhecido",
+      "termos": [
+        {
+          "de": "na",
+          "peso": 0.6,
+          "modo": "valor"
+        },
+        {
+          "de": "ras_ef",
+          "peso": 0.4,
+          "modo": "valor"
+        }
+      ],
+      "limitar": true,
+      "exibir": true,
+      "incerteza": true,
+      "fontes": [
+        "f_ma2022"
+      ]
+    },
+    {
+      "id": "pa",
+      "nome": "Índice de pressão arterial (modelo)",
+      "camada": "conhecido",
+      "termos": [
+        {
+          "de": "rv",
+          "peso": 0.55,
+          "modo": "valor"
+        },
+        {
+          "de": "vol",
+          "peso": 0.45,
+          "modo": "valor"
+        }
+      ],
+      "limitar": true,
+      "exibir": true,
+      "incerteza": true,
+      "fontes": [
+        "f_ma2022"
+      ]
+    },
+    {
+      "id": "razao_vol_rv",
+      "nome": "Razão volume/resistência (padrão em teste)",
+      "camada": "padrao_em_teste",
+      "razao": {
+        "num": "vol",
+        "den": "rv",
+        "mult": 100
+      },
+      "exibir": true,
+      "incerteza": true
+    }
+  ],
+  "ligacoes_via": [
+    [
+      "inf",
+      "end"
+    ],
+    [
+      "oxi",
+      "end"
+    ],
+    [
+      "ras",
+      "na"
+    ],
+    [
+      "sna",
+      "rig"
+    ],
+    [
+      "end",
+      "rig"
+    ],
+    [
+      "inf",
+      "ras"
+    ]
+  ],
+  "equacoes": {
+    "descricao": "Relações lineares qualitativas, calculadas por src/domain/modelo.ts a partir de `derivados`. A estrutura (pressão = resistência vascular + volume) segue f_ma2022; os pesos são escolhas do modelo e não foram calibrados com dados clínicos: mostram só o SENTIDO esperado das mudanças, nunca valores de pressão de pessoas.",
+    "limite_delta_por_variavel": 25
+  },
+  "eixos": [
+    {
+      "id": "ativacao_raas",
+      "nome": "Ativação do sistema renina-angiotensina-aldosterona",
+      "tipo": "mecanismo",
+      "alvo": "ras",
+      "delta": -12
+    },
+    {
+      "id": "tonus_simpatico",
+      "nome": "Atividade simpática",
+      "tipo": "mecanismo",
+      "alvo": "sna",
+      "delta": -10
+    },
+    {
+      "id": "funcao_endotelial",
+      "nome": "Função endotelial (óxido nítrico)",
+      "tipo": "mecanismo",
+      "alvo": "end",
+      "delta": 10
+    },
+    {
+      "id": "retencao_sodio",
+      "nome": "Retenção renal de sódio e água",
+      "tipo": "mecanismo",
+      "alvo": "na",
+      "delta": -10
+    },
+    {
+      "id": "rigidez_arterial",
+      "nome": "Rigidez arterial",
+      "tipo": "mecanismo",
+      "alvo": "rig",
+      "delta": -8
+    },
+    {
+      "id": "inflamacao",
+      "nome": "Inflamação",
+      "tipo": "mecanismo",
+      "alvo": "inf",
+      "delta": -10
+    },
+    {
+      "id": "estresse_oxidativo",
+      "nome": "Estresse oxidativo",
+      "tipo": "mecanismo",
+      "alvo": "oxi",
+      "delta": -10
+    },
+    {
+      "id": "pressao_arterial",
+      "nome": "Pressão arterial (desfecho observado)",
+      "tipo": "desfecho",
+      "alvo": "pa",
+      "delta": -8
+    }
+  ],
+  "alvos_literatura": [
+    {
+      "texto": "Sistema renina-angiotensina-aldosterona, diuréticos (retenção de sódio), bloqueio de cálcio no músculo liso e via NO-GMPc são alvos já descritos na literatura (referência, não aconselhamento).",
+      "fontes": [
+        "f_ma2022"
+      ]
+    }
+  ],
+  "como_ler_o_modelo": "Desfechos observados (pressão) e mecanismos relatados são tratados de forma diferente: mecanismos mudam nós do modelo; desfechos mudam só os índices derivados, para não afirmar causa onde a fonte relata apenas efeito.",
+  "simulacao": {
+    "fator_confianca": {
+      "forte": 1.0,
+      "medio": 0.6,
+      "fraco": 0.3
+    },
+    "incerteza": {
+      "forte": [
+        0.6,
+        1.2
+      ],
+      "medio": [
+        0.3,
+        1.4
+      ],
+      "fraco": [
+        0.0,
+        1.6
+      ]
+    },
+    "combinacao_mesmo_eixo": "maior efeito + 25% da soma dos demais",
+    "amostras_incerteza": 500
+  }
+}

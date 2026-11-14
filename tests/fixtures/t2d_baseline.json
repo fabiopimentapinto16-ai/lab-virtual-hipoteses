@@ -1,0 +1,162 @@
+{
+ "itens": [
+  "berberina",
+  "curcuma"
+ ],
+ "seed": 42,
+ "simulacao": {
+  "seed": 42,
+  "antes": {
+   "ri": 75,
+   "beta": 45,
+   "hgp": 75,
+   "upt": 40,
+   "inf": 65,
+   "oxi": 60,
+   "ri_ef": 85.75,
+   "hgp_ef": 87.15,
+   "gj": 85.83,
+   "gp": 69.65,
+   "razao_ri_beta": 190.56
+  },
+  "depois": {
+   "ri": 67.8,
+   "beta": 47.4,
+   "hgp": 75,
+   "upt": 40,
+   "inf": 58.25,
+   "oxi": 57,
+   "ri_ef": 77.24,
+   "hgp_ef": 85.45,
+   "gj": 77.19,
+   "gp": 62.43,
+   "razao_ri_beta": 162.95
+  },
+  "deltas": {
+   "ri": -7.2,
+   "beta": 2.4,
+   "hgp": 0,
+   "upt": 0,
+   "inf": -6.75,
+   "oxi": -3,
+   "ri_ef": -8.51,
+   "hgp_ef": -1.7,
+   "gj": -8.64,
+   "gp": -7.22,
+   "razao_ri_beta": -27.61
+  },
+  "incerteza": {
+   "gj": {
+    "p10": -9.98,
+    "p50": -8.17,
+    "p90": -5.73
+   },
+   "gp": {
+    "p10": -8.23,
+    "p50": -6.12,
+    "p90": -3.99
+   },
+   "razao_ri_beta": {
+    "p10": -31.53,
+    "p50": -23.41,
+    "p90": -14.22
+   }
+  },
+  "efeitos_aplicados": [
+   {
+    "eixo": "glicemia_jejum",
+    "delta": -6,
+    "itens": [
+     "berberina",
+     "curcuma"
+    ]
+   },
+   {
+    "eixo": "glicemia_pos_prandial",
+    "delta": -4.8,
+    "itens": [
+     "berberina"
+    ]
+   },
+   {
+    "eixo": "inflamacao",
+    "delta": -6.75,
+    "itens": [
+     "berberina",
+     "curcuma"
+    ]
+   },
+   {
+    "eixo": "resistencia_insulina",
+    "delta": -7.2,
+    "itens": [
+     "berberina"
+    ]
+   },
+   {
+    "eixo": "secrecao_insulina",
+    "delta": 2.4,
+    "itens": [
+     "berberina"
+    ]
+   },
+   {
+    "eixo": "estresse_oxidativo",
+    "delta": -3,
+    "itens": [
+     "curcuma"
+    ]
+   }
+  ]
+ },
+ "niveis": [
+  [
+   "berberina",
+   "glicemia_jejum",
+   "medio",
+   2.38
+  ],
+  [
+   "berberina",
+   "glicemia_pos_prandial",
+   "medio",
+   2.38
+  ],
+  [
+   "berberina",
+   "resistencia_insulina",
+   "medio",
+   2.38
+  ],
+  [
+   "berberina",
+   "secrecao_insulina",
+   "fraco",
+   0.95
+  ],
+  [
+   "berberina",
+   "inflamacao",
+   "fraco",
+   0.95
+  ],
+  [
+   "curcuma",
+   "glicemia_jejum",
+   "medio",
+   1.9
+  ],
+  [
+   "curcuma",
+   "inflamacao",
+   "medio",
+   1.9
+  ],
+  [
+   "curcuma",
+   "estresse_oxidativo",
+   "fraco",
+   1.42
+  ]
+ ]
+}

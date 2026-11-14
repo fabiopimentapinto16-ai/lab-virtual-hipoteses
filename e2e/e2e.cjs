@@ -22,6 +22,12 @@ const DISC = "Validação somente experimental em laboratório.";
   ok(px > 0, "canvas 3D criado"); await p.waitForTimeout(800); await p.screenshot({ path: "e2e/saida/3d.png" });
   for (const i of [1, 2, 3, 0]) { await p.click(`[data-cam="${i}"]`); await p.waitForSelector(".cena canvas"); await p.waitForTimeout(300); }
   await p.screenshot({ path: "e2e/saida/3d-camadas.png" });
+  await p.selectOption("#sel-doenca", "hipertensao"); await p.click("[data-aba=lab]");
+  ok((await p.textContent("#conteudo")).includes("Hipertensão essencial"), "troca para a hipertensão");
+  await p.check("[data-sel=alho]"); await p.click("#sim"); await p.waitForSelector("#res table");
+  ok((await p.textContent("#res")).includes("pressão arterial"), "hipótese de hipertensão criada");
+  await p.screenshot({ path: "e2e/saida/lab-hipertensao.png" });
+  await p.click('[data-aba="3d"]'); await p.waitForSelector(".cena canvas"); await p.waitForTimeout(600); await p.screenshot({ path: "e2e/saida/3d-hipertensao.png" });
   await p.click("[data-aba=exportar]");
   const [dl] = await Promise.all([p.waitForEvent("download"), p.click("#pdf")]); const pdf = await dl.path(); ok(fs.readFileSync(pdf).slice(0, 5).toString() === "%PDF-", "PDF baixado");
   const [dj] = await Promise.all([p.waitForEvent("download"), p.click("#json")]); const j = JSON.parse(fs.readFileSync(await dj.path(), "utf8")); ok(j.disclaimer.includes(DISC) && /^HYP-/.test(j.id), "JSON baixado com ID e disclaimer");

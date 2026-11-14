@@ -33,7 +33,34 @@ export interface Lacuna {
 }
 
 export interface Hotspot { id: string; nome: string; nos: string[] }
-export interface OrgaoModelo { id: string; nome: string; tecido: string; celula: string; nos: string[]; hotspots: Hotspot[] }
+export interface ParteModelo3D {
+  hotspot: string;
+  forma: "esfera" | "tubo" | "cone" | "nuvem";
+  pos?: [number, number, number];
+  esc?: [number, number, number];
+  raio?: number;
+  altura?: number;
+  rot_z?: number;
+  pontos?: [number, number, number][];
+  /** nuvem: pequenas esferas distribuídas ao longo do tubo (id do hotspot do tubo). */
+  ao_longo_de?: string;
+  n?: number;
+}
+export interface ElementoCelula { no: string; x: number; y: number; rx: number; ry: number; rotulo: string }
+export interface OrgaoModelo {
+  id: string; nome: string; tecido: string; celula: string; nos: string[]; hotspots: Hotspot[];
+  modelo3d: ParteModelo3D[];
+  celula_svg: { titulo: string; elementos: ElementoCelula[] };
+}
+
+export interface TermoDerivado { de: string; peso: number; modo: "valor" | "inverso" | "desvio_ref" }
+/** Variável calculada a partir dos nós (linear, auditável). `razao` cria um índice composto num/den. */
+export interface Derivado {
+  id: string; nome: string; camada: Camada; descricao?: string;
+  base?: number; termos?: TermoDerivado[]; limitar?: boolean;
+  razao?: { num: string; den: string; mult: number };
+  exibir?: boolean; incerteza?: boolean; fontes?: string[];
+}
 
 export interface EixoDef {
   id: string;
@@ -45,11 +72,8 @@ export interface EixoDef {
 
 export interface Coeficientes {
   descricao: string;
-  ri_ef: { inf: number; oxi: number };
-  hgp_ef: { ri_ef: number };
-  gj: { base: number; hgp_ef: number; beta_inv: number; ri_ef: number };
-  gp: { base: number; upt_inv: number; beta_inv: number; ri_ef: number };
   limite_delta_por_variavel: number;
+  [chave: string]: unknown;
 }
 
 export interface ConfigSimulacao {
@@ -71,6 +95,8 @@ export interface Doenca {
   lacunas: Lacuna[];
   indicadores: { id: string; nome: string; unidade: string; fontes: string[] }[];
   equacoes: Coeficientes;
+  derivados: Derivado[];
+  ligacoes_via: [string, string][];
   eixos: EixoDef[];
   alvos_literatura: { texto: string; fontes: string[] }[];
   simulacao: ConfigSimulacao;
@@ -83,6 +109,8 @@ export type TipoEvidencia =
 export type Qualidade = "alta" | "moderada" | "baixa" | "muito_baixa" | "nao_declarada";
 
 export interface EixoFicha {
+  /** Doença para a qual esta evidência vale (a evidência de uma doença não se transfere para outra). */
+  doenca: string;
   eixo: string;
   direcao: "melhora";
   evidencia: TipoEvidencia;
@@ -137,13 +165,14 @@ export type EstadoLinhaDoTempo = "criada" | "publicada" | "lab_testou" | "result
 export interface EventoTempo { estado: EstadoLinhaDoTempo; data: string; nota?: string }
 
 export interface Hipotese {
-  schema_versao: "1.0";
+  schema_versao: "1.1";
   id: string;
   criada_em: string;
   app_versao: string;
   doenca: { id: string; nome: string; versao_modelo: string; perfil: string };
   itens: { ficha_id: string; nome: string; nome_cientifico: string; compostos: { nome: string; id_publico: IdPublico | null }[] }[];
   matches: Match[];
+  variaveis: { id: string; nome: string; tipo: "no" | "derivado" }[];
   simulacao: ResultadoSimulacao;
   pergunta_para_lab: string;
   alertas: string[];

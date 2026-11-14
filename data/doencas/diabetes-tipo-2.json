@@ -1,6 +1,6 @@
 {
   "id": "diabetes-tipo-2",
-  "versao_modelo": "0.1.0",
+  "versao_modelo": "0.2.0",
   "nome": "Diabetes mellitus tipo 2",
   "resumo_leigo": "Doença em que o corpo passa a responder pior à insulina e, com o tempo, o pâncreas também produz menos insulina. O açúcar no sangue fica mais alto do que deveria.",
   "resumo_tecnico": "Dois defeitos centrais (resistência à insulina e disfunção da célula beta) somados a aumento da produção hepática de glicose e menor captação periférica; inflamação e estresse oxidativo participam da patogênese (f_overview2019). Este modelo é uma simplificação qualitativa com perfil genérico, sem dados de pessoas.",
@@ -46,6 +46,98 @@
             "oxi"
           ]
         }
+      ],
+      "celula_svg": {
+        "titulo": "Célula beta (esquema do modelo)",
+        "elementos": [
+          {
+            "no": "oxi",
+            "x": 95,
+            "y": 130,
+            "rx": 30,
+            "ry": 18,
+            "rotulo": "Mitocôndria · estresse ox."
+          },
+          {
+            "no": "beta",
+            "x": 305,
+            "y": 130,
+            "rx": 30,
+            "ry": 22,
+            "rotulo": "Grânulos de insulina · função β"
+          },
+          {
+            "no": "inf",
+            "x": 310,
+            "y": 215,
+            "rx": 26,
+            "ry": 16,
+            "rotulo": "Sinais inflamatórios"
+          }
+        ]
+      },
+      "modelo3d": [
+        {
+          "hotspot": "cabeca",
+          "forma": "esfera",
+          "raio": 0.62,
+          "pos": [
+            -1.9,
+            -0.35,
+            0
+          ],
+          "esc": [
+            1,
+            1.2,
+            1
+          ]
+        },
+        {
+          "hotspot": "corpo",
+          "forma": "tubo",
+          "raio": 0.34,
+          "pontos": [
+            [
+              -1.9,
+              -0.3,
+              0
+            ],
+            [
+              -0.8,
+              -0.1,
+              0.1
+            ],
+            [
+              0.5,
+              0.2,
+              0
+            ],
+            [
+              1.8,
+              0.55,
+              -0.1
+            ]
+          ]
+        },
+        {
+          "hotspot": "cauda",
+          "forma": "cone",
+          "raio": 0.3,
+          "altura": 0.9,
+          "pos": [
+            2.15,
+            0.65,
+            -0.1
+          ],
+          "rot_z": -1.2
+        },
+        {
+          "hotspot": "ilhotas",
+          "forma": "nuvem",
+          "ao_longo_de": "corpo",
+          "n": 12,
+          "raio": 0.11
+        }
       ]
     },
     {
@@ -74,6 +166,83 @@
           "nos": [
             "inf",
             "oxi"
+          ]
+        }
+      ],
+      "celula_svg": {
+        "titulo": "Hepatócito (esquema do modelo)",
+        "elementos": [
+          {
+            "no": "oxi",
+            "x": 95,
+            "y": 130,
+            "rx": 30,
+            "ry": 18,
+            "rotulo": "Mitocôndria · estresse ox."
+          },
+          {
+            "no": "ri",
+            "x": 90,
+            "y": 215,
+            "rx": 26,
+            "ry": 16,
+            "rotulo": "Receptor de insulina · resistência"
+          },
+          {
+            "no": "hgp",
+            "x": 200,
+            "y": 175,
+            "rx": 22,
+            "ry": 14,
+            "rotulo": "Via hepática de glicose"
+          },
+          {
+            "no": "upt",
+            "x": 200,
+            "y": 235,
+            "rx": 26,
+            "ry": 16,
+            "rotulo": "Transportador de glicose · captação"
+          },
+          {
+            "no": "inf",
+            "x": 310,
+            "y": 215,
+            "rx": 26,
+            "ry": 16,
+            "rotulo": "Sinais inflamatórios"
+          }
+        ]
+      },
+      "modelo3d": [
+        {
+          "hotspot": "lobo_direito",
+          "forma": "esfera",
+          "raio": 1,
+          "pos": [
+            -0.9,
+            0,
+            0
+          ],
+          "esc": [
+            1.7,
+            0.95,
+            0.95
+          ]
+        },
+        {
+          "hotspot": "lobo_esquerdo",
+          "forma": "esfera",
+          "raio": 1,
+          "pos": [
+            1.35,
+            0.15,
+            0
+          ],
+          "esc": [
+            1.05,
+            0.7,
+            0.75
           ]
         }
       ]
@@ -349,5 +518,148 @@
     },
     "combinacao_mesmo_eixo": "maior efeito + 25% da soma dos demais",
     "amostras_incerteza": 500
-  }
+  },
+  "derivados": [
+    {
+      "id": "ri_ef",
+      "nome": "Resistência efetiva (nó + inflamação + estresse oxidativo)",
+      "camada": "conhecido",
+      "termos": [
+        {
+          "de": "ri",
+          "peso": 1,
+          "modo": "valor"
+        },
+        {
+          "de": "inf",
+          "peso": 0.15,
+          "modo": "desvio_ref"
+        },
+        {
+          "de": "oxi",
+          "peso": 0.1,
+          "modo": "desvio_ref"
+        }
+      ],
+      "fontes": [
+        "f_overview2019"
+      ]
+    },
+    {
+      "id": "hgp_ef",
+      "nome": "Produção hepática efetiva",
+      "camada": "conhecido",
+      "termos": [
+        {
+          "de": "hgp",
+          "peso": 1,
+          "modo": "valor"
+        },
+        {
+          "de": "ri_ef",
+          "peso": 0.2,
+          "modo": "desvio_ref"
+        }
+      ],
+      "fontes": [
+        "f_overview2019"
+      ]
+    },
+    {
+      "id": "gj",
+      "nome": "Índice de glicemia de jejum (modelo)",
+      "camada": "conhecido",
+      "base": 20,
+      "termos": [
+        {
+          "de": "hgp_ef",
+          "peso": 0.45,
+          "modo": "valor"
+        },
+        {
+          "de": "beta",
+          "peso": 0.25,
+          "modo": "inverso"
+        },
+        {
+          "de": "ri_ef",
+          "peso": 0.15,
+          "modo": "valor"
+        }
+      ],
+      "limitar": true,
+      "exibir": true,
+      "incerteza": true,
+      "fontes": [
+        "f_overview2019"
+      ]
+    },
+    {
+      "id": "gp",
+      "nome": "Índice de glicemia pós-prandial (modelo)",
+      "camada": "conhecido",
+      "base": 15,
+      "termos": [
+        {
+          "de": "upt",
+          "peso": 0.35,
+          "modo": "inverso"
+        },
+        {
+          "de": "beta",
+          "peso": 0.3,
+          "modo": "inverso"
+        },
+        {
+          "de": "ri_ef",
+          "peso": 0.2,
+          "modo": "valor"
+        }
+      ],
+      "limitar": true,
+      "exibir": true,
+      "incerteza": true,
+      "fontes": [
+        "f_overview2019"
+      ]
+    },
+    {
+      "id": "razao_ri_beta",
+      "nome": "Razão RI/beta (padrão em teste)",
+      "camada": "padrao_em_teste",
+      "razao": {
+        "num": "ri_ef",
+        "den": "beta",
+        "mult": 100
+      },
+      "exibir": true,
+      "incerteza": true
+    }
+  ],
+  "ligacoes_via": [
+    [
+      "inf",
+      "ri"
+    ],
+    [
+      "oxi",
+      "ri"
+    ],
+    [
+      "ri",
+      "hgp"
+    ],
+    [
+      "oxi",
+      "beta"
+    ],
+    [
+      "inf",
+      "beta"
+    ],
+    [
+      "ri",
+      "upt"
+    ]
+  ]
 }

@@ -1,7 +1,8 @@
-# Formato JSON da hipótese (schema_versao 1.0)
+# Formato JSON da hipótese (schema_versao 1.1)
 
 Validado por [`schemas/hipotese.schema.json`](../schemas/hipotese.schema.json). Exemplo: [`exemplos/HYP-2026-001.json`](../exemplos/HYP-2026-001.json).
 
+- `variaveis`: lista `{id, nome, tipo}` das variáveis do modelo da doença (nós e índices), com nomes legíveis para PDF e tabelas.
 - `id`: `HYP-AAAA-NNN`, sequencial por ano no armazenamento local.
 - `simulacao.antes/depois/deltas`: índices do modelo (0–100); `incerteza`: p10/p50/p90 dos deltas de `gj`, `gp`, `razao_ri_beta`.
 - `matches[].nivel`: `forte` | `medio` | `fraco`; `motivos` explica a pontuação.

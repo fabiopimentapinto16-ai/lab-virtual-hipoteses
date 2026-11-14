@@ -5,18 +5,19 @@ import { Organ3D } from "./organ3d.ts";
 
 export interface CenaVideo { titulo: string; legenda: string; dur: number }
 
-export function cenas(h: Hipotese): CenaVideo[] {
+export function cenas(h: Hipotese, d: Doenca): CenaVideo[] {
   const m = h.matches[0];
+  const ip = d.derivados.find((x) => x.exibir && x.incerteza && !x.razao) ?? d.derivados[0];
   const orgao = "Órgão do modelo";
   return [
     { titulo: orgao, legenda: `Modelo do órgão para ${h.doenca.nome}. Perfil genérico, sem dados de pessoas.`, dur: 6 },
     { titulo: "Doença no modelo", legenda: "As regiões em vermelho indicam variáveis desreguladas no modelo.", dur: 7 },
     { titulo: "Match com a natureza", legenda: `${h.itens.map((i) => i.nome).join(", ")}: ${m ? `eixo ${m.eixo_nome}, confiança ${ROTULO_NIVEL[m.nivel]}` : "sem match"}.`, dur: 7 },
-    { titulo: "Intervenção hipotética no modelo", legenda: `Glicemia de jejum (índice): ${h.simulacao.antes.gj} para ${h.simulacao.depois.gj}. Só no modelo.`, dur: 8 },
+    { titulo: "Intervenção hipotética no modelo", legenda: `${ip.nome}: ${h.simulacao.antes[ip.id]} para ${h.simulacao.depois[ip.id]}. Só no modelo.`, dur: 8 },
     { titulo: `Hipótese ${h.id}`, legenda: DISCLAIMER_COMPLETO, dur: 6 },
   ];
 }
-export const DURACAO_TOTAL = (h: Hipotese) => cenas(h).reduce((s, c) => s + c.dur, 0);
+export const DURACAO_TOTAL = (h: Hipotese, d: Doenca) => cenas(h, d).reduce((s, c) => s + c.dur, 0);
 
 function quebrar(g: CanvasRenderingContext2D, t: string, larg: number): string[] {
   const out: string[] = []; let a = "";
@@ -37,7 +38,7 @@ export async function gravarVideo(h: Hipotese, d: Doenca, opts: { narrar: boolea
   const host = document.createElement("div"); host.style.cssText = `position:fixed;left:-99999px;top:0;width:${W}px;height:${H}px`; document.body.appendChild(host);
   const org = new Organ3D(host, d, W, H, true);
   const out = document.createElement("canvas"); out.width = W; out.height = H; const g = out.getContext("2d")!;
-  const lista = cenas(h); const total = lista.reduce((s, c) => s + c.dur, 0);
+  const lista = cenas(h, d); const total = lista.reduce((s, c) => s + c.dur, 0);
   const rec = new MediaRecorder(out.captureStream(30), { mimeType: mime, videoBitsPerSecond: 3_000_000 });
   const partes: Blob[] = []; rec.ondataavailable = (e) => { if (e.data.size) partes.push(e.data); };
   const fim = new Promise<void>((res) => { rec.onstop = () => res(); });
@@ -52,7 +53,7 @@ export async function gravarVideo(h: Hipotese, d: Doenca, opts: { narrar: boolea
       let acc = 0, idx = 0; for (; idx < lista.length; idx++) { if (t < acc + lista[idx].dur) break; acc += lista[idx].dur; }
       idx = Math.min(idx, lista.length - 1);
       const local = (t - acc) / lista[idx].dur;
-      org.setOrgao("pancreas");
+      org.setOrgao(d.orgaos[0].id);
       org.setCamada(0);
       org.setCamera(Math.sin(t * 0.4) * 0.6);
       const antesDoenca = sim.antes;

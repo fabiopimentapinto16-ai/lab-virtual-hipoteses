@@ -1,6 +1,6 @@
 {
   "name": "lab-virtual-hipoteses",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "description": "Laboratório virtual de hipóteses: hipóteses computacionais educativas para validação experimental em laboratório. Não é diagnóstico nem tratamento.",
   "license": "MIT",
   "type": "module",

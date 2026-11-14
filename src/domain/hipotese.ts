@@ -1,10 +1,10 @@
 import type { Doenca, EventoTempo, EstadoLinhaDoTempo, Ficha, Fonte, Hipotese, Match } from "./types.ts";
 import { fazerMatches } from "./match.ts";
-import { simular } from "./modelo.ts";
+import { simular, variaveisExibidas } from "./modelo.ts";
 import { sha256Hex, jsonCanonico } from "./sha256.ts";
 import { DISCLAIMER_COMPLETO, LIMITACOES_PADRAO } from "./textos.ts";
 
-export const APP_VERSAO = "0.1.0";
+export const APP_VERSAO = "0.2.0";
 
 export function proximoId(ano: number, existentes: string[]): string {
   const prefixo = `HYP-${ano}-`;
@@ -50,7 +50,8 @@ export function criarHipotese(e: EntradaHipotese): Hipotese {
   const idsFontes = new Set<string>();
   for (const n of e.doenca.nos) n.fontes.forEach((f) => idsFontes.add(f));
   for (const i of e.doenca.indicadores) i.fontes.forEach((f) => idsFontes.add(f));
-  for (const f of e.fichas) { f.fontes.forEach((s) => idsFontes.add(s)); f.eixos.forEach((x) => x.fontes.forEach((s) => idsFontes.add(s))); }
+  for (const x of e.doenca.derivados) (x.fontes ?? []).forEach((f) => idsFontes.add(f));
+  for (const f of e.fichas) { f.fontes.forEach((s) => idsFontes.add(s)); f.eixos.filter((x) => x.doenca === e.doenca.id).forEach((x) => x.fontes.forEach((s) => idsFontes.add(s))); }
   const alertas: string[] = [];
   const limitacoes = [...LIMITACOES_PADRAO];
   for (const f of e.fichas) {
@@ -59,7 +60,7 @@ export function criarHipotese(e: EntradaHipotese): Hipotese {
     for (const r of f.ressalvas) limitacoes.push(`${f.nome_popular}: ${r}`);
   }
   const base = {
-    schema_versao: "1.0" as const,
+    schema_versao: "1.1" as const,
     id: e.id,
     criada_em: e.data,
     app_versao: APP_VERSAO,
@@ -69,6 +70,7 @@ export function criarHipotese(e: EntradaHipotese): Hipotese {
       compostos: f.compostos.map((c) => ({ nome: c.nome, id_publico: c.id_publico ?? null })),
     })),
     matches,
+    variaveis: variaveisExibidas(e.doenca),
     simulacao,
     pergunta_para_lab: perguntaParaLab(e.doenca, matches, e.fichas),
     alertas,
@@ -91,7 +93,7 @@ export function registrarEvento(h: Hipotese, estado: EstadoLinhaDoTempo, data: s
 }
 
 export function compararHipoteses(a: Hipotese, b: Hipotese): { variavel: string; a: number; b: number; delta_a: number; delta_b: number }[] {
-  const chaves = ["gj", "gp", "razao_ri_beta", "ri", "beta", "hgp", "upt", "inf", "oxi"];
+  const chaves = a.variaveis.map((v) => v.id);
   return chaves.map((k) => ({
     variavel: k, a: a.simulacao.depois[k], b: b.simulacao.depois[k], delta_a: a.simulacao.deltas[k], delta_b: b.simulacao.deltas[k],
   }));

@@ -18,6 +18,7 @@
   ],
   "eixos": [
     {
+      "doenca": "diabetes-tipo-2",
       "eixo": "glicemia_jejum",
       "direcao": "melhora",
       "evidencia": "humano_meta_analise",
@@ -28,6 +29,7 @@
       "nota": "Berberina isolada: -0,59 mmol/L; qualidade metodológica geralmente baixa em f_dong2012."
     },
     {
+      "doenca": "diabetes-tipo-2",
       "eixo": "glicemia_pos_prandial",
       "direcao": "melhora",
       "evidencia": "humano_meta_analise",
@@ -38,6 +40,7 @@
       "nota": "Berberina isolada: -1,57 mmol/L (2 h)."
     },
     {
+      "doenca": "diabetes-tipo-2",
       "eixo": "resistencia_insulina",
       "direcao": "melhora",
       "evidencia": "humano_meta_analise",
@@ -48,6 +51,7 @@
       "nota": "Melhora de insulina de jejum e HOMA-IR citada no resumo (combinada a fármacos)."
     },
     {
+      "doenca": "diabetes-tipo-2",
       "eixo": "secrecao_insulina",
       "direcao": "melhora",
       "evidencia": "mecanismo_em_revisao",
@@ -58,6 +62,7 @@
       "nota": "Aumento da secreção de insulina descrito pelos autores da revisão."
     },
     {
+      "doenca": "diabetes-tipo-2",
       "eixo": "inflamacao",
       "direcao": "melhora",
       "evidencia": "mecanismo_em_revisao",

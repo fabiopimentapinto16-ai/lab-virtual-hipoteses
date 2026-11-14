@@ -71,5 +71,25 @@
     "tipo": "revisao_historica",
     "lido_em": "2026-11-12",
     "o_que_a_fonte_diz": "A história da metformina está ligada à Galega officinalis (arruda-caprina), erva tradicional europeia rica em guanidina; em 1918 mostrou-se que a guanidina reduz a glicemia; derivados da guanidina foram sintetizados nos anos 1920-30 e alguns usados no diabetes, depois abandonados por toxicidade e pela disponibilidade da insulina; a metformina foi redescoberta nos anos 1940 e usada no diabetes por Jean Sterne em 1957. A página consultada não menciona galegina."
+  },
+  {
+    "id": "f_ma2022",
+    "citacao": "Ma J, Chen X. Advances in pathogenesis and treatment of essential hypertension. Front Cardiovasc Med. 2022;9:1003852.",
+    "doi": "10.3389/fcvm.2022.1003852",
+    "pmid": "36312252",
+    "url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC9616110",
+    "tipo": "revisao_narrativa",
+    "lido_em": "2026-11-13",
+    "o_que_a_fonte_diz": "Hipertensão essencial (mais de 90% dos casos) surge de menor capacidade de vasodilatação e maior volume intravascular. Descreve rigidez arterial, via óxido nítrico-GMPc, sistema renina-angiotensina-aldosterona, hiperatividade simpática e retenção renal de sódio e água. Inflamação e estresse oxidativo são citados na teoria do mosaico, sem análise detalhada. Cita alvos de fármacos já estabelecidos (inibidores do sistema renina-angiotensina, diuréticos, bloqueadores de canal de cálcio, via NO-GMPc)."
+  },
+  {
+    "id": "f_ried2008",
+    "citacao": "Ried K, Frank OR, Stocks NP, Fakler P, Sullivan T. Effect of garlic on blood pressure: a systematic review and meta-analysis. BMC Cardiovasc Disord. 2008;8:13.",
+    "doi": "10.1186/1471-2261-8-13",
+    "pmid": "18554422",
+    "url": "https://pubmed.ncbi.nlm.nih.gov/18554422/",
+    "tipo": "meta_analise",
+    "lido_em": "2026-11-13",
+    "o_que_a_fonte_diz": "Revisou 25 estudos e fez meta-análise de 11 ensaios randomizados controlados por placebo com preparações só de alho. Encontrou redução modesta da pressão sistólica no conjunto e redução maior em participantes com hipertensão; a meta-regressão relacionou a pressão basal ao tamanho da redução. Conclusão dos autores: preparações de alho superaram o placebo em pessoas com hipertensão. Lido apenas o resumo via Europe PMC; números e qualidade metodológica não foram lidos."
   }
 ]

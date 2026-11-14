@@ -19,7 +19,7 @@ export function validarFonte(f: Fonte): string[] {
   return e;
 }
 
-export function validarFicha(f: Ficha, fontes: Fonte[], doenca: Doenca): string[] {
+export function validarFicha(f: Ficha, fontes: Fonte[], doencas: Doenca[]): string[] {
   const e: string[] = [];
   const ids = new Set(fontes.map((x) => x.id));
   if (!f.fontes || f.fontes.length === 0) e.push(`${f.id}: ficha sem fonte (obrigatório)`);
@@ -30,7 +30,9 @@ export function validarFicha(f: Ficha, fontes: Fonte[], doenca: Doenca): string[
   if (f.alertas_status === "avaliado" && f.alertas.length === 0) e.push(`${f.id}: marcada como avaliada mas sem alertas`);
   if (f.eixos.length === 0) e.push(`${f.id}: sem eixos`);
   for (const x of f.eixos) {
-    if (!doenca.eixos.some((d) => d.id === x.eixo)) e.push(`${f.id}: eixo desconhecido ${x.eixo}`);
+    const dz = doencas.find((d) => d.id === x.doenca);
+    if (!dz) e.push(`${f.id}: doença desconhecida "${x.doenca}" em ${x.eixo}`);
+    else if (!dz.eixos.some((d) => d.id === x.eixo)) e.push(`${f.id}: eixo desconhecido ${x.eixo} para ${x.doenca}`);
     if (!QUALIDADES.includes(x.qualidade)) e.push(`${f.id}: qualidade inválida em ${x.eixo}`);
     if (!EVIDENCIAS.includes(x.evidencia)) e.push(`${f.id}: evidência inválida em ${x.eixo}`);
     if (!x.fontes || x.fontes.length === 0) e.push(`${f.id}: eixo ${x.eixo} sem fonte`);
@@ -52,15 +54,29 @@ export function validarDoenca(d: Doenca, fontes: Fonte[]): string[] {
   for (const o of d.orgaos) for (const id of o.nos) if (!d.nos.some((n) => n.id === id)) e.push(`órgão ${o.id}: nó desconhecido ${id}`);
   for (const x of d.eixos) for (const a of Array.isArray(x.alvo) ? x.alvo : [x.alvo]) {
     if (x.tipo === "mecanismo" && !d.nos.some((n) => n.id === a)) e.push(`eixo ${x.id}: alvo desconhecido ${a}`);
-    if (x.tipo === "desfecho" && !d.indicadores.some((i) => i.id === a)) e.push(`eixo ${x.id}: indicador desconhecido ${a}`);
+    if (x.tipo === "desfecho" && !d.derivados.some((i) => i.id === a)) e.push(`eixo ${x.id}: indicador desconhecido ${a}`);
   }
+  const conhecidos = new Set(d.nos.map((n) => n.id));
+  for (const dv of d.derivados) {
+    for (const t of dv.termos ?? []) if (!conhecidos.has(t.de)) e.push(`derivado ${dv.id}: termo desconhecido ${t.de}`);
+    if (dv.razao) for (const r of [dv.razao.num, dv.razao.den]) if (!conhecidos.has(r)) e.push(`derivado ${dv.id}: razão com variável desconhecida ${r}`);
+    conhecidos.add(dv.id);
+  }
+  for (const o of d.orgaos) {
+    const hs = new Set(o.hotspots.map((h) => h.id));
+    for (const p of o.modelo3d) if (!hs.has(p.hotspot)) e.push(`órgão ${o.id}: parte 3D com hotspot desconhecido ${p.hotspot}`);
+    for (const h of o.hotspots) if (!o.modelo3d.some((p) => p.hotspot === h.id)) e.push(`órgão ${o.id}: hotspot ${h.id} sem parte 3D`);
+    for (const h of o.hotspots) for (const n of h.nos) if (!d.nos.some((x) => x.id === n)) e.push(`órgão ${o.id}: hotspot ${h.id} com nó desconhecido ${n}`);
+    for (const el of o.celula_svg.elementos) if (!d.nos.some((x) => x.id === el.no)) e.push(`órgão ${o.id}: célula com nó desconhecido ${el.no}`);
+  }
+  for (const [a, b] of d.ligacoes_via) if (!d.nos.some((n) => n.id === a) || !d.nos.some((n) => n.id === b)) e.push(`ligação de via desconhecida ${a}-${b}`);
   for (const t of textosDe(d)) for (const v of violacoes(t)) e.push(`doença: linguagem proibida (${v}): "${t.slice(0, 60)}"`);
   return e;
 }
 
 export function validarHipotese(h: Hipotese): string[] {
   const e: string[] = [];
-  if (h.schema_versao !== "1.0") e.push("schema_versao inesperada");
+  if (h.schema_versao !== "1.1") e.push("schema_versao inesperada");
   if (!/^HYP-\d{4}-\d{3,}$/.test(h.id)) e.push("id fora do formato HYP-AAAA-NNN");
   if (h.disclaimer !== DISCLAIMER_COMPLETO) e.push("disclaimer diferente do texto exigido");
   if (h.fontes.length === 0) e.push("hipótese sem fontes");

@@ -10,18 +10,45 @@ export function estadoNos(d: Doenca, perfil: "saudavel" | "doenca"): Valores {
   return o;
 }
 
-/** Calcula as variáveis derivadas e os índices a partir dos nós. Relações lineares e auditáveis (ver coeficientes na doença). */
+function calcular(d: Doenca, nos: Valores, ref: Valores | null): Valores {
+  const v: Valores = { ...nos };
+  for (const dv of d.derivados) {
+    let x: number;
+    if (dv.razao) x = (dv.razao.mult * v[dv.razao.num]) / Math.max(v[dv.razao.den], 1);
+    else {
+      x = dv.base ?? 0;
+      for (const t of dv.termos ?? []) {
+        const val = v[t.de];
+        if (t.modo === "valor") x += t.peso * val;
+        else if (t.modo === "inverso") x += t.peso * (100 - val);
+        else x += t.peso * (val - (ref ? ref[t.de] : val));
+      }
+      if (dv.limitar) x = clip(x);
+    }
+    v[dv.id] = x;
+  }
+  return v;
+}
+
+/** Calcula as variáveis derivadas a partir dos nós, conforme `doenca.derivados` (relações lineares e auditáveis). */
 export function derivar(d: Doenca, nos: Valores): Valores {
-  const ref = estadoNos(d, "saudavel");
-  const c = d.equacoes;
-  const ri_ef = nos.ri + c.ri_ef.inf * (nos.inf - ref.inf) + c.ri_ef.oxi * (nos.oxi - ref.oxi);
-  const hgp_ef = nos.hgp + c.hgp_ef.ri_ef * (ri_ef - ref.ri);
-  const gj = clip(c.gj.base + c.gj.hgp_ef * hgp_ef + c.gj.beta_inv * (100 - nos.beta) + c.gj.ri_ef * ri_ef);
-  const gp = clip(c.gp.base + c.gp.upt_inv * (100 - nos.upt) + c.gp.beta_inv * (100 - nos.beta) + c.gp.ri_ef * ri_ef);
-  const razao_ri_beta = (100 * ri_ef) / Math.max(nos.beta, 1);
+  const ref = calcular(d, estadoNos(d, "saudavel"), null);
+  const v = calcular(d, nos, ref);
   const out: Valores = {};
-  for (const [k, v] of Object.entries({ ...nos, ri_ef, hgp_ef, gj, gp, razao_ri_beta })) out[k] = r2(v);
+  for (const [k, x] of Object.entries(v)) out[k] = r2(x);
   return out;
+}
+
+/** Nomes legíveis de todas as variáveis (nós e derivados). */
+export function nomeVariavel(d: Doenca, id: string): string {
+  return d.nos.find((n) => n.id === id)?.nome ?? d.derivados.find((x) => x.id === id)?.nome ?? d.lacunas.find((x) => x.id === id)?.nome ?? id;
+}
+/** Variáveis exibidas em tabelas: todos os nós e os derivados marcados `exibir`. */
+export function variaveisExibidas(d: Doenca): { id: string; nome: string; tipo: "no" | "derivado" }[] {
+  return [
+    ...d.nos.map((n) => ({ id: n.id, nome: n.nome, tipo: "no" as const })),
+    ...d.derivados.filter((x) => x.exibir).map((x) => ({ id: x.id, nome: x.nome, tipo: "derivado" as const })),
+  ];
 }
 
 function alvos(a: string | string[]): string[] { return Array.isArray(a) ? a : [a]; }
@@ -93,7 +120,7 @@ export function simular(d: Doenca, matches: Match[], seed: number): ResultadoSim
   for (const k of Object.keys(antes)) deltas[k] = r2(depois[k] - antes[k]);
 
   const rnd = mulberry32(seed);
-  const chaves = ["gj", "gp", "razao_ri_beta"];
+  const chaves = d.derivados.filter((x) => x.incerteza).map((x) => x.id);
   const amostras: Record<string, number[]> = Object.fromEntries(chaves.map((k) => [k, []]));
   for (let i = 0; i < cfg.amostras_incerteza; i++) {
     const sorteio = new Map<Termo, number>();

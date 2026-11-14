@@ -1,0 +1,30 @@
+{
+  "id": "alho",
+  "nome_popular": "Alho",
+  "nome_cientifico": "Allium sativum L.",
+  "parte_usada": null,
+  "preparacao_estudada": "Preparações de alho (somente alho) em ensaios controlados por placebo, resumidas em meta-análise.",
+  "compostos": [],
+  "eixos": [
+    {
+      "doenca": "hipertensao",
+      "eixo": "pressao_arterial",
+      "direcao": "melhora",
+      "evidencia": "humano_meta_analise",
+      "qualidade": "nao_declarada",
+      "fontes": [
+        "f_ried2008"
+      ],
+      "nota": "Meta-análise de 11 ensaios randomizados controlados por placebo: redução modesta da sistólica no geral e maior em quem tinha hipertensão (resumo do artigo). Números e qualidade metodológica não foram lidos."
+    }
+  ],
+  "alertas_status": "nao_avaliado",
+  "alertas": [],
+  "ressalvas": [
+    "Ficha baseada apenas no resumo da meta-análise; compostos e mecanismo não foram lidos, por isso a ficha não lista compostos.",
+    "Efeito relatado em preparações de alho em estudos; não indica que o alho trate a hipertensão."
+  ],
+  "fontes": [
+    "f_ried2008"
+  ]
+}

@@ -1,12 +1,12 @@
 {
-  "schema_versao": "1.0",
+  "schema_versao": "1.1",
   "id": "HYP-2026-001",
   "criada_em": "2026-11-12",
-  "app_versao": "0.1.0",
+  "app_versao": "0.2.0",
   "doenca": {
     "id": "diabetes-tipo-2",
     "nome": "Diabetes mellitus tipo 2",
-    "versao_modelo": "0.1.0",
+    "versao_modelo": "0.2.0",
     "perfil": "Perfil GENÉRICO da doença (valores ilustrativos do modelo, não medidos em pessoas)."
   },
   "itens": [
@@ -189,6 +189,53 @@
       ]
     }
   ],
+  "variaveis": [
+    {
+      "id": "ri",
+      "nome": "Resistência à insulina",
+      "tipo": "no"
+    },
+    {
+      "id": "beta",
+      "nome": "Função da célula beta",
+      "tipo": "no"
+    },
+    {
+      "id": "hgp",
+      "nome": "Produção hepática de glicose",
+      "tipo": "no"
+    },
+    {
+      "id": "upt",
+      "nome": "Captação periférica de glicose",
+      "tipo": "no"
+    },
+    {
+      "id": "inf",
+      "nome": "Inflamação",
+      "tipo": "no"
+    },
+    {
+      "id": "oxi",
+      "nome": "Estresse oxidativo",
+      "tipo": "no"
+    },
+    {
+      "id": "gj",
+      "nome": "Índice de glicemia de jejum (modelo)",
+      "tipo": "derivado"
+    },
+    {
+      "id": "gp",
+      "nome": "Índice de glicemia pós-prandial (modelo)",
+      "tipo": "derivado"
+    },
+    {
+      "id": "razao_ri_beta",
+      "nome": "Razão RI/beta (padrão em teste)",
+      "tipo": "derivado"
+    }
+  ],
   "simulacao": {
     "seed": 42,
     "antes": {
@@ -355,5 +402,5 @@
       "data": "2026-11-12"
     }
   ],
-  "hash_conteudo": "f07a685150cdac3ea92b4cb1a09b6a905c5f52c25d2c8fa9afd164fcb4d24082"
+  "hash_conteudo": "e4cab4bdb9b0dc901489d5a8a7293392b2951e9cc60f2234326b8ce29dbf17a6"
 }
